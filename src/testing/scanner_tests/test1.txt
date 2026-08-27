@@ -1,0 +1,14 @@
+
+/*
+    This is a general test
+*/
+namespace some_name {
+    class class_name (public asdf.qwer.kjsd, private qweoiu) {
+        create(int something) { do.something().radical() }
+        boolean clean // single line
+        // another one
+        bacon.and.eggs goobers += 123+(8+12)/0.123e-12
+        string goob = "this is a\nstring"
+        string plart = 'this is a\ndifferent string'
+    }
+}

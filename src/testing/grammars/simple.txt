@@ -1,0 +1,294 @@
+module
+    : module_item*
+    | start clause
+    ;
+
+start_clause
+    : 'start' function_body
+    ;
+
+module_item
+    : namespace_item
+    | include_statement
+    | import_statement
+    ;
+
+include_statement
+    : 'include' (LITERAL_DSTR | LITERAL_SSTR)
+    ;
+
+import_statement
+    : 'import' (LITERAL_DSTR | LITERAL_SSTR)
+    | 'import' compound_name ( ('from' (LITERAL_DSTR | LITERAL_SSTR))? ('as' IDENTIFIER)? )?
+    ;
+
+namespace_item
+    : scope_operator
+    | class_definition
+    | function_definition
+    | constructor_definition
+    | destructor_definition
+    | namespace
+    ;
+
+scope_operator
+    : 'public'
+    | 'private'
+    ;
+
+class_scope_operator
+    : 'public'
+    | 'private'
+    | 'protected'
+    ;
+
+namespace
+    : 'namespace' IDENTIFIER '{' namespace_item* '}'
+    ;
+
+class_definition
+    : 'class' IDENTIFIER ( '(' (inheritance_item (',' inheritance_item)*)? ')' )? '{' class_item+ '}'
+    ;
+
+inheritance_item
+    : class_scope_operator? compound_name
+    ;
+
+class_item
+    : class_scope_operator
+    | function_declaration
+    | data_declaration
+    | constructor_declaration
+    | destructor_declaration
+    | function_definition
+    ;
+
+function_declaration
+    : type_specifier IDENTIFIER function_declaration_parameters
+    ;
+
+constructor_declaration
+    : 'create' function_declaration_parameters
+    ;
+
+destructor_declaration
+    : 'destroy'
+    ;
+
+function_definition_parameters
+    : '(' (data_declaration (',' data_declaration)*)? ')'
+    ;
+
+function_decl_parameter
+    : type_specifier (IDENTIFIER)?
+    ;
+
+function_declaration_parameters
+    : '(' (function_decl_parameter (',' function_decl_parameter)*)? ')'
+    ;
+
+type_specifier
+    : ('integer' | 'int')
+    | ('boolean' | 'bool')
+    | 'string'
+    | 'dict'
+    | 'list'
+    | 'unsigned'
+    | 'float'
+    | 'nothing'
+    | compound_name
+    ;
+
+function_definition
+    : type_specifier IDENTIFIER '.' IDENTIFIER function_definition_parameters function_body
+    ;
+
+constructor_definition
+    : IDENTIFIER '.' 'create' function_definition_parameters function_body
+    ;
+
+destructor_definition
+    : IDENTIFIER '.' 'destroy' function_body
+    ;
+
+data_declaration
+    : type_specifier IDENTIFIER ( '=' const_value )?
+    ;
+
+compound_name
+    : IDENTIFIER ('.' IDENTIFIER)*
+    ;
+
+const_value
+    : LITERAL_INT
+    | LITERAL_UNS
+    | LITERAL_FLOAT
+    | LITERAL_SSTR
+    | LITERAL_DSTR
+    | LITERAL_BOOL
+    | literal_array_definition
+    | literal_dict_definition
+    ;
+
+literal_string
+    : LITERAL_SSTR
+    | formatted_string
+    ;
+
+formatted_string
+    : LITERAL_DSTR ('(' ( expression, (',' expression)* )? ')')?
+    ;
+
+literal_array_definition
+    : '[' const_value (',' const_value)* ']'
+    ;
+
+literal_dict_item
+    : (LITERAL_SSTR | LITERAL_DSTR) ':' const_value
+    ;
+
+literal_dict_definition
+    : '[' literal_dict_item (',' literal_dict_item)* ']'
+    ;
+
+primary_expression
+    : LITERAL_INT
+    | LITERAL_UNS
+    | LITERAL_FLOAT
+    | LITERAL_BOOL
+    | literal_string
+    | compound_reference
+    ;
+
+    # expressions are parsed using the shunting yard algorithm
+expression
+    : expression ('*' | '/' | '%') expression
+    | expression '^' expression
+    | expression ('+' | '-') expression
+    | expression ('<' | '>' | '<=' | '>=' | 'lt' | 'gt' | 'lte' | 'gte') expression
+    | expression ('==' | '!=' | 'equ' | 'neq' ) expression
+    | expression ('&&' | 'and') expression
+    | expression ('||' | 'or') expression
+    | ('!' | 'not' | '-') expression
+    | '(' expression ')'
+    | primary_expression
+    ;
+
+compound_reference
+    : compound_reference_item ('.' compound_reference_item)*
+    ;
+
+compound_reference_item
+    : IDENTIFIER
+    | function_reference
+    | array_reference
+    ;
+
+function_reference
+    : IDENTIFIER '(' expression (',' expression)* ')'
+    ;
+
+    # Either arrays can hold any type as objects or only the same type as
+    # a normal array.
+array_reference
+    : IDENTIFIER array_parameters (array_parameters)*
+    ;
+
+array_parameters
+    : '[' (array_parameters | expression) ']'
+    ;
+
+function_body_item
+    : compound_reference
+    | assignment
+    | data_definition
+    | flow_statement
+    | exit_statement
+    | raise_statement
+    | return_statement
+    ;
+
+raise_statement
+    : 'raise' '(' compound_name ')'
+    ;
+
+flow_statement
+    : if_clause
+    | for_clause
+    | while_clause
+    | do_clause
+    | try_clause
+    ;
+
+loop_body_item
+    : function_body_item
+    | yield_statement
+    | 'break'
+    | 'continue'
+    ;
+
+yield_statement
+    : 'yield' '(' expression ')'
+    ;
+
+    # loop body could be empty
+loop_body
+    : '{' (loop_body_item | loop_body)* '}'
+    ;
+
+    # function body requires at least one item
+function_body
+    : '{' (function_body_item | function_body)+ '}'
+    ;
+
+assignment
+    : compound_reference '=' expression
+    ;
+
+data_definition
+    : type_specifier IDENTIFIER ( '=' expression )?
+    ;
+
+return_statement
+    : 'return' ( '(' expression? ')' )?
+    ;
+
+if_clause
+    : 'if' '(' expression ')' function_body ( else_clause* final_else_clause? )?
+    ;
+
+else_clause
+    : 'else' '(' expression ')' function_body
+    ;
+
+    # empty expressions are always taken as "true"
+final_else_clause
+    : 'else' ( '(' ')' )? function_body
+    ;
+
+    # expressions for looping constructs are optional
+for_clause
+    : 'for' ( '(' ( expression ('as' (type_specifier)? IDENTIFIER)? )? ')' )? loop_body
+    ;
+
+while_clause
+    : 'while' ( '(' expression? ')' )? loop_body
+    ;
+
+do_clause
+    : 'do' loop_body 'while' ( '(' expression? ')' )?
+    ;
+
+try_clause
+    : 'try' function_body ( except_clause )+ finally_clause?
+    ;
+
+except_clause
+    : 'except' '(' compound_name ('as' IDENTIFIER)? ')' function_body
+    ;
+
+    # executed after any exception
+finally_clause
+    : 'finally' function_body
+    ;
+

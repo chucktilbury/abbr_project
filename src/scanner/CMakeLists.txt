@@ -1,0 +1,7 @@
+project(scanner)
+
+include(${CMAKE_SOURCE_DIR}/CMakeBuildOpts.txt)
+
+add_library(${PROJECT_NAME} STATIC
+    ${${PROJECT_NAME}_files}
+)

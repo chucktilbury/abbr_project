@@ -1,0 +1,7 @@
+add_subdirectory(common)
+add_subdirectory(gc)
+add_subdirectory(ast)
+add_subdirectory(scanner)
+add_subdirectory(parser)
+add_subdirectory(simple)
+add_subdirectory(testing EXCLUDE_FROM_ALL)
