@@ -1,7 +1,7 @@
-# Simple
-This is the **Simple** programming language. The **Simple** language is a synthesis of C, C++, and Python. I have taken all of the features that I like from them and left out the ones that I don't like.
+# Abbr
+This is the **Abbr** abbreviated programming language. The **Abbr** language is a synthesis of C, C++, and Python. I have taken all of the features that I like from them and left out the ones that I don't like to create a complete and useful way to develop object oriented software quickly and easily from a platform that is easy and fun to use.
 
-Full featured application development language that uses the LLVM framework for the back end.
+Full featured application development language that uses the C programming language as the intermediate representation.
 
 ## Features
 
@@ -17,7 +17,7 @@ Full featured application development language that uses the LLVM framework for 
 * Exceptions (try/except/raise)
 * Support for arbitrary external libraries
 * Everything is an object, but native types cannot be polymorphic
-* All of the functions found in libc and libm are supported
+* All of the functions found in libc and libm are supported by the runtime library.
 * Formatted strings
 
 ## Omitted Features
@@ -111,7 +111,7 @@ start {
 
 ```
 
-## This is a complete grammar for Simple
+## This is a complete grammar for Abbr
 ```
 #####################################################################
 #
@@ -426,6 +426,10 @@ except_clause
     # executed after any exception
 finally_clause
     : 'finally' function_body
+    ;
+
+exit_statement
+    : 'exit' '(' expression? ')'
     ;
 
 ```
