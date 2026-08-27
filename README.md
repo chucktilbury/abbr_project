@@ -19,6 +19,7 @@ Full featured application development language that uses the C programming langu
 * Everything is an object, but native types cannot be polymorphic
 * All of the functions found in libc and libm are supported by the runtime library.
 * Formatted strings
+* Multi-pass compiler. No need to define before access.
 
 ## Omitted Features
 
