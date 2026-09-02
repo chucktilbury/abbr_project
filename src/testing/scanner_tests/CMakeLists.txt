@@ -2,17 +2,17 @@ project(scanner_tests)
 
 include(${CMAKE_SOURCE_DIR}/CMakeBuildOpts.txt)
 
-add_custom_target(testing)
+add_custom_target(scanner_test)
 
 add_executable(stest1
     scanner_test.c
 )
-add_dependencies(testing stest1)
+add_dependencies(scanner_test stest1)
 
 add_executable(stest2
     token_queue_test.c
 )
-add_dependencies(testing stest2)
+add_dependencies(scanner_test stest2)
 
 set(TESTING_LIBS
     gc

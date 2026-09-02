@@ -53,6 +53,7 @@ static keyword_t key_words[] = {
     {TOK_NOTHING,   "noth"},
     {TOK_FINALLY,   "finally"},
     {TOK_EXIT,      "exit"},
+    {TOK_INLINE,    "inline"},
     {-1, NULL}
 };
 
@@ -63,6 +64,19 @@ typedef struct _scanner_t {
 } scanner_t;
 
 static scanner_t* scanner = NULL;
+
+static void consume_space(void) {
+
+    int finished = 0;
+
+    while(!finished) {
+        int ch = get_char();
+        if(!isspace(ch) || ch == EOF)
+            finished = true;
+        else
+            consume_char();
+    }
+}
 
 static void consume_single_line_comment(void) {
 
@@ -363,6 +377,35 @@ static token_t* read_number(void) {
     return tok;
 }
 
+static void capture_inline_text(token_t* tok) {
+
+    clear_string(tok->text);
+    int finished = 0;
+    int count = 0;
+
+    consume_space();
+
+    int ch = get_char();
+    if(ch != '{') {
+        scanner_error("expected a '{' but got '%c'", ch);
+        return;
+    }
+
+    while(!finished) {
+        if(ch == '{')
+            count++;
+        else if(ch == '}')
+            count--;
+
+        append_string_char(tok->text, ch);
+        consume_char();
+        ch = get_char();
+
+        if(count == 0)
+            finished = 1;
+    }
+}
+
 static token_t* read_symbol(void) {
 
     int finished = 0;
@@ -390,6 +433,9 @@ static token_t* read_symbol(void) {
     }
     else
         scanner_fatal("generic fatal error");
+
+    if(tok->type == TOK_INLINE)
+        capture_inline_text(tok);
 
     return tok;
 }
@@ -504,6 +550,9 @@ token_t* scan_token(void) {
                 tok = read_operator(text);
                 finished++;
             }
+        }
+        else if(ch == ';' || ch == '#') {
+            consume_single_line_comment();
         }
         else if(isspace(ch)) {
             consume_char();

@@ -500,7 +500,7 @@ typedef struct _ast_expression_t {
     ast_node_t node;
     // Note that expressions are parsed differently than the other
     // non-terminals
-    ast_node_list_t* expr;
+    ast_node_t* tree;
 } ast_expression_t;
 
 

@@ -12,3 +12,16 @@ namespace some_name {
         string plart = 'this is a\ndifferent string'
     }
 }
+
+nothing some_name.create() {
+
+    x.y.z()
+    int blart = 123 + 87 / 5
+    inline {
+        // this text is copied without changes
+        int x = 10;
+        int y = 123;
+        printf("%d, %d\n);
+    }
+}
+

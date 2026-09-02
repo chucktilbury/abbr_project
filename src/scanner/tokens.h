@@ -91,6 +91,7 @@ typedef enum {
     TOK_NOTHING,    // "nothing" | "noth"
     TOK_FINALLY,    // "finally"
     TOK_EXIT,       // "exit"
+    TOK_INLINE,     // "inline"
 } token_type_t;
 
 typedef struct _token_t {

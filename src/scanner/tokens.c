@@ -112,6 +112,7 @@ const char* token_type_to_str(token_t* tok) {
     (tok->type == TOK_BOOL)?       "boolean" :
     (tok->type == TOK_NOTHING)?    "nothing" :
     (tok->type == TOK_EXIT)?        "exit" :
+    (tok->type == TOK_INLINE)?      "inline" :
     (tok->type == TOK_UNARY_PLUS)?  "+" :
     (tok->type == TOK_UNARY_MINUS)? "-" :
     (tok->type == TOK_FINALLY)?    "finally" : "UNKNOWN";
