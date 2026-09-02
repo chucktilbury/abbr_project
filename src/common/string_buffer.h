@@ -8,10 +8,12 @@ typedef struct string_t {
 } string_t;
 
 string_t* create_string(const char* str);
+string_t* create_string_fmt(const char* fmt, ...);
 void destroy_string(string_t* s);
 void append_string_str(string_t* s, string_t* str);
 void append_string(string_t* s, const char* str);
 void append_string_char(string_t* s, int ch);
+void append_string_fmt(string_t* s, const char* fmt, ...);
 void clear_string(string_t* s);
 void strip_string(string_t* str, const char* pattern);
 string_t* strip_string_ends(string_t* str);

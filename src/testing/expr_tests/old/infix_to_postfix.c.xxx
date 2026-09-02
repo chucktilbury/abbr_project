@@ -1,0 +1,319 @@
+/*
+    This code implements the expression parse. It links to the scanner and
+    accepts the tokens and outputs the data structures that can be used by
+    the AST.
+*/
+#include "common.h"
+#include "token_queue.h"
+#include "parser.h"
+#include "ast.h"
+
+void cmdline(int argc, char** argv, char** env) {
+
+    init_cmdline("expression test", "expression test", "0.0.1");
+
+    add_cmdline('h', "help", NULL, "Print this helpful information", NULL, cmdline_help, CMD_NONE);
+    add_cmdline('V', "version", NULL, "Show the program version", NULL, cmdline_vers, CMD_NONE);
+    add_cmdline(0, NULL, NULL, NULL, NULL, NULL, CMD_DIV);
+    add_cmdline(0, NULL, "files", "File name to input", NULL, NULL, CMD_REQD | CMD_ANON);
+    parse_cmdline(argc, argv, env);
+}
+
+#define TOKEN get_token()
+#define TOKEN_TYPE(t) (t)->type
+
+// return high number for high precedence
+// if the token is not an operator then return -1
+static inline int get_precedence(token_t* tok) {
+
+    int prec = -1;
+
+    switch(TOKEN_TYPE(tok)) {
+        case TOK_DIV:
+        case TOK_MUL:
+        case TOK_MOD:
+            prec = 6;
+            break;
+        case TOK_MINUS:
+        case TOK_ADD:
+            prec = 5;
+            break;
+        case TOK_POW:
+            prec = 7;
+            break;
+        case TOK_EQU:
+        case TOK_NEQ:
+            prec = 3;
+            break;
+        case TOK_LT:
+        case TOK_GT:
+        case TOK_GTE:
+        case TOK_LTE:
+            prec = 4;
+            break;
+        case TOK_AND:
+            prec = 2;
+            break;
+        case TOK_OR:
+            prec = 1;
+            break;
+        case TOK_NOT:
+        case TOK_UNARY_MINUS:
+        case TOK_UNARY_PLUS:
+            prec = 8;
+            break;
+        case TOK_LPAREN:
+        case TOK_RPAREN:
+            prec = 0;   // no precedence
+            break;
+        default:
+            break;
+    }
+
+    return prec;
+}
+
+// return 0 for left and 1 for right
+static inline int get_assoc(token_t* tok) {
+
+    switch(TOKEN_TYPE(tok)) {
+        case TOK_NOT:
+        case TOK_UNARY_MINUS:
+        case TOK_POW:
+            return 1;
+        default:
+            return 0;
+    }
+
+    return 0; // never happens
+}
+
+ast_node_t* XX_parse_literal_string(parser_context_t* context) {
+    (void)context;
+    return NULL;
+}
+
+ast_node_t* XX_parse_compound_reference(parser_context_t* context) {
+    (void)context;
+    return NULL;
+}
+
+/*
+ *  primary_expression
+ *      : LITERAL_INT
+ *      | LITERAL_UNS
+ *      | LITERAL_FLOAT
+ *      | LITERAL_BOOL
+ *      | literal_string
+ *      | compound_reference
+ *      ;
+ */
+ast_primary_expression_t* XX_parse_primary_expression(parser_context_t* context) {
+
+    ENTER;
+    ast_primary_expression_t* node = NULL;
+    // ast elements here
+    token_t* tok = NULL;
+    ast_node_t* item = NULL;
+
+    int finished = 0;
+    int state = START_STATE;
+    mark_token_queue();
+
+    while(!finished) {
+        token_t* tok = get_token();
+        switch(state) {
+            case START_STATE: {
+                TRACE_STATE;
+                switch(TOKEN_TYPE(tok)) {
+                    case LITERAL_INT:
+                    case LITERAL_UNS:
+                    case LITERAL_FLOAT:
+                    case LITERAL_BOOL:
+                        tok = consume_token();
+                        state = RETURN_MATCH;
+                        break;
+                    default:
+                        // testing does not return these
+                        if(NULL != (item = (ast_node_t*)XX_parse_literal_string(context)))
+                            state = RETURN_MATCH;
+                        else if(NULL != (item = (ast_node_t*)XX_parse_compound_reference(context)))
+                            state = RETURN_MATCH;
+                        else
+                            state = RETURN_NO_MATCH;
+                }
+            } break;
+
+            case RETURN_MATCH: {
+                TRACE_STATE;
+                node = (ast_primary_expression_t*)create_ast_node(AST_PRIMARY_EXPRESSION);
+                node->literal_value = tok;
+                node->value = item;
+                flush_token_queue();
+                finished++;
+            } break;
+
+            case RETURN_NO_MATCH: {
+                TRACE_STATE;
+                reset_token_queue();
+                finished++;
+            } break;
+
+            case RETURN_ERROR: {
+                TRACE_STATE;
+                recover_parser_error(context);
+                finished++;
+            } break;
+
+            default:
+                FATAL("invalid state: %d", state);
+        }
+    }
+
+    RETURN(node);
+}
+
+/*
+ *  Parse the expression. This does not attempt to evaluate it.
+ *
+ *  expression
+ *      : expression ('*' | '/' | '%') expression
+ *      | expression '^' expression
+ *      | expression ('+' | '-') expression
+ *      | expression ('<' | '>' | '<=' | '>=' | 'lt' | 'gt' | 'lte' | 'gte') expression
+ *      | expression ('==' | '!=' | 'equ' | 'neq' ) expression
+ *      | expression ('&&' | 'and') expression
+ *      | expression ('||' | 'or') expression
+ *      | ('!' | 'not' | '-') expression
+ *      | '(' expression ')'
+ *      | primary_expression
+ *      ;
+ */
+ast_expression_t* XX_parse_expression(parser_context_t* context) {
+
+    ENTER;
+    ast_expression_t* node = NULL;
+    ast_primary_expr_t* primary = NULL;
+    ast_operator_t* oper = NULL;
+
+    int finished = 0;
+    int state = START_STATE;
+    mark_token_queue();
+
+    pointer_list_t* in_stack = create_ptr_list();
+    ast_node_list_t* out_queue = create_ast_node_list();
+    int pcount = 0;
+
+    while(!finished) {
+
+        token_t* tok = get_token();
+        switch(state) {
+            case START_STATE: {
+                TRACE_STATE;
+                // all expressions must start and end with "()"
+                if(TOKEN_TYPE == TOK_LPAREN) {
+                    consume_token();
+                    pcount++;
+                    state = START_STATE+1;
+                }
+                else
+                    state = RETURN_NO_MATCH;
+            } break;
+
+            case START_STATE+1: {
+                // expecting an operand. If it's a operator, then it must be unary.
+                TRACE_STATE;
+                if(NULL != (primary = XX_parse_primary_expression(context))) {
+                    append_ast_node_list(out_queue, primary);
+                    state = START_STATE+3;
+                }
+                else {
+                    int prec = get_precedence(tok);
+                    if(prec < 0) {
+                        _error("expected an operator or an expression operand but got %s", token_type_to_str(tok));
+                        state = RETURN_ERROR;
+                    }
+                    else {
+                        if(TOKEN_TYPE(tok) == TOK_LPAREN) {
+                            push_ptr_list(in_stack, tok);
+                            // no state change
+                        }
+                        else if(TOKEN_TYPE(tok) == TOK_MINUS) {
+                            tok->type = TOK_UNARY_MINUS;
+                            state = START_STATE+2;
+                        }
+                        else if(TOKEN_TYPE(tok) == TOK_ADD) {
+                            tok->type = TOK_UNARY_PLUS;
+                            state = START_STATE+2;
+                        }
+                        else {
+                            _error("expected unary operator but got %s", token_type_to_str(tok));
+                            state = RETURN_ERROR;
+                        }
+
+                    }
+                }
+            } break;
+
+            case START_STATE+2: {
+                TRACE_STATE;
+                // dispatch the unary operator
+
+            } break;
+
+            case START_STATE+2: {
+                TRACE_STATE;
+                // expecting an operator
+
+            } break;
+
+            case RETURN_MATCH: {
+                TRACE_STATE;
+                node = (ast_expression_t*)create_ast_node(AST_EXPRESSION);
+                // ast elements here
+                flush_token_queue();
+            } break;
+
+            case RETURN_NO_MATCH: {
+                TRACE_STATE;
+                reset_token_queue();
+            } break;
+
+            case RETURN_ERROR: {
+                TRACE_STATE;
+                recover_parser_error(NULL); //context);
+            } break;
+
+            default:
+                FATAL("invalid state: %d", state);
+        }
+    }
+
+    RETURN(node);
+}
+
+int main(int argc, char** argv, char** env) {
+
+    cmdline(argc, argv, env);
+
+    create_token_queue(get_cmd_opt("files"));
+
+    pointer_list_t* in_stack = create_ptr_list();
+    pointer_list_t* out_queue = create_ptr_list();
+
+    int finished = 0;
+    int state = 0;
+    int pcount = 0;
+
+    while(!finished) {
+
+        token_t* tok = get_token();
+        switch(state) {
+            case START_STATE:
+                break;
+        }
+
+    }
+
+    return 0;
+}

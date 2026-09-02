@@ -101,6 +101,8 @@ const char* node_type_to_str(ast_type_t type) {
     (type == AST_TRY_CLAUSE)? "ast_try_clause_t":
     (type == AST_EXCEPT_CLAUSE)? "ast_except_clause_t":
     (type == AST_FINALLY_CLAUSE)? "ast_finally_clause_t":
+    (type == AST_EXIT_STATEMENT)? "ast_exit_statement_t":
+    (type == AST_OPERATOR)? "ast_operator_t":
     "UNKNOWN";
 }
 
@@ -162,6 +164,8 @@ static inline size_t get_node_size(ast_type_t type) {
     (type == AST_TRY_CLAUSE)? sizeof(ast_try_clause_t):
     (type == AST_EXCEPT_CLAUSE)? sizeof(ast_except_clause_t):
     (type == AST_FINALLY_CLAUSE)? sizeof(ast_finally_clause_t):
+    (type == AST_EXIT_STATEMENT)? sizeof(ast_exit_statement_t):
+    (type == AST_OPERATOR)? sizeof(ast_operator_t):
     (size_t)-1;
 
 

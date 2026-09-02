@@ -65,6 +65,7 @@ typedef enum {
     AST_EXCEPT_CLAUSE = 566,
     AST_FINALLY_CLAUSE = 567,
     AST_EXIT_STATEMENT = 568,
+    AST_OPERATOR = 570,
 } ast_type_t;
 
 typedef struct _ast_node_t {
@@ -499,7 +500,7 @@ typedef struct _ast_expression_t {
     ast_node_t node;
     // Note that expressions are parsed differently than the other
     // non-terminals
-    struct _ast_expression_t* expr;
+    ast_node_list_t* expr;
 } ast_expression_t;
 
 
@@ -812,6 +813,10 @@ typedef struct _ast_exit_statement_t {
     struct _ast_expression_t* expr;
 } ast_exit_statement_t;
 
+typedef struct _ast_operator_t {
+    ast_node_t node;
+    token_t* oper;
+} ast_operator_t;
 
 // ast function interface
 ast_node_t* create_ast_node(ast_type_t type);

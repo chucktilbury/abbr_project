@@ -37,6 +37,8 @@ typedef enum {
     TOK_MUL,
     TOK_MOD,        // "%" AKA TOK_PERCENT
     TOK_MINUS,
+    TOK_UNARY_MINUS,// assigned by expression parser
+    TOK_UNARY_PLUS, // assigned by expression parser
     TOK_ADD,
     TOK_ASSIGN,     // "="
     TOK_POW,        // "^" AKA TOK_CARAT
@@ -49,7 +51,7 @@ typedef enum {
     TOK_LTE,        // "<="
     TOK_AND,        // "and" | "&"
     TOK_OR,         // "or" | "|"
-    TOK_NOT,        // "not" | "!"
+    TOK_NOT,        // "not" | "!" always unary
     TOK_ADD_ASSIGN, // "+="
     TOK_SUB_ASSIGN, // "-="
     TOK_MUL_ASSIGN, // "*="

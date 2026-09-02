@@ -1,5 +1,6 @@
 
 #include "common.h"
+#include <stdarg.h>
 
 string_t* create_string(const char* str) {
 
@@ -14,12 +15,46 @@ string_t* create_string(const char* str) {
     return s;
 }
 
+string_t* create_string_fmt(const char* fmt, ...) {
+
+    va_list args;
+    va_start(args, fmt);
+    size_t len = vsnprintf(NULL, 0, fmt, args);
+    va_end(args);
+
+    char* tmp = _ALLOC(len+1);
+    va_start(args, fmt);
+    vsprintf(tmp, fmt, args);
+    va_end(args);
+
+    string_t* ptr = create_string(tmp);
+    _FREE(tmp);
+
+    return ptr;
+}
+
 void destroy_string(string_t* s) {
 
     if(s != NULL) {
         _FREE(s->buffer);
         _FREE(s);
     }
+}
+
+void append_string_fmt(string_t* s, const char* fmt, ...) {
+
+    va_list args;
+    va_start(args, fmt);
+    size_t len = vsnprintf(NULL, 0, fmt, args);
+    va_end(args);
+
+    char* tmp = _ALLOC(len+1);
+    va_start(args, fmt);
+    vsprintf(tmp, fmt, args);
+    va_end(args);
+
+    append_string(s, tmp);
+    _FREE(tmp);
 }
 
 void append_string_str(string_t* s, string_t* str) {
