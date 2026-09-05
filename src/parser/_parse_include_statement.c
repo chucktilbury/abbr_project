@@ -9,7 +9,7 @@
 
 /*
  *  include_statement
- *      : 'include' (LITERAL_DSTR | LITERAL_SSTR)
+ *      : 'include' string_literal
  *      ;
  */
 ast_include_statement_t* _parse_include_statement(parser_context_t* context) {

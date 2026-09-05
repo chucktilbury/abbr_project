@@ -9,7 +9,7 @@
 
 /*
  *  compound_name
- *      : IDENTIFIER ('.' IDENTIFIER)*
+ *      : identifier ('.' identifier)*
  *      ;
  */
 ast_compound_name_t* _parse_compound_name(parser_context_t* context) {

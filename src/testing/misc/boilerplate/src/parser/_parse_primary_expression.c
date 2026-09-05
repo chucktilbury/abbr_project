@@ -9,10 +9,7 @@
 
 /*
  *  primary_expression
- *      : LITERAL_INT
- *      | LITERAL_UNS
- *      | LITERAL_FLOAT
- *      | LITERAL_BOOL
+ *      : literal_number
  *      | literal_string
  *      | compound_reference
  *      ;

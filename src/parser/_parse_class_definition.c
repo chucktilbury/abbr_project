@@ -9,7 +9,7 @@
 
 /*
  *  class_definition
- *      : 'class' IDENTIFIER ( '(' (inheritance_item (',' inheritance_item)*)? ')' )? '{' class_item+ '}'
+ *      : 'class' identifier ( '(' (inheritance_item (',' inheritance_item)*)? ')' )? '{' class_item+ '}'
  *      ;
  */
 ast_class_definition_t* _parse_class_definition(parser_context_t* context) {

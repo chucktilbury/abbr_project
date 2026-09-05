@@ -9,7 +9,7 @@
 
 /*
  *  data_declaration
- *      : type_specifier IDENTIFIER ( '=' const_value )?
+ *      : type_specifier identifier ( '=' const_value )?
  *      ;
  */
 ast_data_declaration_t* _parse_data_declaration(parser_context_t* context) {

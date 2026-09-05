@@ -9,7 +9,7 @@
 
 /*
  *  except_clause
- *      : 'except' '(' compound_name ('as' IDENTIFIER)? ')' function_body
+ *      : 'except' '(' compound_name ('as' identifier)? ')' function_body
  *      ;
  */
 ast_except_clause_t* _parse_except_clause(parser_context_t* context) {

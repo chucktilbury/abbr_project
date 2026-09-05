@@ -9,7 +9,7 @@
 
 /*
  *  function_declaration
- *      : type_specifier IDENTIFIER function_declaration_parameters
+ *      : type_specifier identifier function_declaration_parameters function_body?
  *      ;
  */
 ast_function_declaration_t* _parse_function_declaration(parser_context_t* context) {

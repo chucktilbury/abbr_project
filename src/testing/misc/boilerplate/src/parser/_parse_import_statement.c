@@ -9,8 +9,8 @@
 
 /*
  *  import_statement
- *      : 'import' (LITERAL_DSTR | LITERAL_SSTR)
- *      | 'import' compound_name ( ('from' (LITERAL_DSTR | LITERAL_SSTR))? ('as' IDENTIFIER)? )?
+ *      : 'import' string_literal
+ *      | 'import' compound_name ( ('from' string_literal)? ('as' identifier)? )?
  *      ;
  */
 ast_import_statement_t* _parse_import_statement(parser_context_t* context) {

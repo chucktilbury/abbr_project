@@ -9,7 +9,7 @@
 
 /*
  *  data_definition
- *      : type_specifier IDENTIFIER ( '=' expression )?
+ *      : type_specifier identifier ( '=' expression )?
  *      ;
  */
 ast_data_definition_t* _parse_data_definition(parser_context_t* context) {

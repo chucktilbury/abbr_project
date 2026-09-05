@@ -9,7 +9,7 @@
 
 /*
  *  literal_dict_item
- *      : (LITERAL_SSTR | LITERAL_DSTR) ':' const_value
+ *      : string_literal ':' const_value
  *      ;
  */
 ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {

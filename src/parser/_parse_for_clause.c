@@ -9,7 +9,7 @@
 
 /*
  *  for_clause
- *      : 'for' ( '(' ( expression ('as' (type_specifier)? IDENTIFIER)? )? ')' )? loop_body
+ *      : 'for' ( '(' ( expression ('as' (type_specifier)? identifier)? )? ')' )? loop_body
  *      ;
  */
 ast_for_clause_t* _parse_for_clause(parser_context_t* context) {

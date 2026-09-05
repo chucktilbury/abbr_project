@@ -9,7 +9,7 @@
 
 /*
  *  compound_reference_item
- *      : IDENTIFIER
+ *      : identifier
  *      | function_reference
  *      | array_reference
  *      ;

@@ -9,7 +9,7 @@
 
 /*
  *  function_definition
- *      : type_specifier IDENTIFIER '.' IDENTIFIER function_definition_parameters function_body
+ *      : type_specifier identifier '.' identifier function_definition_parameters function_body
  *      ;
  */
 ast_function_definition_t* _parse_function_definition(parser_context_t* context) {

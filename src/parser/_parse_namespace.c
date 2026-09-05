@@ -9,7 +9,7 @@
 
 /*
  *  namespace
- *      : 'namespace' IDENTIFIER '{' namespace_item* '}'
+ *      : 'namespace' identifier '{' namespace_item* '}'
  *      ;
  */
 ast_namespace_t* _parse_namespace(parser_context_t* context) {

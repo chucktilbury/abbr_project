@@ -32,96 +32,96 @@ void destroy_token(token_t* tok) {
     }
 }
 
-const char* token_type_to_str(token_t* tok) {
+const char* token_type_to_str(token_type_t type) {
     return
-    (tok->type == TOK_END_OF_FILE)?    "end of file" :
-    (tok->type == TOK_END_OF_INPUT)?   "end of input" :
-    (tok->type == TOK_IDENTIFIER)?     "identifier" :
-    (tok->type == TOK_LITERAL_DSTR)?   "literal string" :
-    (tok->type == TOK_LITERAL_SSTR)?   "literal string" :
-    (tok->type == TOK_LITERAL_INT)?    "literal integer" :
-    (tok->type == TOK_LITERAL_UNS)?    "literal unsigned" :
-    (tok->type == TOK_LITERAL_FLOAT)?  "literal float" :
-    (tok->type == TOK_LITERAL_TRUE)?   "true" :
-    (tok->type == TOK_LITERAL_FALSE)?  "false" :
-    (tok->type == TOK_LPAREN)?     "(" :
-    (tok->type == TOK_RPAREN)?     ")" :
-    (tok->type == TOK_LSQUARE)?    "[" :
-    (tok->type == TOK_RSQUARE)?    "]" :
-    (tok->type == TOK_LCURLY)?     "{" :
-    (tok->type == TOK_RCURLY)?     "}" :
-    (tok->type == TOK_LPOINTY)?    "<" :
-    (tok->type == TOK_RPOINTY)?    ">" :
-    (tok->type == TOK_COMMA)?      "," :
-    (tok->type == TOK_AMPER)?      "&" :
-    (tok->type == TOK_PIPE)?       "|" :
-    (tok->type == TOK_BANG)?       "!" :
-    (tok->type == TOK_CARAT)?      "^" :
-    (tok->type == TOK_PERCENT)?    "%" :
-    (tok->type == TOK_DOT)?        "." :
-    (tok->type == TOK_COLON)?      ":" :
-    (tok->type == TOK_DIV)?        "/" :
-    (tok->type == TOK_MUL)?        "*" :
-    (tok->type == TOK_MOD)?        "%" :
-    (tok->type == TOK_MINUS)?      "-" :
-    (tok->type == TOK_ADD)?        "+" :
-    (tok->type == TOK_ASSIGN)?     "=" :
-    (tok->type == TOK_POW)?        "^" :
-    (tok->type == TOK_EQU)?        "==" :
-    (tok->type == TOK_NEQ)?        "!=" :
-    (tok->type == TOK_LT)?         "<" :
-    (tok->type == TOK_GT)?         ">" :
-    (tok->type == TOK_GTE)?        ">=" :
-    (tok->type == TOK_LTE)?        "<=" :
-    (tok->type == TOK_AND)?        "and" :
-    (tok->type == TOK_OR)?         "or" :
-    (tok->type == TOK_NOT)?        "not" :
-    (tok->type == TOK_ADD_ASSIGN)? "+=" :
-    (tok->type == TOK_SUB_ASSIGN)? "-=" :
-    (tok->type == TOK_MUL_ASSIGN)? "*=" :
-    (tok->type == TOK_DIV_ASSIGN)? "/=" :
-    (tok->type == TOK_NAMESPACE)?  "namespace" :
-    (tok->type == TOK_INCLUDE)?    "include" :
-    (tok->type == TOK_IMPORT)?     "import" :
-    (tok->type == TOK_AS)?         "as" :
-    (tok->type == TOK_CLASS)?      "class" :
-    (tok->type == TOK_PUBLIC)?     "public" :
-    (tok->type == TOK_PRIVATE)?    "private" :
-    (tok->type == TOK_PROTECTED)?  "protected" :
-    (tok->type == TOK_START)?      "start" :
-    (tok->type == TOK_CREATE)?     "create" :
-    (tok->type == TOK_DESTROY)?    "destroy" :
-    (tok->type == TOK_IF)?         "if" :
-    (tok->type == TOK_ELSE)?       "else" :
-    (tok->type == TOK_FOR)?        "for" :
-    (tok->type == TOK_WHILE)?      "while" :
-    (tok->type == TOK_DO)?         "do" :
-    (tok->type == TOK_BREAK)?      "break" :
-    (tok->type == TOK_CONTINUE)?   "continue" :
-    (tok->type == TOK_YIELD)?      "yield" :
-    (tok->type == TOK_TRY)?        "try" :
-    (tok->type == TOK_EXCEPT)?     "except" :
-    (tok->type == TOK_RAISE)?      "raise" :
-    (tok->type == TOK_RETURN)?     "return" :
-    (tok->type == TOK_INTEGER)?    "integer" :
-    (tok->type == TOK_UNSIGNED)?   "unsigned" :
-    (tok->type == TOK_FLOAT)?      "float" :
-    (tok->type == TOK_STRING)?     "string" :
-    (tok->type == TOK_DICT)?       "dictionary" :
-    (tok->type == TOK_ARRAY)?      "array" :
-    (tok->type == TOK_BOOL)?       "boolean" :
-    (tok->type == TOK_NOTHING)?    "nothing" :
-    (tok->type == TOK_EXIT)?        "exit" :
-    (tok->type == TOK_INLINE)?      "inline" :
-    (tok->type == TOK_UNARY_PLUS)?  "+" :
-    (tok->type == TOK_UNARY_MINUS)? "-" :
-    (tok->type == TOK_FINALLY)?    "finally" : "UNKNOWN";
+    (type == TOK_END_OF_FILE)?    "end of file" :
+    (type == TOK_END_OF_INPUT)?   "end of input" :
+    (type == TOK_IDENTIFIER)?     "identifier" :
+    (type == TOK_LITERAL_DSTR)?   "literal string" :
+    (type == TOK_LITERAL_SSTR)?   "literal string" :
+    (type == TOK_LITERAL_INT)?    "literal integer" :
+    (type == TOK_LITERAL_UNS)?    "literal unsigned" :
+    (type == TOK_LITERAL_FLOAT)?  "literal float" :
+    (type == TOK_LITERAL_TRUE)?   "true" :
+    (type == TOK_LITERAL_FALSE)?  "false" :
+    (type == TOK_LPAREN)?     "(" :
+    (type == TOK_RPAREN)?     ")" :
+    (type == TOK_LSQUARE)?    "[" :
+    (type == TOK_RSQUARE)?    "]" :
+    (type == TOK_LCURLY)?     "{" :
+    (type == TOK_RCURLY)?     "}" :
+    (type == TOK_LPOINTY)?    "<" :
+    (type == TOK_RPOINTY)?    ">" :
+    (type == TOK_COMMA)?      "," :
+    (type == TOK_AMPER)?      "&" :
+    (type == TOK_PIPE)?       "|" :
+    (type == TOK_BANG)?       "!" :
+    (type == TOK_CARAT)?      "^" :
+    (type == TOK_PERCENT)?    "%" :
+    (type == TOK_DOT)?        "." :
+    (type == TOK_COLON)?      ":" :
+    (type == TOK_DIV)?        "/" :
+    (type == TOK_MUL)?        "*" :
+    (type == TOK_MOD)?        "%" :
+    (type == TOK_MINUS)?      "-" :
+    (type == TOK_ADD)?        "+" :
+    (type == TOK_ASSIGN)?     "=" :
+    (type == TOK_POW)?        "^" :
+    (type == TOK_EQU)?        "==" :
+    (type == TOK_NEQ)?        "!=" :
+    (type == TOK_LT)?         "<" :
+    (type == TOK_GT)?         ">" :
+    (type == TOK_GTE)?        ">=" :
+    (type == TOK_LTE)?        "<=" :
+    (type == TOK_AND)?        "and" :
+    (type == TOK_OR)?         "or" :
+    (type == TOK_NOT)?        "not" :
+    (type == TOK_ADD_ASSIGN)? "+=" :
+    (type == TOK_SUB_ASSIGN)? "-=" :
+    (type == TOK_MUL_ASSIGN)? "*=" :
+    (type == TOK_DIV_ASSIGN)? "/=" :
+    (type == TOK_NAMESPACE)?  "namespace" :
+    (type == TOK_INCLUDE)?    "include" :
+    (type == TOK_IMPORT)?     "import" :
+    (type == TOK_AS)?         "as" :
+    (type == TOK_CLASS)?      "class" :
+    (type == TOK_PUBLIC)?     "public" :
+    (type == TOK_PRIVATE)?    "private" :
+    (type == TOK_PROTECTED)?  "protected" :
+    (type == TOK_START)?      "start" :
+    (type == TOK_CREATE)?     "create" :
+    (type == TOK_DESTROY)?    "destroy" :
+    (type == TOK_IF)?         "if" :
+    (type == TOK_ELSE)?       "else" :
+    (type == TOK_FOR)?        "for" :
+    (type == TOK_WHILE)?      "while" :
+    (type == TOK_DO)?         "do" :
+    (type == TOK_BREAK)?      "break" :
+    (type == TOK_CONTINUE)?   "continue" :
+    (type == TOK_YIELD)?      "yield" :
+    (type == TOK_TRY)?        "try" :
+    (type == TOK_EXCEPT)?     "except" :
+    (type == TOK_RAISE)?      "raise" :
+    (type == TOK_RETURN)?     "return" :
+    (type == TOK_INTEGER)?    "integer" :
+    (type == TOK_UNSIGNED)?   "unsigned" :
+    (type == TOK_FLOAT)?      "float" :
+    (type == TOK_STRING)?     "string" :
+    (type == TOK_DICT)?       "dictionary" :
+    (type == TOK_ARRAY)?      "array" :
+    (type == TOK_BOOL)?       "boolean" :
+    (type == TOK_NOTHING)?    "nothing" :
+    (type == TOK_EXIT)?        "exit" :
+    (type == TOK_INLINE)?      "inline" :
+    (type == TOK_UNARY_PLUS)?  "+" :
+    (type == TOK_UNARY_MINUS)? "-" :
+    (type == TOK_FINALLY)?    "finally" : "UNKNOWN";
 }
 
 void print_token(token_t* tok) {
 
     if(tok != NULL) {
-    printf("tok text \"%s\": type \"%s\" ", raw_string(tok->text), token_type_to_str(tok));
+    printf("tok text \"%s\": type \"%s\" ", raw_string(tok->text), token_type_to_str(tok->type));
         printf("file \"%s\": line %d: column %d\n", raw_string(tok->fname), tok->line_no, tok->col_no);
     }
     else

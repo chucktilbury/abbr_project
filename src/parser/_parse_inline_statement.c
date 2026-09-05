@@ -8,15 +8,14 @@
 #include "token_queue.h"
 
 /*
- *  scope_operator
- *      : 'public'
- *      | 'private'
+ *  inline_statement
+ *      : 'inline' '{' RAW_TEXT '}'
  *      ;
  */
-ast_scope_operator_t* _parse_scope_operator(parser_context_t* context) {
+ast_inline_statement_t* _parse_inline_statement(parser_context_t* context) {
 
     ENTER;
-    ast_scope_operator_t* node = NULL;
+    ast_inline_statement_t* node = NULL;
     // ast elements here
 
     int finished = 0;
@@ -31,7 +30,7 @@ ast_scope_operator_t* _parse_scope_operator(parser_context_t* context) {
 
             case RETURN_MATCH: {
                 TRACE_STATE;
-                node = (ast_scope_operator_t*)create_ast_node(AST_SCOPE_OPERATOR);
+                node = (ast_inline_statement_t*)create_ast_node(AST_INLINE_STATEMENT);
                 // ast elements here
                 flush_token_queue();
             } break;

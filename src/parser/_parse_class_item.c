@@ -14,7 +14,6 @@
  *      | data_declaration
  *      | constructor_declaration
  *      | destructor_declaration
- *      | function_definition
  *      ;
  */
 ast_class_item_t* _parse_class_item(parser_context_t* context) {

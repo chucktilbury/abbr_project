@@ -9,7 +9,7 @@
 
 /*
  *  destructor_declaration
- *      : 'destroy'
+ *      : 'destroy' function_body?
  *      ;
  */
 ast_destructor_declaration_t* _parse_destructor_declaration(parser_context_t* context) {

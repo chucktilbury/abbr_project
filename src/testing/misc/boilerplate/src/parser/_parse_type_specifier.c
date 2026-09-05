@@ -9,14 +9,7 @@
 
 /*
  *  type_specifier
- *      : ('integer' | 'int')
- *      | ('boolean' | 'bool')
- *      | 'string'
- *      | 'dict'
- *      | 'list'
- *      | 'unsigned'
- *      | 'float'
- *      | 'nothing'
+ *      : literal_type
  *      | compound_name
  *      ;
  */

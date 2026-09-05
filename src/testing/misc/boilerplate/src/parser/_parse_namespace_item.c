@@ -9,7 +9,7 @@
 
 /*
  *  namespace_item
- *      : scope_operator
+ *      : global_scope_operator
  *      | class_definition
  *      | function_definition
  *      | constructor_definition

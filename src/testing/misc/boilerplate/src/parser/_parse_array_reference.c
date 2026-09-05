@@ -9,7 +9,7 @@
 
 /*
  *  array_reference
- *      : IDENTIFIER array_parameters (array_parameters)*
+ *      : identifier array_parameters (array_parameters)*
  *      ;
  */
 ast_array_reference_t* _parse_array_reference(parser_context_t* context) {

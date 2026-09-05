@@ -53,8 +53,9 @@ ast_start_clause_t* _parse_start_clause(parser_context_t* context);
 ast_module_item_t* _parse_module_item(parser_context_t* context);
 ast_include_statement_t* _parse_include_statement(parser_context_t* context);
 ast_import_statement_t* _parse_import_statement(parser_context_t* context);
+ast_identifier_t* _parse_identifier(parser_context_t* context);
 ast_namespace_item_t* _parse_namespace_item(parser_context_t* context);
-ast_scope_operator_t* _parse_scope_operator(parser_context_t* context);
+ast_global_scope_operator_t* _parse_global_scope_operator(parser_context_t* context);
 ast_class_scope_operator_t* _parse_class_scope_operator(parser_context_t* context);
 ast_namespace_t* _parse_namespace(parser_context_t* context);
 ast_class_definition_t* _parse_class_definition(parser_context_t* context);
@@ -66,12 +67,15 @@ ast_destructor_declaration_t* _parse_destructor_declaration(parser_context_t* co
 ast_function_definition_parameters_t* _parse_function_definition_parameters(parser_context_t* context);
 ast_function_decl_parameter_t* _parse_function_decl_parameter(parser_context_t* context);
 ast_function_declaration_parameters_t* _parse_function_declaration_parameters(parser_context_t* context);
+ast_literal_type_t* _parse_literal_type(parser_context_t* context);
 ast_type_specifier_t* _parse_type_specifier(parser_context_t* context);
 ast_function_definition_t* _parse_function_definition(parser_context_t* context);
 ast_constructor_definition_t* _parse_constructor_definition(parser_context_t* context);
 ast_destructor_definition_t* _parse_destructor_definition(parser_context_t* context);
 ast_data_declaration_t* _parse_data_declaration(parser_context_t* context);
 ast_compound_name_t* _parse_compound_name(parser_context_t* context);
+ast_literal_number_t* _parse_literal_number(parser_context_t* context);
+ast_string_literal_t* _parse_string_literal(parser_context_t* context);
 ast_const_value_t* _parse_const_value(parser_context_t* context);
 ast_literal_string_t* _parse_literal_string(parser_context_t* context);
 ast_formatted_string_t* _parse_formatted_string(parser_context_t* context);
@@ -86,9 +90,12 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context);
 ast_array_reference_t* _parse_array_reference(parser_context_t* context);
 ast_array_parameters_t* _parse_array_parameters(parser_context_t* context);
 ast_function_body_item_t* _parse_function_body_item(parser_context_t* context);
+ast_inline_statement_t* _parse_inline_statement(parser_context_t* context);
 ast_raise_statement_t* _parse_raise_statement(parser_context_t* context);
 ast_flow_statement_t* _parse_flow_statement(parser_context_t* context);
 ast_loop_body_item_t* _parse_loop_body_item(parser_context_t* context);
+ast_break_statement_t* _parse_break_statement(parser_context_t* context);
+ast_continue_statement_t* _parse_continue_statement(parser_context_t* context);
 ast_yield_statement_t* _parse_yield_statement(parser_context_t* context);
 ast_loop_body_t* _parse_loop_body(parser_context_t* context);
 ast_function_body_t* _parse_function_body(parser_context_t* context);
@@ -104,6 +111,7 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context);
 ast_try_clause_t* _parse_try_clause(parser_context_t* context);
 ast_except_clause_t* _parse_except_clause(parser_context_t* context);
 ast_finally_clause_t* _parse_finally_clause(parser_context_t* context);
+ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
 
 #ifdef USE_TRACE
 #define TRACE_STATE \

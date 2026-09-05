@@ -11,8 +11,8 @@
  *  loop_body_item
  *      : function_body_item
  *      | yield_statement
- *      | 'break'
- *      | 'continue'
+ *      | break_statement
+ *      | continue_statement
  *      ;
  */
 ast_loop_body_item_t* _parse_loop_body_item(parser_context_t* context) {

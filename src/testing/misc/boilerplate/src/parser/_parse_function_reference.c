@@ -9,7 +9,7 @@
 
 /*
  *  function_reference
- *      : IDENTIFIER '(' expression (',' expression)* ')'
+ *      : identifier '(' expression (',' expression)* ')'
  *      ;
  */
 ast_function_reference_t* _parse_function_reference(parser_context_t* context) {

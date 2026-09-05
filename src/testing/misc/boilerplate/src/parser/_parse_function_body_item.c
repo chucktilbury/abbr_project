@@ -13,10 +13,10 @@
  *      | assignment
  *      | data_definition
  *      | flow_statement
- *      | print_statement
  *      | exit_statement
  *      | raise_statement
  *      | return_statement
+ *      | inline_statement
  *      ;
  */
 ast_function_body_item_t* _parse_function_body_item(parser_context_t* context) {

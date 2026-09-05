@@ -9,7 +9,7 @@
 
 /*
  *  constructor_declaration
- *      : 'create' function_declaration_parameters
+ *      : 'create' function_declaration_parameters function_body?
  *      ;
  */
 ast_constructor_declaration_t* _parse_constructor_declaration(parser_context_t* context) {

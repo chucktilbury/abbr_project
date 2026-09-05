@@ -9,12 +9,8 @@
 
 /*
  *  const_value
- *      : LITERAL_INT
- *      | LITERAL_UNS
- *      | LITERAL_FLOAT
- *      | LITERAL_SSTR
- *      | LITERAL_DSTR
- *      | LITERAL_BOOL
+ *      : literal_number
+ *      | string_literal
  *      | literal_array_definition
  *      | literal_dict_definition
  *      ;

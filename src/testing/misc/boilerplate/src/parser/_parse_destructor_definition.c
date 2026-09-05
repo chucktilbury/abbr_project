@@ -9,7 +9,7 @@
 
 /*
  *  destructor_definition
- *      : IDENTIFIER '.' 'destroy' function_body
+ *      : identifier '.' 'destroy' function_body
  *      ;
  */
 ast_destructor_definition_t* _parse_destructor_definition(parser_context_t* context) {

@@ -51,7 +51,7 @@ const char* node_type_to_str(ast_type_t type) {
     (type == AST_INCLUDE_STATEMENT)? "ast_include_statement_t":
     (type == AST_IMPORT_STATEMENT)? "ast_import_statement_t":
     (type == AST_NAMESPACE_ITEM)? "ast_namespace_item_t":
-    (type == AST_SCOPE_OPERATOR)? "ast_scope_operator_t":
+    (type == AST_GLOBAL_SCOPE_OPERATOR)? "ast_global_scope_operator_t":
     (type == AST_CLASS_SCOPE_OPERATOR)? "ast_class_scope_operator_t":
     (type == AST_NAMESPACE)? "ast_namespace_t":
     (type == AST_CLASS_DEFINITION)? "ast_class_definition_t":
@@ -103,6 +103,13 @@ const char* node_type_to_str(ast_type_t type) {
     (type == AST_FINALLY_CLAUSE)? "ast_finally_clause_t":
     (type == AST_EXIT_STATEMENT)? "ast_exit_statement_t":
     (type == AST_OPERATOR)? "ast_operator_t":
+    (type == AST_INLINE_STATEMENT)? "ast_inline_statement_t":
+    (type == AST_BREAK_STATEMENT)? "ast_break_statement_t":
+    (type == AST_CONTINUE_STATEMENT)? "ast_continue_statement_t":
+    (type == AST_LITERAL_NUMBER)? "ast_literal_number_t":
+    (type == AST_STRING_LITERAL)? "ast_string_literal_t":
+    (type == AST_LITERAL_TYPE)? "ast_literal_type_t":
+    (type == AST_IDENTIFIER)? "ast_identifier_t":
     "UNKNOWN";
 }
 
@@ -114,7 +121,7 @@ static inline size_t get_node_size(ast_type_t type) {
     (type == AST_INCLUDE_STATEMENT)? sizeof(ast_include_statement_t):
     (type == AST_IMPORT_STATEMENT)? sizeof(ast_import_statement_t):
     (type == AST_NAMESPACE_ITEM)? sizeof(ast_namespace_item_t):
-    (type == AST_SCOPE_OPERATOR)? sizeof(ast_scope_operator_t):
+    (type == AST_GLOBAL_SCOPE_OPERATOR)? sizeof(ast_global_scope_operator_t):
     (type == AST_CLASS_SCOPE_OPERATOR)? sizeof(ast_class_scope_operator_t):
     (type == AST_NAMESPACE)? sizeof(ast_namespace_t):
     (type == AST_CLASS_DEFINITION)? sizeof(ast_class_definition_t):
@@ -166,6 +173,13 @@ static inline size_t get_node_size(ast_type_t type) {
     (type == AST_FINALLY_CLAUSE)? sizeof(ast_finally_clause_t):
     (type == AST_EXIT_STATEMENT)? sizeof(ast_exit_statement_t):
     (type == AST_OPERATOR)? sizeof(ast_operator_t):
+    (type == AST_INLINE_STATEMENT)? sizeof(ast_inline_statement_t):
+    (type == AST_BREAK_STATEMENT)? sizeof(ast_break_statement_t):
+    (type == AST_CONTINUE_STATEMENT)? sizeof(ast_continue_statement_t):
+    (type == AST_LITERAL_NUMBER)? sizeof(ast_literal_number_t):
+    (type == AST_STRING_LITERAL)? sizeof(ast_string_literal_t):
+    (type == AST_LITERAL_TYPE)? sizeof(ast_literal_type_t):
+    (type == AST_IDENTIFIER)? sizeof(ast_identifier_t):
     (size_t)-1;
 
 

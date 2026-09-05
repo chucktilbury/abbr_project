@@ -9,7 +9,7 @@
 
 /*
  *  constructor_definition
- *      : IDENTIFIER '.' 'create' function_definition_parameters function_body
+ *      : identifier '.' 'create' function_definition_parameters function_body
  *      ;
  */
 ast_constructor_definition_t* _parse_constructor_definition(parser_context_t* context) {

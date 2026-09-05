@@ -14,7 +14,7 @@ typedef enum {
     AST_INCLUDE_STATEMENT = 515,
     AST_IMPORT_STATEMENT = 516,
     AST_NAMESPACE_ITEM = 517,
-    AST_SCOPE_OPERATOR = 518,
+    AST_GLOBAL_SCOPE_OPERATOR = 518,
     AST_CLASS_SCOPE_OPERATOR = 519,
     AST_NAMESPACE = 520,
     AST_CLASS_DEFINITION = 521,
@@ -65,7 +65,14 @@ typedef enum {
     AST_EXCEPT_CLAUSE = 566,
     AST_FINALLY_CLAUSE = 567,
     AST_EXIT_STATEMENT = 568,
-    AST_OPERATOR = 570,
+    AST_OPERATOR = 569,
+    AST_BREAK_STATEMENT = 570,
+    AST_CONTINUE_STATEMENT = 571,
+    AST_INLINE_STATEMENT = 572,
+    AST_LITERAL_NUMBER = 573,
+    AST_STRING_LITERAL = 574,
+    AST_LITERAL_TYPE = 575,
+    AST_IDENTIFIER = 576,
 } ast_type_t;
 
 typedef struct _ast_node_t {
@@ -116,34 +123,34 @@ typedef struct _ast_module_item_t {
 
 /*
  *  include_statement
- *      : 'include' (LITERAL_DSTR | LITERAL_SSTR)
+ *      : 'include' string_literal
  *      ;
  */
 typedef struct _ast_include_statement_t {
     ast_node_t node;
     // include is handled outside of the AST
-    token_t* str;
+    struct _ast_string_literal_t* str;
 } ast_include_statement_t;
 
 
 /*
  *  import_statement
- *      : 'import' (LITERAL_DSTR | LITERAL_SSTR)
- *      | 'import' compound_name ( ('from' (LITERAL_DSTR | LITERAL_SSTR))? ('as' IDENTIFIER)? )?
+ *      : 'import' string_literal
+ *      | 'import' compound_name ( ('from' string_literal)? ('as' identifier)? )?
  *      ;
  */
 typedef struct _ast_import_statement_t {
     ast_node_t node;
     // import is handled outside of the AST
     struct _ast_compound_name_t* compound_name;
-    token_t* str;
-    token_t* identifier;
+    struct _ast_string_literal_t* str;
+    struct _ast_identifier_t* identifier;
 } ast_import_statement_t;
 
 
 /*
  *  namespace_item
- *      : scope_operator
+ *      : global_scope_operator
  *      | class_definition
  *      | function_definition
  *      | constructor_definition
@@ -163,10 +170,10 @@ typedef struct _ast_namespace_item_t {
  *      | 'private'
  *      ;
  */
-typedef struct _ast_scope_operator_t {
+typedef struct _ast_global_scope_operator_t {
     ast_node_t node;
-    token_t* tok;
-} ast_scope_operator_t;
+    token_type_t tok;
+} ast_global_scope_operator_t;
 
 
 /*
@@ -178,30 +185,30 @@ typedef struct _ast_scope_operator_t {
  */
 typedef struct _ast_class_scope_operator_t {
     ast_node_t node;
-    token_t* tok;
+    token_type_t tok;
 } ast_class_scope_operator_t;
 
 
 /*
  *  namespace
- *      : 'namespace' IDENTIFIER '{' namespace_item* '}'
+ *      : 'namespace' identifier '{' namespace_item* '}'
  *      ;
  */
 typedef struct _ast_namespace_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     ast_node_list_t* list;
 } ast_namespace_t;
 
 
 /*
  *  class_definition
- *      : 'class' IDENTIFIER ( '(' (inheritance_item (',' inheritance_item)*)? ')' )? '{' class_item+ '}'
+ *      : 'class' identifier ( '(' (inheritance_item (',' inheritance_item)*)? ')' )? '{' class_item+ '}'
  *      ;
  */
 typedef struct _ast_class_definition_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     ast_node_list_t* i_list;
     ast_node_list_t* c_list;
 } ast_class_definition_t;
@@ -226,7 +233,6 @@ typedef struct _ast_inheritance_item_t {
  *      | data_declaration
  *      | constructor_declaration
  *      | destructor_declaration
- *      | function_definition
  *      ;
  */
 typedef struct _ast_class_item_t {
@@ -237,35 +243,39 @@ typedef struct _ast_class_item_t {
 
 /*
  *  function_declaration
- *      : type_specifier IDENTIFIER function_declaration_parameters
+ *      : type_specifier identifier function_declaration_parameters function_body?
  *      ;
  */
 typedef struct _ast_function_declaration_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     struct _ast_type_specifier_t* type_specifier;
     struct _ast_function_declaration_parameters_t* function_declaration_parameters;
+    struct _ast_function_body_t* func_body;
 } ast_function_declaration_t;
 
 
 /*
  *  constructor_declaration
- *      : 'create' function_declaration_parameters
+ *      : 'create' function_declaration_parameters function_body?
  *      ;
  */
 typedef struct _ast_constructor_declaration_t {
     ast_node_t node;
     struct _ast_function_declaration_parameters_t* function_declaration_parameters;
+    struct _ast_function_body_t* func_body;
 } ast_constructor_declaration_t;
 
 
 /*
  *  destructor_declaration
- *      : 'destroy'
+ *      : 'destroy' function_body?
  *      ;
  */
 typedef struct _ast_destructor_declaration_t {
     ast_node_t node;
+    token_type_t tok;
+    struct _ast_function_body_t* func_body;
 } ast_destructor_declaration_t;
 
 
@@ -282,13 +292,13 @@ typedef struct _ast_function_definition_parameters_t {
 
 /*
  *  function_decl_parameter
- *      : type_specifier (IDENTIFIER)?
+ *      : type_specifier (identifier)?
  *      ;
  */
 typedef struct _ast_function_decl_parameter_t {
     ast_node_t node;
     struct _ast_type_specifier_t* type_specifier;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
 } ast_function_decl_parameter_t;
 
 
@@ -305,33 +315,25 @@ typedef struct _ast_function_declaration_parameters_t {
 
 /*
  *  type_specifier
- *      : ('integer' | 'int')
- *      | ('boolean' | 'bool')
- *      | 'string'
- *      | 'dict'
- *      | 'list'
- *      | 'unsigned'
- *      | 'float'
- *      | 'nothing'
+ *      : literal_type
  *      | compound_name
  *      ;
  */
 typedef struct _ast_type_specifier_t {
     ast_node_t node;
-    token_t* literal_type;
-    struct _ast_compound_name_t* compound_name;
+    ast_node_t* item;
 } ast_type_specifier_t;
 
 
 /*
  *  function_definition
- *      : type_specifier IDENTIFIER '.' IDENTIFIER function_definition_parameters function_body
+ *      : type_specifier identifier '.' identifier function_definition_parameters function_body
  *      ;
  */
 typedef struct _ast_function_definition_t {
     ast_node_t node;
-    token_t* group;
-    token_t* name;
+    struct _ast_identifier_t* group;
+    struct _ast_identifier_t* name;
     struct _ast_type_specifier_t* type_specifier;
     struct _ast_function_definition_parameters_t* function_definition_parameters;
     struct _ast_function_body_t* function_body;
@@ -340,12 +342,12 @@ typedef struct _ast_function_definition_t {
 
 /*
  *  constructor_definition
- *      : IDENTIFIER '.' 'create' function_definition_parameters function_body
+ *      : identifier '.' 'create' function_definition_parameters function_body
  *      ;
  */
 typedef struct _ast_constructor_definition_t {
     ast_node_t node;
-    token_t* group;
+    struct _ast_identifier_t* group;
     struct _ast_function_definition_parameters_t* function_definition_parameters;
     struct _ast_function_body_t* function_body;
 } ast_constructor_definition_t;
@@ -353,24 +355,24 @@ typedef struct _ast_constructor_definition_t {
 
 /*
  *  destructor_definition
- *      : IDENTIFIER '.' 'destroy' function_body
+ *      : identifier '.' 'destroy' function_body
  *      ;
  */
 typedef struct _ast_destructor_definition_t {
     ast_node_t node;
-    token_t* group;
+    struct _ast_identifier_t* group;
     struct _ast_function_body_t* function_body;
 } ast_destructor_definition_t;
 
 
 /*
  *  data_declaration
- *      : type_specifier IDENTIFIER ( '=' const_value )?
+ *      : type_specifier identifier ( '=' const_value )?
  *      ;
  */
 typedef struct _ast_data_declaration_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     struct _ast_type_specifier_t* type_specifier;
     struct _ast_const_value_t* const_value;
 } ast_data_declaration_t;
@@ -378,31 +380,26 @@ typedef struct _ast_data_declaration_t {
 
 /*
  *  compound_name
- *      : IDENTIFIER ('.' IDENTIFIER)*
+ *      : identifier ('.' identifier)*
  *      ;
  */
 typedef struct _ast_compound_name_t {
     ast_node_t node;
-    ast_token_list_t* list;
+    ast_node_list_t* list;
 } ast_compound_name_t;
 
 
 /*
  *  const_value
- *      : LITERAL_INT
- *      | LITERAL_UNS
- *      | LITERAL_FLOAT
- *      | LITERAL_SSTR
- *      | LITERAL_DSTR
- *      | LITERAL_BOOL
+ *      : literal_number
+ *      | string_literal
  *      | literal_array_definition
  *      | literal_dict_definition
  *      ;
  */
 typedef struct _ast_const_value_t {
     ast_node_t node;
-    token_t* literal_value;
-    ast_node_t* array;
+    ast_node_t* item;
 } ast_const_value_t;
 
 
@@ -414,7 +411,7 @@ typedef struct _ast_const_value_t {
  */
 typedef struct _ast_literal_string_t {
     ast_node_t node;
-    token_t* literal_str;
+    string_t* literal_str;
     struct _ast_formatted_string_t* formatted_string;
 } ast_literal_string_t;
 
@@ -426,7 +423,7 @@ typedef struct _ast_literal_string_t {
  */
 typedef struct _ast_formatted_string_t {
     ast_node_t node;
-    token_t* literal_str;
+    string_t* literal_str;
     ast_node_list_t* list;
 } ast_formatted_string_t;
 
@@ -444,12 +441,12 @@ typedef struct _ast_literal_array_definition_t {
 
 /*
  *  literal_dict_item
- *      : (LITERAL_SSTR | LITERAL_DSTR) ':' const_value
+ *      : string_literal ':' const_value
  *      ;
  */
 typedef struct _ast_literal_dict_item_t {
     ast_node_t node;
-    token_t* literal_str;
+    struct _ast_string_literal_t* literal_str;
     struct _ast_const_value_t* const_value;
 } ast_literal_dict_item_t;
 
@@ -477,7 +474,7 @@ typedef struct _ast_literal_dict_definition_t {
  */
 typedef struct _ast_primary_expression_t {
     ast_node_t node;
-    token_t* literal_value;
+    token_type_t value_type;
     ast_node_t* value;
 } ast_primary_expression_t;
 
@@ -499,7 +496,8 @@ typedef struct _ast_primary_expression_t {
 typedef struct _ast_expression_t {
     ast_node_t node;
     // Note that expressions are parsed differently than the other
-    // non-terminals
+    // non-terminals. Tree has either ast_operator_t or
+    // ast_primary_expression_t elements in it.
     ast_node_t* tree;
 } ast_expression_t;
 
@@ -517,38 +515,37 @@ typedef struct _ast_compound_reference_t {
 
 /*
  *  compound_reference_item
- *      : IDENTIFIER
+ *      : identifier
  *      | function_reference
  *      | array_reference
  *      ;
  */
 typedef struct _ast_compound_reference_item_t {
     ast_node_t node;
-    token_t* identifier;
     ast_node_t* item;
 } ast_compound_reference_item_t;
 
 
 /*
  *  function_reference
- *      : IDENTIFIER '(' expression (',' expression)* ')'
+ *      : identifier '(' expression (',' expression)* ')'
  *      ;
  */
 typedef struct _ast_function_reference_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     ast_node_list_t* expr;
 } ast_function_reference_t;
 
 
 /*
  *  array_reference
- *      : IDENTIFIER array_parameters (array_parameters)*
+ *      : identifier array_parameters (array_parameters)*
  *      ;
  */
 typedef struct _ast_array_reference_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     ast_node_list_t* array_parameters;
 } ast_array_reference_t;
 
@@ -574,6 +571,7 @@ typedef struct _ast_array_parameters_t {
  *      | exit_statement
  *      | raise_statement
  *      | return_statement
+ *      | inline_statement
  *      ;
  */
 typedef struct _ast_function_body_item_t {
@@ -612,8 +610,8 @@ typedef struct _ast_flow_statement_t {
  *  loop_body_item
  *      : function_body_item
  *      | yield_statement
- *      | 'break'
- *      | 'continue'
+ *      | break_statement
+ *      | continue_statement
  *      ;
  */
 typedef struct _ast_loop_body_item_t {
@@ -670,12 +668,12 @@ typedef struct _ast_assignment_t {
 
 /*
  *  data_definition
- *      : type_specifier IDENTIFIER ( '=' expression )?
+ *      : type_specifier identifier ( '=' expression )?
  *      ;
  */
 typedef struct _ast_data_definition_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     struct _ast_type_specifier_t* type_specifier;
     struct _ast_expression_t* expression;
 } ast_data_definition_t;
@@ -731,12 +729,12 @@ typedef struct _ast_final_else_clause_t {
 
 /*
  *  for_clause
- *      : 'for' ( '(' ( expression ('as' (type_specifier)? IDENTIFIER)? )? ')' )? loop_body
+ *      : 'for' ( '(' ( expression ('as' (type_specifier)? identifier)? )? ')' )? loop_body
  *      ;
  */
 typedef struct _ast_for_clause_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     struct _ast_expression_t* expr;
     struct _ast_type_specifier_t* type_specifier;
     struct _ast_loop_body_t* loop_body;
@@ -782,12 +780,12 @@ typedef struct _ast_try_clause_t {
 
 /*
  *  except_clause
- *      : 'except' '(' compound_name ('as' IDENTIFIER)? ')' function_body
+ *      : 'except' '(' compound_name ('as' identifier)? ')' function_body
  *      ;
  */
 typedef struct _ast_except_clause_t {
     ast_node_t node;
-    token_t* identifier;
+    struct _ast_identifier_t* identifier;
     struct _ast_compound_name_t* compound_name;
     struct _ast_function_body_t* function_body;
 } ast_except_clause_t;
@@ -813,10 +811,99 @@ typedef struct _ast_exit_statement_t {
     struct _ast_expression_t* expr;
 } ast_exit_statement_t;
 
+/*
+ * generated by parser
+ */
 typedef struct _ast_operator_t {
     ast_node_t node;
-    token_t* oper;
+    // this will be the operator type as an enum
+    token_type_t* oper;
 } ast_operator_t;
+
+/*
+ * inline_statement
+ *      : 'inline' '{' RAW_TEXT '}'
+ *      ;
+ */
+typedef struct _ast_inline_statement_t {
+    ast_node_t node;
+    string_t* str;
+} ast_inline_statement_t;
+
+/*
+ *  break_statement
+ *      : 'break'
+ *      ;
+ */
+typedef struct _ast_break_statement_t {
+    ast_node_t node;
+} ast_break_statement_t;
+
+/*
+ *  continue_statement
+ *      : 'continue'
+ *      ;
+ */
+typedef struct _ast_continue_statement_t {
+    ast_node_t node;
+} ast_continue_statement_t;
+
+/*
+ *  string_literal
+ *      : LITERAL_DSTR
+ *      | LITERAL_SSTR
+ *      ;
+ */
+typedef struct _ast_string_literal_t {
+    ast_node_t node;
+    string_t* str;
+} ast_string_literal_t;
+
+/*
+ *  literal_number
+ *      : LITERAL_INT
+ *      | LITERAL_UINT
+ *      | LITERAL_FLOAT
+ *      | LITERAL_BOOL
+ *      ;
+ */
+typedef struct _ast_literal_number_t {
+    ast_node_t node;
+    token_type_t value_type;
+    union {
+        long inum;
+        unsigned long unum;
+        double fnum;
+        unsigned char bnum;
+    } value;
+} ast_literal_number_t;
+
+/*
+ *  literal_type_specifier
+ *      : ('integer' | 'int')
+ *      | ('boolean' | 'bool')
+ *      | 'string'
+ *      | 'dict'
+ *      | 'list'
+ *      | 'unsigned'
+ *      | 'float'
+ *      | 'nothing'
+ *      ;
+ */
+typedef struct _ast_literal_type_t {
+    ast_node_t node;
+    token_type_t type;
+} ast_literal_type_t;
+
+/*
+ *  identifier
+ *      : IDENTIFIER
+ *      ;
+ */
+typedef struct _ast_identifier_t {
+    ast_node_t node;
+    string_t* name;
+} ast_identifier_t;
 
 // ast function interface
 ast_node_t* create_ast_node(ast_type_t type);

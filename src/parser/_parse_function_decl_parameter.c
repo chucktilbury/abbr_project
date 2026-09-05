@@ -9,7 +9,7 @@
 
 /*
  *  function_decl_parameter
- *      : type_specifier (IDENTIFIER)?
+ *      : type_specifier (identifier)?
  *      ;
  */
 ast_function_decl_parameter_t* _parse_function_decl_parameter(parser_context_t* context) {
