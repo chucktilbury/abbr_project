@@ -11,6 +11,7 @@
 ast_node_t* parse(void) {
     ENTER;
     parser_context_t* context = create_parser_context();
+    push_parser_mode(context, PMODE_NORMAL);
     ast_node_t* node = (ast_node_t*)_parse_module(context);
     RETURN(node);
 }

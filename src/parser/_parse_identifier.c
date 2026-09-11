@@ -11,12 +11,17 @@
  *  identifier
  *      : IDENTIFIER
  *      ;
+ *
+ *  typedef struct _ast_identifier_t {
+ *      ast_node_t node;
+ *      string_t* name;
+ *  } ast_identifier_t;
  */
 ast_identifier_t* _parse_identifier(parser_context_t* context) {
 
     ENTER;
     ast_identifier_t* node = NULL;
-    // ast elements here
+    string_t* name;
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +31,19 @@ ast_identifier_t* _parse_identifier(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(TOKEN_TYPE == TOK_IDENTIFIER) {
+                    name = copy_string(get_token()->text);
+                    consume_token();
+                    state = RETURN_MATCH;
+                }
+                else
+                    state = RETURN_NO_MATCH;
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_identifier_t*)create_ast_node(AST_IDENTIFIER);
-                // ast elements here
+                node->name = name;
                 flush_token_queue();
             } break;
 

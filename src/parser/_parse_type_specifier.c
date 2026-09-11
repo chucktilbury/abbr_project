@@ -12,12 +12,17 @@
  *      : literal_type
  *      | compound_name
  *      ;
+ *
+ *  typedef struct _ast_type_specifier_t {
+ *      ast_node_t node;
+ *      ast_node_t* item;
+ *  } ast_type_specifier_t;
  */
 ast_type_specifier_t* _parse_type_specifier(parser_context_t* context) {
 
     ENTER;
     ast_type_specifier_t* node = NULL;
-    // ast elements here
+    ast_node_t* item;
 
     int finished = 0;
     int state = START_STATE;
@@ -27,12 +32,24 @@ ast_type_specifier_t* _parse_type_specifier(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_literal_type(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = START_STATE+1;
+            } break;
+
+            case START_STATE+1: {
+                TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_compound_name(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = RETURN_NO_MATCH;
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_type_specifier_t*)create_ast_node(AST_TYPE_SPECIFIER);
-                // ast elements here
+                node->item = item;
                 flush_token_queue();
             } break;
 

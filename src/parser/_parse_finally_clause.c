@@ -11,12 +11,17 @@
  *  finally_clause
  *      : 'finally' function_body
  *      ;
+ *
+ *  typedef struct _ast_finally_clause_t {
+ *      ast_node_t node;
+ *      struct _ast_function_body_t* function_body;
+ *  } ast_finally_clause_t;
  */
 ast_finally_clause_t* _parse_finally_clause(parser_context_t* context) {
 
     ENTER;
     ast_finally_clause_t* node = NULL;
-    // ast elements here
+    ast_function_body_t* function_body = NULL;
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +31,29 @@ ast_finally_clause_t* _parse_finally_clause(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(TOKEN_TYPE == TOK_FINALLY) {
+                    consume_token();
+                    state = START_STATE+1;
+                }
+                else
+                    state = RETURN_NO_MATCH;
+            } break;
+
+            case START_STATE+1: {
+                TRACE_STATE;
+                if(NULL != (function_body = _parse_function_body(context))) {
+                    state = RETURN_MATCH;
+                }
+                else {
+                    parser_error(context, "expected a function body");
+                    state = RETURN_ERROR;
+                }
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_finally_clause_t*)create_ast_node(AST_FINALLY_CLAUSE);
-                // ast elements here
+                node->function_body = function_body;
                 flush_token_queue();
             } break;
 

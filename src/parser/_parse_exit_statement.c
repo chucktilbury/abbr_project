@@ -9,7 +9,7 @@
 
 /*
  *  exit_statement
- *      : 'exit' '(' expression? ')'
+ *      : 'exit' ( '(' expression? ')' )?
  *      ;
  */
 ast_exit_statement_t* _parse_exit_statement(parser_context_t* context) {

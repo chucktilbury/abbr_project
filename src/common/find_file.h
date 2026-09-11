@@ -3,7 +3,7 @@
 
 #include "string_buffer.h"
 
-const char* find_file(const char* fname);
+string_t* find_file(const char* fname);
 void add_dir_to_search(string_t* str);
 void setup_env(void);
 

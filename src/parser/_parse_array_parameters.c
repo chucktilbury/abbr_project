@@ -11,12 +11,17 @@
  *  array_parameters
  *      : '[' (array_parameters | expression) ']'
  *      ;
+ *
+ *  typedef struct _ast_array_parameters_t {
+ *      ast_node_t node;
+ *      ast_node_t* item;
+ *  } ast_array_parameters_t;
  */
 ast_array_parameters_t* _parse_array_parameters(parser_context_t* context) {
 
     ENTER;
     ast_array_parameters_t* node = NULL;
-    // ast elements here
+    ast_node_t* item = NULL;
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +31,24 @@ ast_array_parameters_t* _parse_array_parameters(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_array_parameters(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = START_STATE+1;
+            } break;
+
+            case START_STATE+1: {
+                TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_expression(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = RETURN_NO_MATCH;
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_array_parameters_t*)create_ast_node(AST_ARRAY_PARAMETERS);
-                // ast elements here
+                node->item = item;
                 flush_token_queue();
             } break;
 

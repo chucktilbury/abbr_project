@@ -11,12 +11,17 @@
  *  return_statement
  *      : 'return' ( '(' expression? ')' )?
  *      ;
+ *
+ *  typedef struct _ast_return_statement_t {
+ *      ast_node_t node;
+ *      struct _ast_expression_t* expr;
+ *  } ast_return_statement_t;
  */
 ast_return_statement_t* _parse_return_statement(parser_context_t* context) {
 
     ENTER;
     ast_return_statement_t* node = NULL;
-    // ast elements here
+    ast_expression_t* expr;
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +31,49 @@ ast_return_statement_t* _parse_return_statement(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(TOKEN_TYPE == TOK_RETURN) {
+                    consume_token();
+                    state = START_STATE+1;
+                }
+                else
+                    state = RETURN_NO_MATCH;
+            } break;
+
+            // optional '('
+            case START_STATE+1: {
+                TRACE_STATE;
+                if(TOKEN_TYPE == TOK_LPAREN) {
+                    consume_token();
+                    state = START_STATE+2;
+                }
+                else
+                    state = RETURN_MATCH;
+            } break;
+
+            // optional expression
+            case START_STATE+2: {
+                TRACE_STATE;
+                expr = _parse_expression(context);
+                state = START_STATE+3;
+            } break;
+
+            // required ');
+            case START_STATE+3: {
+                TRACE_STATE;
+                if(TOKEN_TYPE == TOK_RETURN) {
+                    consume_token();
+                    state = RETURN_MATCH;
+                }
+                else {
+                    parser_error(context, "expected a ')'");
+                    state = RETURN_ERROR;
+                }
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_return_statement_t*)create_ast_node(AST_RETURN_STATEMENT);
-                // ast elements here
+                node->expr = expr;
                 flush_token_queue();
             } break;
 

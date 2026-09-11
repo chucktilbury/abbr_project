@@ -27,6 +27,7 @@ ast_import_statement_t* _parse_import_statement(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                state = RETURN_NO_MATCH;
             } break;
 
             case RETURN_MATCH: {

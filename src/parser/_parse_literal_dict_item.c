@@ -11,12 +11,19 @@
  *  literal_dict_item
  *      : string_literal ':' const_value
  *      ;
+ *
+ *  typedef struct _ast_literal_dict_item_t {
+ *      ast_node_t node;
+ *      struct _ast_string_literal_t* literal_str;
+ *      struct _ast_const_value_t* const_value;
+ *  } ast_literal_dict_item_t;
  */
 ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
 
     ENTER;
     ast_literal_dict_item_t* node = NULL;
-    // ast elements here
+    ast_string_literal_t* literal_str = NULL;
+    ast_const_value_t* const_value = NULL;
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +33,39 @@ ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(NULL != (literal_str = _parse_string_literal(context)))
+                    state = START_STATE+1;
+                else
+                    state = RETURN_NO_MATCH;
+            } break;
+
+            case START_STATE+1: {
+                TRACE_STATE;
+                if(TOKEN_TYPE == TOK_COLON) {
+                    consume_token();
+                    state = START_STATE+2;
+                }
+                else {
+                    parser_error(context, "expected a ':'");
+                    state = RETURN_ERROR;
+                }
+            } break;
+
+            case START_STATE+2: {
+                TRACE_STATE;
+                if(NULL != (const_value = _parse_const_value(context)))
+                    state = RETURN_MATCH;
+                else {
+                    parser_error(context, "expected a constant value");
+                    state = RETURN_ERROR;
+                }
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_literal_dict_item_t*)create_ast_node(AST_LITERAL_DICT_ITEM);
-                // ast elements here
+                node->literal_str = literal_str;
+                node->const_value = const_value;
                 flush_token_queue();
             } break;
 

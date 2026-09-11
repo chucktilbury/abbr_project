@@ -411,7 +411,6 @@ static inline void _traverse_constructor_declaration(ast_constructor_declaration
 static inline void _traverse_destructor_declaration(ast_destructor_declaration_t* node) {
     TRAVERSE_ENTER;
 
-    SHOW_TOKEN_TYPE(node->tok);
     if(node->func_body != NULL)
         _traverse_function_body(node->func_body);
 
@@ -695,23 +694,19 @@ static inline void _traverse_literal_dict_definition(ast_literal_dict_definition
 static inline void _traverse_primary_expression(ast_primary_expression_t* node) {
     TRAVERSE_ENTER;
 
-    if(node->value != NULL) {
-        switch(NODE_TYPE(node->value)) {
-            case AST_LITERAL_STRING:
-                _traverse_literal_string((ast_literal_string_t*)node->value);
-                break;
-            case AST_LITERAL_NUMBER:
-                _traverse_literal_number((ast_literal_number_t*)node->value);
-                break;
-            case AST_COMPOUND_REFERENCE:
-                _traverse_compound_reference((ast_compound_reference_t*)node->value);
-                break;
-            default:
-                FATAL("unknown node type");
-        }
+    switch(NODE_TYPE(node->value)) {
+        case AST_LITERAL_STRING:
+            _traverse_literal_string((ast_literal_string_t*)node->value);
+            break;
+        case AST_LITERAL_NUMBER:
+            _traverse_literal_number((ast_literal_number_t*)node->value);
+            break;
+        case AST_COMPOUND_REFERENCE:
+            _traverse_compound_reference((ast_compound_reference_t*)node->value);
+            break;
+        default:
+            FATAL("unknown node type");
     }
-    else
-        SHOW_TOKEN_TYPE(node->value_type);
 
     RETURN();
 }
@@ -748,8 +743,8 @@ static inline void _traverse_compound_reference(ast_compound_reference_t* node) 
     TRAVERSE_ENTER;
 
     int mark = 0;
-    for(ast_node_t* ptr = iterate_ast_node_list(node->item, &mark);
-                ptr != NULL; ptr = iterate_ast_node_list(node->item, &mark)) {
+    for(ast_node_t* ptr = iterate_ast_node_list(node->list, &mark);
+                ptr != NULL; ptr = iterate_ast_node_list(node->list, &mark)) {
         _traverse_compound_reference_item((ast_compound_reference_item_t*)ptr);
     }
 
@@ -853,6 +848,7 @@ static inline void _traverse_array_parameters(ast_array_parameters_t* node) {
  *      | raise_statement
  *      | return_statement
  *      | inline_statement
+ *      | function_body
  *      ;
  */
 static inline void _traverse_function_body_item(ast_function_body_item_t* node) {
@@ -882,6 +878,9 @@ static inline void _traverse_function_body_item(ast_function_body_item_t* node) 
             break;
         case AST_INLINE_STATEMENT:
             _traverse_inline_statement((ast_inline_statement_t*)node->item);
+            break;
+        case AST_FUNCTION_BODY:
+            _traverse_function_body((ast_function_body_t*)node->item);
             break;
         default:
             FATAL("invalid node type");
@@ -945,6 +944,7 @@ static inline void _traverse_flow_statement(ast_flow_statement_t* node) {
  *      | yield_statement
  *      | break_statement
  *      | continue_statement
+ *      | loop_body
  *      ;
  */
 static inline void _traverse_loop_body_item(ast_loop_body_item_t* node) {
@@ -964,12 +964,12 @@ static inline void _traverse_loop_body_item(ast_loop_body_item_t* node) {
             case AST_CONTINUE_STATEMENT:
                 _traverse_continue_statement((ast_continue_statement_t*)node->item);
                 break;
+            case AST_LOOP_BODY:
+                _traverse_loop_body((ast_loop_body_t*)node->item);
+                break;
             default:
                 FATAL("invalid node type");
         }
-    }
-    else {
-        SHOW_TOKEN(node->keyword);
     }
 
     RETURN();
@@ -990,7 +990,7 @@ static inline void _traverse_yield_statement(ast_yield_statement_t* node) {
 
 /*
  *  loop_body
- *      : '{' (loop_body_item | loop_body)* '}'
+ *      : '{' loop_body_item* '}'
  *      ;
  */
 static inline void _traverse_loop_body(ast_loop_body_t* node) {
@@ -999,16 +999,7 @@ static inline void _traverse_loop_body(ast_loop_body_t* node) {
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->item, &mark);
                 ptr != NULL; ptr = iterate_ast_node_list(node->item, &mark)) {
-        switch(NODE_TYPE(ptr)) {
-            case AST_LOOP_BODY_ITEM:
-                _traverse_loop_body_item((ast_loop_body_item_t*)ptr);
-                break;
-            case AST_LOOP_BODY:
-                _traverse_loop_body((ast_loop_body_t*)ptr);
-                break;
-            default:
-                FATAL("invalid node type");
-        }
+        _traverse_loop_body_item((ast_loop_body_item_t*)ptr);
     }
 
     RETURN();
@@ -1016,7 +1007,7 @@ static inline void _traverse_loop_body(ast_loop_body_t* node) {
 
 /*
  *  function_body
- *      : '{' (function_body_item | function_body)+ '}'
+ *      : '{' function_body_item+ '}'
  *      ;
  */
 static inline void _traverse_function_body(ast_function_body_t* node) {
@@ -1025,16 +1016,7 @@ static inline void _traverse_function_body(ast_function_body_t* node) {
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->item, &mark);
                 ptr != NULL; ptr = iterate_ast_node_list(node->item, &mark)) {
-        switch(NODE_TYPE(ptr)) {
-            case AST_FUNCTION_BODY_ITEM:
-                _traverse_function_body_item((ast_function_body_item_t*)ptr);
-                break;
-            case AST_FUNCTION_BODY:
-                _traverse_function_body((ast_function_body_t*)ptr);
-                break;
-            default:
-                FATAL("invalid node type");
-        }
+        _traverse_function_body_item((ast_function_body_item_t*)ptr);
     }
 
     RETURN();

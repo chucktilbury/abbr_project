@@ -109,9 +109,9 @@ void setup_env(void) {
  * @brief Find a file. Returns the full path given just the name.
  *
  * @param fname
- * @return const char*
+ * @return string_t*
  */
-const char* find_file(const char* fname) {
+string_t* find_file(const char* fname) {
 
     ENTER;
 
@@ -152,9 +152,9 @@ const char* find_file(const char* fname) {
     _FREE(tmp_name);
 
     if(found == NULL)
-        RETURN(fname);
+        RETURN(create_string(fname));
     else
-        RETURN(found);
+        RETURN(create_string(found));
 }
 
 /**

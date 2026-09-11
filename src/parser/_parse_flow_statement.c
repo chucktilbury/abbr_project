@@ -15,12 +15,17 @@
  *      | do_clause
  *      | try_clause
  *      ;
+ *
+ *  typedef struct _ast_flow_statement_t {
+ *      ast_node_t node;
+ *      ast_node_t* item;
+ *  } ast_flow_statement_t;
  */
 ast_flow_statement_t* _parse_flow_statement(parser_context_t* context) {
 
     ENTER;
     ast_flow_statement_t* node = NULL;
-    // ast elements here
+    ast_node_t* item = NULL;
 
     int finished = 0;
     int state = START_STATE;
@@ -30,12 +35,48 @@ ast_flow_statement_t* _parse_flow_statement(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_if_clause(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = START_STATE+1;
+            } break;
+
+            case START_STATE+1: {
+                TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_for_clause(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = START_STATE+2;
+            } break;
+
+            case START_STATE+2: {
+                TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_while_clause(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = START_STATE+3;
+            } break;
+
+            case START_STATE+3: {
+                TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_do_clause(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = START_STATE+4;
+            } break;
+
+            case START_STATE+4: {
+                TRACE_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_try_clause(context)))
+                    state = RETURN_MATCH;
+                else
+                    state = RETURN_NO_MATCH;
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_flow_statement_t*)create_ast_node(AST_FLOW_STATEMENT);
-                // ast elements here
+                node->item = item;
                 flush_token_queue();
             } break;
 

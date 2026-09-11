@@ -297,7 +297,7 @@ formatted_string
     ;
 
 literal_array_definition
-    : '[' const_value (',' const_value)* ']'
+    : '[' ( const_value (',' const_value)* )? ']'
     ;
 
 literal_dict_item
@@ -305,7 +305,7 @@ literal_dict_item
     ;
 
 literal_dict_definition
-    : '[' literal_dict_item (',' literal_dict_item)* ']'
+    : '[' ( literal_dict_item (',' literal_dict_item)* )? ']'
     ;
 
 primary_expression
@@ -340,13 +340,13 @@ compound_reference_item
     ;
 
 function_reference
-    : identifier '(' expression (',' expression)* ')'
+    : identifier '(' ( expression (',' expression)* )? ')'
     ;
 
 # Either arrays can hold any type as objects or only the same type as
 # a normal array.
 array_reference
-    : identifier array_parameters (array_parameters)*
+    : identifier array_parameters+
     ;
 
 array_parameters
@@ -362,6 +362,7 @@ function_body_item
     | raise_statement
     | return_statement
     | inline_statement
+    | function_body
     ;
 
 # Returned as a TOK_INLINE token. The RAW_TEXT is valid C,
@@ -388,6 +389,7 @@ loop_body_item
     | yield_statement
     | break_statement
     | continue_statement
+    | loop_body
     ;
 
 break_statement
@@ -404,12 +406,12 @@ yield_statement
 
 # loop body could be empty
 loop_body
-    : '{' (loop_body_item | loop_body)* '}'
+    : '{' loop_body_item* '}'
     ;
 
 # function body requires at least one item
 function_body
-    : '{' (function_body_item | function_body)+ '}'
+    : '{' function_body_item+ '}'
     ;
 
 assignment

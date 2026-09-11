@@ -11,12 +11,17 @@
  *  raise_statement
  *      : 'raise' '(' compound_name ')'
  *      ;
+ *
+ *  typedef struct _ast_raise_statement_t {
+ *      ast_node_t node;
+ *      struct _ast_compound_name_t* compound_name;
+ *  } ast_raise_statement_t;
  */
 ast_raise_statement_t* _parse_raise_statement(parser_context_t* context) {
 
     ENTER;
     ast_raise_statement_t* node = NULL;
-    // ast elements here
+    ast_compound_name_t* compound_name = NULL;
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +31,56 @@ ast_raise_statement_t* _parse_raise_statement(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(TOKEN_TYPE == TOK_RAISE) {
+                    consume_token();
+                    state = START_STATE+1;
+                }
+                else
+                    state = RETURN_NO_MATCH;
+            } break;
+
+            // required '('
+            case START_STATE+1: {
+                TRACE_STATE;
+                if(TOKEN_TYPE == TOK_LPAREN) {
+                    consume_token();
+                    state = START_STATE+2;
+                }
+                else {
+                    parser_error(context, "expected a '('");
+                    state = RETURN_ERROR;
+                }
+            } break;
+
+            // required compound name
+            case START_STATE+2: {
+                TRACE_STATE;
+                if(NULL != (compound_name = _parse_compound_name(context))) {
+                    state = START_STATE+3;
+                }
+                else {
+                    parser_error(context, "expected a class name");
+                    state = RETURN_ERROR;
+                }
+            } break;
+
+            // required ')'
+            case START_STATE+3: {
+                TRACE_STATE;
+                if(TOKEN_TYPE == TOK_RPAREN) {
+                    consume_token();
+                    state = RETURN_MATCH;
+                }
+                else {
+                    parser_error(context, "expected a ')'");
+                    state = RETURN_ERROR;
+                }
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_raise_statement_t*)create_ast_node(AST_RAISE_STATEMENT);
-                // ast elements here
+                node->compound_name = compound_name;
                 flush_token_queue();
             } break;
 

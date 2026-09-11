@@ -94,6 +94,7 @@ typedef pointer_list_t ast_token_list_t;
 typedef struct _ast_module_t {
     ast_node_t node;
     ast_node_list_t* list;
+    bool start_clause;
 } ast_module_t;
 
 
@@ -274,7 +275,6 @@ typedef struct _ast_constructor_declaration_t {
  */
 typedef struct _ast_destructor_declaration_t {
     ast_node_t node;
-    token_type_t tok;
     struct _ast_function_body_t* func_body;
 } ast_destructor_declaration_t;
 
@@ -453,7 +453,7 @@ typedef struct _ast_literal_dict_item_t {
 
 /*
  *  literal_dict_definition
- *      : '[' literal_dict_item (',' literal_dict_item)* ']'
+ *      : '[' ( literal_dict_item (',' literal_dict_item)* )? ']'
  *      ;
  */
 typedef struct _ast_literal_dict_definition_t {
@@ -464,17 +464,13 @@ typedef struct _ast_literal_dict_definition_t {
 
 /*
  *  primary_expression
- *      : LITERAL_INT
- *      | LITERAL_UNS
- *      | LITERAL_FLOAT
- *      | LITERAL_BOOL
+ *      : literal_number
  *      | literal_string
  *      | compound_reference
  *      ;
  */
 typedef struct _ast_primary_expression_t {
     ast_node_t node;
-    token_type_t value_type;
     ast_node_t* value;
 } ast_primary_expression_t;
 
@@ -509,7 +505,7 @@ typedef struct _ast_expression_t {
  */
 typedef struct _ast_compound_reference_t {
     ast_node_t node;
-    ast_node_list_t* item;
+    ast_node_list_t* list;
 } ast_compound_reference_t;
 
 
@@ -572,6 +568,7 @@ typedef struct _ast_array_parameters_t {
  *      | raise_statement
  *      | return_statement
  *      | inline_statement
+ *      | function_body
  *      ;
  */
 typedef struct _ast_function_body_item_t {
@@ -612,11 +609,11 @@ typedef struct _ast_flow_statement_t {
  *      | yield_statement
  *      | break_statement
  *      | continue_statement
+ *      | loop_body
  *      ;
  */
 typedef struct _ast_loop_body_item_t {
     ast_node_t node;
-    token_t* keyword;
     ast_node_t* item;
 } ast_loop_body_item_t;
 
@@ -634,7 +631,7 @@ typedef struct _ast_yield_statement_t {
 
 /*
  *  loop_body
- *      : '{' (loop_body_item | loop_body)* '}'
+ *      : '{' loop_body_item* '}'
  *      ;
  */
 typedef struct _ast_loop_body_t {
@@ -645,7 +642,7 @@ typedef struct _ast_loop_body_t {
 
 /*
  *  function_body
- *      : '{' (function_body_item | function_body)+ '}'
+ *      : '{' function_body_item+ '}'
  *      ;
  */
 typedef struct _ast_function_body_t {
@@ -879,7 +876,7 @@ typedef struct _ast_literal_number_t {
 } ast_literal_number_t;
 
 /*
- *  literal_type_specifier
+ *  literal_type
  *      : ('integer' | 'int')
  *      | ('boolean' | 'bool')
  *      | 'string'

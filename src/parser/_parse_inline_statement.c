@@ -11,12 +11,17 @@
  *  inline_statement
  *      : 'inline' '{' RAW_TEXT '}'
  *      ;
+ *
+ *  typedef struct _ast_inline_statement_t {
+ *      ast_node_t node;
+ *      string_t* str;
+ *  } ast_inline_statement_t;
  */
 ast_inline_statement_t* _parse_inline_statement(parser_context_t* context) {
 
     ENTER;
     ast_inline_statement_t* node = NULL;
-    // ast elements here
+    string_t* str;
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +31,19 @@ ast_inline_statement_t* _parse_inline_statement(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(TOKEN_TYPE == TOK_INLINE) {
+                    str = copy_string(get_token()->text);
+                    consume_token();
+                    state = RETURN_MATCH;
+                }
+                else
+                    state = RETURN_NO_MATCH;
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_inline_statement_t*)create_ast_node(AST_INLINE_STATEMENT);
-                // ast elements here
+                node->str = str;
                 flush_token_queue();
             } break;
 

@@ -21,10 +21,12 @@ typedef enum {
 } parser_scope_t;
 
 typedef enum {
-    START_STATE,
-    RETURN_MATCH,
-    RETURN_NO_MATCH,
-    RETURN_ERROR,
+    START_STATE = 100,
+    REPEAT_STATE = 200,
+    RETURN_MATCH = 300,
+    RETURN_NO_MATCH = 400,
+    RETURN_ERROR = 500,
+    USER_STATE = 1000,
 } parser_state_t;
 
 typedef struct _parser_state_t {
@@ -46,7 +48,6 @@ void recover_parser_error(parser_context_t* context);
 
 void parser_error(parser_context_t* context, const char* fmt, ...);
 void parser_warning(parser_context_t* context, const char* fmt, ...);
-
 
 ast_module_t* _parse_module(parser_context_t* context);
 ast_start_clause_t* _parse_start_clause(parser_context_t* context);
@@ -124,6 +125,8 @@ ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
 #else
 #define TRACE_STATE
 #endif
+
+#define TOKEN_TYPE (get_token()->type)
 
 #endif /* _PARSER_H_ */
 

@@ -11,12 +11,16 @@
  *  break_statement
  *      : 'break'
  *      ;
+ *
+ *  typedef struct _ast_break_statement_t {
+ *      ast_node_t node;
+ *  } ast_break_statement_t;
  */
 ast_break_statement_t* _parse_break_statement(parser_context_t* context) {
 
     ENTER;
     ast_break_statement_t* node = NULL;
-    // ast elements here
+    // no ast elements
 
     int finished = 0;
     int state = START_STATE;
@@ -26,12 +30,18 @@ ast_break_statement_t* _parse_break_statement(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                if(TOKEN_TYPE == TOK_BREAK) {
+                    consume_token();
+                    state = RETURN_MATCH;
+                }
+                else
+                    state = RETURN_NO_MATCH;
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_break_statement_t*)create_ast_node(AST_BREAK_STATEMENT);
-                // ast elements here
+                // no ast elements
                 flush_token_queue();
             } break;
 
