@@ -1,5 +1,5 @@
-# Abbr
-This is the **Abbr** abbreviated programming language. The **Abbr** language is a synthesis of C, C++, and Python. I have taken all of the features that I like from them and left out the ones that I don't like to create a complete and useful way to develop object oriented software quickly and easily from a platform that is easy and fun to use.
+# Simple
+This is the **Simple** abbreviated programming language. The **Simple** language is a synthesis of C, C++, and Python. I have taken all of the features that I like from them and left out the ones that I don't like to create a complete and useful way to develop object oriented software quickly and easily from a platform that is easy and fun to use.
 
 Full featured application development language that uses the C programming language as the intermediate representation.
 
@@ -37,6 +37,29 @@ The syntax is similar to C/C++ but without some of the crust that is has accumul
 * No **'virtual'** keyword
 * No need to explicitly initialize members.
 * No operator overloads
+
+## Building
+
+### Dependencies
+
+I have done my best to make this build tree as self-contained as possible.
+
+    * This is developed and tested under a recent version of Debian Linux.
+    * An ANSI C compiler. Clang is the default build. Choose at the bottom of ``.project_env``.
+    * CMAKE and gnu/linux make.
+    * Doxygen and Graphviz to build the documentation
+    * This compiler uses garbage collection from (here)[https://github.com/bdwgc/bdwgc]
+        * a stripped down version is in this build tree
+    * The scripts provided use BASH shell. If you want to use another shell that is probably doable, but you are on your own.
+
+### Build system
+
+The build system uses scripts to do common tasks.
+
+    * ``./scripts/setup`` -- Sets up some BASH functions and adjusts the ``$PATH`` to point to the output directory. Simply type ``exit`` to leave the build system.
+    * ``./scripts/clean`` -- Delete all of the generated directories.
+    * ``build`` and ``rebuild`` -- Run ``make -j24`` for a quick rebuild. Normally, I build in a single thread to track warnings better.
+    * ``showdocs`` -- Start firefox with the Doxygen web interface to the source code.
 
 ## Syntax Example
 
@@ -113,6 +136,9 @@ start {
 ```
 
 ## This is a complete grammar for Abbr
+
+This is the grammar that the parser and scanner are written to...
+
 ```
 #####################################################################
 #
