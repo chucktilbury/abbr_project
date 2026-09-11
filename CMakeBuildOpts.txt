@@ -12,6 +12,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/parser
     ${CMAKE_SOURCE_DIR}/src/scanner
     ${CMAKE_SOURCE_DIR}/src/ast
+    ${CMAKE_SOURCE_DIR}/src/ast/traverse
     "/usr/local/include"
 )
 
