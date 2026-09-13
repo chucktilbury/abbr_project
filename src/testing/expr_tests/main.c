@@ -1,9 +1,9 @@
 
-#include <stdio.h>
 #include "expression.h"
 #include "ast_node.h"
-#include "tree_to_dot.h"
 #include "solver.h"
+#include "tree_to_dot.h"
+#include <stdio.h>
 
 token_t token_list[] = {
     { TOK_LPAREN, "(" },

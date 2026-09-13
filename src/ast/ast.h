@@ -5,8 +5,6 @@
 #ifndef _AST_H_
 #define _AST_H_
 
-#include "common.h"
-
 typedef enum {
     AST_MODULE = 512,
     AST_START_CLAUSE = 513,
@@ -75,9 +73,6 @@ typedef enum {
     AST_IDENTIFIER = 576,
 } ast_type_t;
 
-typedef pointer_list_t ast_node_list_t;
-typedef pointer_list_t ast_token_list_t;
-
 #include "ast_struct.h"
 #include "traverse.h"
 
@@ -91,7 +86,8 @@ ast_node_list_t* create_ast_node_list(void);
 void destroy_ast_node_list(ast_node_list_t* lst);
 void append_ast_node_list(ast_node_list_t* lst, ast_node_t* node);
 ast_node_t* iterate_ast_node_list(ast_node_list_t* lst, int* mark);
+void push_ast_node_list(ast_node_list_t* ptr, ast_node_t* node);
+ast_node_t* pop_ast_node_list(ast_node_list_t* ptr);
+ast_node_t* peek_ast_node_list(ast_node_list_t* ptr);
 
 #endif /* _AST_H_ */
-
-

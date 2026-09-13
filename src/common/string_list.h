@@ -1,8 +1,8 @@
 #ifndef _STRING_LIST_H_
 #define _STRING_LIST_H_
 
-#include "string_buffer.h"
 #include "pointer_list.h"
+#include "string_buffer.h"
 
 typedef pointer_list_t string_list_t;
 

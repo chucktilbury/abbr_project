@@ -61,81 +61,8 @@ The build system uses scripts to do common tasks.
     * ``build`` and ``rebuild`` -- Run ``make -j24`` for a quick rebuild. Normally, I build in a single thread to track warnings better.
     * ``showdocs`` -- Start firefox with the Doxygen web interface to the source code.
 
-## Syntax Example
 
-```
-// This is a comment
-; This is a comment
-/*
-    This is a comment
-*/
-
-// import copies the symbols so they can be linked later
-// include copies the physical file
-import System as sys
-
-namespace flarp {
-    // default scope is private
-    class SomeThing(public sys.BaseClass(initializing_thing) ){
-        // class, public, private, construct, destroy, and nothing are keywords
-        public
-        construct(int n)
-        construct(string s)
-        destroy
-        nothing some_func() {
-            // defined inline but it's the same as not
-            // print is a library routine
-            sys.print("the numeric value is {}\nthestring value is {}\n"(num, str))
-        }
-
-        private
-        string str
-        int num
-    }
-
-    // these do not have to be in the same file...
-    SomeThing.construct(int n) {
-        num = n
-    }
-
-    Something.construct(string s) {
-        str = s
-    }
-
-    Something.destroy {
-        // important things, in addition to the default destructor
-    }
-
-    // There is no need to define methods inside the class unless you just want to
-    nothing SomeThing.some_func(int n) {
-        // This override becomes a private member of the class
-    }
-
-    public nothing SomeThing.some_func(string s) {
-        // This adds a public function override to the class
-    }
-}
-
-// Program entry point. There must be exactly one in the root context.
-// the word "start" is a keyword.
-start {
-    try {
-        int x = sys.some_class.some_func_or_other()
-        flarp.Something foob(12)
-        foob.some_func()
-    }
-    except(SystemError as e) {
-        thing.print("something bad happened with {}\n"(e))
-        exit(1)
-    }
-    except(sys.ThingError as e) {
-        thing.print("there was a system error: {}\n"(e))
-    }
-}
-
-```
-
-## This is a complete grammar for Abbr
+## This is a complete grammar for Simple
 
 This is the grammar that the parser and scanner are written to...
 
@@ -494,5 +421,79 @@ finally_clause
 exit_statement
     : 'exit' '(' expression? ')'
     ;
+
+```
+
+## Syntax Examples
+
+```
+// This is a comment
+; This is a comment
+/*
+    This is a comment
+*/
+
+// import copies the symbols so they can be linked later
+// include copies the physical file
+import System as sys
+
+namespace flarp {
+    // default scope is private
+    class SomeThing(public sys.BaseClass(initializing_thing) ){
+        // class, public, private, construct, destroy, and nothing are keywords
+        public
+        construct(int n)
+        construct(string s)
+        destroy
+        nothing some_func() {
+            // defined inline but it's the same as not
+            // print is a library routine
+            sys.print("the numeric value is {}\nthestring value is {}\n"(num, str))
+        }
+
+        private
+        string str
+        int num
+    }
+
+    // these do not have to be in the same file...
+    SomeThing.construct(int n) {
+        num = n
+    }
+
+    Something.construct(string s) {
+        str = s
+    }
+
+    Something.destroy {
+        // important things, in addition to the default destructor
+    }
+
+    // There is no need to define methods inside the class unless you just want to
+    nothing SomeThing.some_func(int n) {
+        // This override becomes a private member of the class
+    }
+
+    public nothing SomeThing.some_func(string s) {
+        // This adds a public function override to the class
+    }
+}
+
+// Program entry point. There must be exactly one in the root context.
+// the word "start" is a keyword.
+start {
+    try {
+        int x = sys.some_class.some_func_or_other()
+        flarp.Something foob(12)
+        foob.some_func()
+    }
+    except(SystemError as e) {
+        thing.print("something bad happened with {}\n"(e))
+        exit(1)
+    }
+    except(sys.ThingError as e) {
+        thing.print("there was a system error: {}\n"(e))
+    }
+}
 
 ```

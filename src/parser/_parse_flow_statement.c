@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -38,34 +38,34 @@ ast_flow_statement_t* _parse_flow_statement(parser_context_t* context) {
                 if(NULL != (item = (ast_node_t*)_parse_if_clause(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_for_clause(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_while_clause(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_do_clause(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_try_clause(context)))
                     state = RETURN_MATCH;
@@ -97,4 +97,3 @@ ast_flow_statement_t* _parse_flow_statement(parser_context_t* context) {
 
     RETURN(node);
 }
-

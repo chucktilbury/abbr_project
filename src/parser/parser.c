@@ -3,10 +3,10 @@
  * this is a generated file
  */
 
-#include <stdarg.h>
-#include "common.h"
 #include "parser.h"
 #include "ast.h"
+#include "common.h"
+#include <stdarg.h>
 
 ast_node_t* parse(void) {
     ENTER;
@@ -72,4 +72,3 @@ void parser_warning(parser_context_t* context, const char* fmt, ...) {
 
     context->warnings++;
 }
-

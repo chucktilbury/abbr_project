@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -36,31 +36,31 @@ ast_constructor_definition_t* _parse_constructor_definition(parser_context_t* co
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (group = _parse_identifier(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_DOT) {
                     consume_token();
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else // could be something else....
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (parms = _parse_function_definition_parameters(context)))
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 else // could be a compound name or something else
                     state = RETURN_NO_MATCH;
             } break;
 
             // function body is required now....
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (body = _parse_function_body(context)))
                     state = RETURN_MATCH;
@@ -96,4 +96,3 @@ ast_constructor_definition_t* _parse_constructor_definition(parser_context_t* co
 
     RETURN(node);
 }
-

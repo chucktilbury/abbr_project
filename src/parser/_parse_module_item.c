@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 // for open_file();
@@ -57,10 +57,10 @@ ast_module_item_t* _parse_module_item(parser_context_t* context) {
                 if(NULL != (item = (ast_node_t*)_parse_namespace_item(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_include_statement(context))) {
                     // debugging strategy
@@ -70,10 +70,10 @@ ast_module_item_t* _parse_module_item(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_import_statement(context))) {
                     const char* str = raw_string(((ast_include_statement_t*)item)->str->str);
@@ -109,4 +109,3 @@ ast_module_item_t* _parse_module_item(parser_context_t* context) {
 
     RETURN(node);
 }
-

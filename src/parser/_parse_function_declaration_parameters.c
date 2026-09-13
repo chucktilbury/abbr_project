@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -35,14 +35,14 @@ ast_function_declaration_parameters_t* _parse_function_declaration_parameters(pa
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // first one...
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = _parse_function_decl_parameter(context))) {
                     list = create_ast_node_list();
@@ -58,7 +58,7 @@ ast_function_declaration_parameters_t* _parse_function_declaration_parameters(pa
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_COMMA) {
                     consume_token();
-                    state = REPEAT_STATE+1;
+                    state = REPEAT_STATE + 1;
                 }
                 else if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
@@ -70,7 +70,7 @@ ast_function_declaration_parameters_t* _parse_function_declaration_parameters(pa
                 }
             } break;
 
-            case REPEAT_STATE+1: {
+            case REPEAT_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = _parse_function_decl_parameter(context))) {
                     append_ast_node_list(list, (ast_node_t*)item);
@@ -106,4 +106,3 @@ ast_function_declaration_parameters_t* _parse_function_declaration_parameters(pa
 
     RETURN(node);
 }
-

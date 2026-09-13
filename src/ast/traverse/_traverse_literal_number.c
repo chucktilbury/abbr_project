@@ -17,4 +17,3 @@ void _traverse_literal_number(ast_literal_number_t* node) {
     // not showing the union with the actual values. This is set by the parser.
     RETURN();
 }
-

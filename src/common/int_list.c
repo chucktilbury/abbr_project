@@ -1,7 +1,7 @@
 
+#include "int_list.h"
 #include "alloc.h"
 #include "error.h"
-#include "int_list.h"
 
 
 int_list_t* create_int_list(void) {
@@ -24,7 +24,7 @@ void destroy_int_list(int_list_t* lst) {
 
 void append_int_list(int_list_t* lst, int val) {
 
-    if(lst->len+1 > lst->cap) {
+    if(lst->len + 1 > lst->cap) {
         lst->cap <<= 1;
         lst->buffer = _REALLOC_ARRAY(lst->buffer, int, lst->cap);
     }
@@ -50,7 +50,7 @@ int peek_int_list(int_list_t* lst) {
     int val;
 
     if(lst->len > 0)
-        val = lst->buffer[lst->len-1];
+        val = lst->buffer[lst->len - 1];
     else
         val = lst->buffer[0];
 
@@ -87,4 +87,3 @@ int iterate_int_list(int_list_t* lst, int* mark) {
 
     return val;
 }
-

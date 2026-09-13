@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -34,10 +34,10 @@ ast_array_parameters_t* _parse_array_parameters(parser_context_t* context) {
                 if(NULL != (item = (ast_node_t*)_parse_array_parameters(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_expression(context)))
                     state = RETURN_MATCH;
@@ -69,4 +69,3 @@ ast_array_parameters_t* _parse_array_parameters(parser_context_t* context) {
 
     RETURN(node);
 }
-

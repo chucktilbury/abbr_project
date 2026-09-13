@@ -25,4 +25,3 @@ void _traverse_type_specifier(ast_type_specifier_t* node) {
 
     RETURN();
 }
-

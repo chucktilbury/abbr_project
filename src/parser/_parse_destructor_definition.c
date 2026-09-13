@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -34,29 +34,29 @@ ast_destructor_definition_t* _parse_destructor_definition(parser_context_t* cont
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (group = _parse_identifier(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_DOT)
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // could still be a compound name or reference
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_DESTROY)
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (function_body = _parse_function_body(context)))
                     state = RETURN_MATCH;
@@ -91,4 +91,3 @@ ast_destructor_definition_t* _parse_destructor_definition(parser_context_t* cont
 
     RETURN(node);
 }
-

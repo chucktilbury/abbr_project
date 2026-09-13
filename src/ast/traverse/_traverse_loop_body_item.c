@@ -39,4 +39,3 @@ void _traverse_loop_body_item(ast_loop_body_item_t* node) {
 
     RETURN();
 }
-

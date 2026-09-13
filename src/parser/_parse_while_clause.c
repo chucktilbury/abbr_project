@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -35,36 +35,36 @@ ast_while_clause_t* _parse_while_clause(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_WHILE) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // optional '('
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
             // if the optional '(' is present, then optional expression
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 expr = _parse_expression(context);
-                state = START_STATE+3;
+                state = START_STATE + 3;
             } break;
 
             // required ')'
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 }
                 else {
                     parser_error(context, "expected a ')'");
@@ -73,7 +73,7 @@ ast_while_clause_t* _parse_while_clause(parser_context_t* context) {
             } break;
 
             // required loop body
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (loop_body = _parse_loop_body(context)))
                     state = RETURN_MATCH;
@@ -108,4 +108,3 @@ ast_while_clause_t* _parse_while_clause(parser_context_t* context) {
 
     RETURN(node);
 }
-

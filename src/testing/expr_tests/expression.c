@@ -1,8 +1,9 @@
+
+#include <ctype.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
-#include <math.h>
 
 #include "expression.h"
 
@@ -133,8 +134,7 @@ ast_node_t* infix_to_tree(token_t* token_list) {
                         pop_ast_node_list(stack);
                         break;
                     }
-                    else
-                        append_ast_node_list(queue, pop_ast_node_list(stack));
+                    append_ast_node_list(queue, pop_ast_node_list(stack));
 
                     if(peek_ast_node_list(stack) == NULL)
                         break;
@@ -208,7 +208,8 @@ ast_node_t* infix_to_tree(token_t* token_list) {
                 if(node != NULL) {
                     if(node->node.type == AST_LPAREN)
                         break;
-                    else if((precedence(node) > precedence(oper)) ||
+                    
+                    if((precedence(node) > precedence(oper)) ||
                             (precedence(node) == precedence(oper) && !associativity(oper))) {
                         append_ast_node_list(queue, pop_ast_node_list(stack));
                     }

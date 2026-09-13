@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -25,7 +25,7 @@
  *          unsigned char bnum;
  *      } value;
  *  } ast_literal_number_t;
-*/
+ */
 ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
 
     ENTER;
@@ -46,10 +46,10 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LITERAL_UNS) {
                     node->value_type = TOKEN_TYPE;
@@ -58,10 +58,10 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LITERAL_FLOAT) {
                     node->value_type = TOKEN_TYPE;
@@ -70,10 +70,10 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LITERAL_TRUE) {
                     node->value_type = TOKEN_TYPE;
@@ -82,10 +82,10 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LITERAL_FALSE) {
                     node->value_type = TOKEN_TYPE;
@@ -123,4 +123,3 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
 
     RETURN(node);
 }
-

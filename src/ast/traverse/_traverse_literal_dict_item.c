@@ -16,4 +16,3 @@ void _traverse_literal_dict_item(ast_literal_dict_item_t* node) {
 
     RETURN();
 }
-

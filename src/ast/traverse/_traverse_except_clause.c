@@ -21,4 +21,3 @@ void _traverse_except_clause(ast_except_clause_t* node) {
 
     RETURN();
 }
-

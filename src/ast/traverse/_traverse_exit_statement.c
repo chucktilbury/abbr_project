@@ -16,4 +16,3 @@ void _traverse_exit_statement(ast_exit_statement_t* node) {
 
     RETURN();
 }
-

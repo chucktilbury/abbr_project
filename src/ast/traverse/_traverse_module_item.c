@@ -31,4 +31,3 @@ void _traverse_module_item(ast_module_item_t* node) {
 
     RETURN();
 }
-

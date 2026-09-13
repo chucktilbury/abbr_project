@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -35,40 +35,40 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (identifier = _parse_identifier(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // required left paren
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // first expression
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_expression(context))) {
                     list = create_ast_node_list();
                     append_ast_node_list(list, item);
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
             } break;
 
             // looking for a ',' or a ')'
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_COMMA) {
                     consume_token();
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 }
                 else if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
@@ -81,11 +81,11 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
             } break;
 
             // get another expression
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_expression(context))) {
                     append_ast_node_list(list, item);
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else {
                     parser_error(context, "expected an expression");
@@ -94,7 +94,7 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
             } break;
 
             // required ending right paren for empty parens
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
@@ -131,4 +131,3 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
 
     RETURN(node);
 }
-

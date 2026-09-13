@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -35,26 +35,26 @@ ast_literal_dict_definition_t* _parse_literal_dict_definition(parser_context_t* 
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LSQUARE) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // first const value is optional
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_literal_dict_item(context))) {
                     list = create_ast_node_list();
                     append_ast_node_list(list, item);
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
             // expecting a ',' or a ']'
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RSQUARE) {
                     consume_token();
@@ -62,7 +62,7 @@ ast_literal_dict_definition_t* _parse_literal_dict_definition(parser_context_t* 
                 }
                 else if(TOKEN_TYPE == TOK_COMMA) {
                     consume_token();
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else {
                     parser_error(context, "expected a ',' or a ']'");
@@ -72,11 +72,11 @@ ast_literal_dict_definition_t* _parse_literal_dict_definition(parser_context_t* 
             } break;
 
             // const value after a comma is required
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_literal_dict_item(context))) {
                     append_ast_node_list(list, item);
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else {
                     parser_error(context, "expected a constant value");
@@ -85,7 +85,7 @@ ast_literal_dict_definition_t* _parse_literal_dict_definition(parser_context_t* 
             } break;
 
             // required ']'
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RSQUARE) {
                     consume_token();
@@ -121,4 +121,3 @@ ast_literal_dict_definition_t* _parse_literal_dict_definition(parser_context_t* 
 
     RETURN(node);
 }
-

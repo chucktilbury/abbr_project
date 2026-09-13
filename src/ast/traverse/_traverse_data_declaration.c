@@ -19,4 +19,3 @@ void _traverse_data_declaration(ast_data_declaration_t* node) {
 
     RETURN();
 }
-

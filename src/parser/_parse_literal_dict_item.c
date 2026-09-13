@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -34,16 +34,16 @@ ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (literal_str = _parse_string_literal(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_COLON) {
                     consume_token();
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else {
                     parser_error(context, "expected a ':'");
@@ -51,7 +51,7 @@ ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
                 }
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (const_value = _parse_const_value(context)))
                     state = RETURN_MATCH;
@@ -86,4 +86,3 @@ ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
 
     RETURN(node);
 }
-

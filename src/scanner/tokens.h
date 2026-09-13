@@ -14,34 +14,35 @@ typedef enum {
     TOK_LITERAL_UNS,
     TOK_LITERAL_FLOAT,
     // markers / operators
-    TOK_LITERAL_TRUE,   // "true"
-    TOK_LITERAL_FALSE,  // "false"
+    TOK_LITERAL_TRUE,  // "true"
+    TOK_LITERAL_FALSE, // "false"
     TOK_LPAREN,
     TOK_RPAREN,
     TOK_LSQUARE,
     TOK_RSQUARE,
     TOK_LCURLY,
     TOK_RCURLY,
-    TOK_LPOINTY,    // "<" AKA TOK_LT
-    TOK_RPOINTY,    // ">" AKA TOK_GT
+    TOK_LPOINTY, // "<" AKA TOK_LT
+    TOK_RPOINTY, // ">" AKA TOK_GT
     TOK_COMMA,
-    TOK_AMPER,      // "&"
-    TOK_PIPE,       // "|"
-    TOK_BANG,       // "!"
-    TOK_CARAT,      // "^" AKA TOK_POW
-    TOK_PERCENT,    // "%" AKA TOK_MOD
+    TOK_AMPER,   // "&"
+    TOK_PIPE,    // "|"
+    TOK_BANG,    // "!"
+    TOK_CARAT,   // "^" AKA TOK_POW
+    TOK_PERCENT, // "%" AKA TOK_MOD
     TOK_DOT,
     TOK_COLON,
     // arith operators
     TOK_DIV,
     TOK_MUL,
-    TOK_MOD,        // "%" AKA TOK_PERCENT
-    TOK_MINUS,
-    TOK_UNARY_MINUS,// assigned by expression parser
-    TOK_UNARY_PLUS, // assigned by expression parser
+    TOK_MOD, // "%" AKA TOK_PERCENT
+    // TOK_MINUS,
+    TOK_UNARY_MINUS, // assigned by expression parser
+    TOK_UNARY_PLUS,  // assigned by expression parser
     TOK_ADD,
-    TOK_ASSIGN,     // "="
-    TOK_POW,        // "^" AKA TOK_CARAT
+    TOK_SUB,
+    TOK_ASSIGN, // "="
+    TOK_POW,    // "^" AKA TOK_CARAT
     // logic operators
     TOK_EQU,        // "=="
     TOK_NEQ,        // "!="
@@ -57,41 +58,41 @@ typedef enum {
     TOK_MUL_ASSIGN, // "*="
     TOK_DIV_ASSIGN, // "/="
     // key words
-    TOK_NAMESPACE,  // "namespace"
-    TOK_INCLUDE,    // "include"
-    TOK_IMPORT,     // "import"
-    TOK_AS,         // "as"
-    TOK_CLASS,      // "class"
-    TOK_PUBLIC,     // "public"
-    TOK_PRIVATE,    // "private"
-    TOK_PROTECTED,  // "protected"
-    TOK_START,      // "start"
-    TOK_CREATE,     // "create"
-    TOK_DESTROY,    // "destroy"
-    TOK_IF,         // "if"
-    TOK_ELSE,       // "else"
-    TOK_FOR,        // "for"
-    TOK_WHILE,      // "while"
-    TOK_DO,         // "do"
-    TOK_BREAK,      // "break"
-    TOK_CONTINUE,   // "continue"
-    TOK_YIELD,      // "yield"
-    TOK_TRY,        // "try"
-    TOK_EXCEPT,     // "except"
-    TOK_RAISE,      // "raise"
-    TOK_RETURN,     // "return"
+    TOK_NAMESPACE, // "namespace"
+    TOK_INCLUDE,   // "include"
+    TOK_IMPORT,    // "import"
+    TOK_AS,        // "as"
+    TOK_CLASS,     // "class"
+    TOK_PUBLIC,    // "public"
+    TOK_PRIVATE,   // "private"
+    TOK_PROTECTED, // "protected"
+    TOK_START,     // "start"
+    TOK_CREATE,    // "create"
+    TOK_DESTROY,   // "destroy"
+    TOK_IF,        // "if"
+    TOK_ELSE,      // "else"
+    TOK_FOR,       // "for"
+    TOK_WHILE,     // "while"
+    TOK_DO,        // "do"
+    TOK_BREAK,     // "break"
+    TOK_CONTINUE,  // "continue"
+    TOK_YIELD,     // "yield"
+    TOK_TRY,       // "try"
+    TOK_EXCEPT,    // "except"
+    TOK_RAISE,     // "raise"
+    TOK_RETURN,    // "return"
     // native type names
-    TOK_INTEGER,    // "integer" | "int"
-    TOK_UNSIGNED,   // "unsigned"
-    TOK_FLOAT,      // "float"
-    TOK_STRING,     // "string"
-    TOK_DICT,       // "dictionary" | "dict" | "map"
-    TOK_ARRAY,      // "array" | "list"
-    TOK_BOOL,       // "boolean" | "bool"
-    TOK_NOTHING,    // "nothing" | "noth"
-    TOK_FINALLY,    // "finally"
-    TOK_EXIT,       // "exit"
-    TOK_INLINE,     // "inline"
+    TOK_INTEGER,  // "integer" | "int"
+    TOK_UNSIGNED, // "unsigned"
+    TOK_FLOAT,    // "float"
+    TOK_STRING,   // "string"
+    TOK_DICT,     // "dictionary" | "dict" | "map"
+    TOK_ARRAY,    // "array" | "list"
+    TOK_BOOL,     // "boolean" | "bool"
+    TOK_NOTHING,  // "nothing" | "noth"
+    TOK_FINALLY,  // "finally"
+    TOK_EXIT,     // "exit"
+    TOK_INLINE,   // "inline"
 } token_type_t;
 
 typedef struct _token_t {

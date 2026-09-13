@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -36,32 +36,32 @@ ast_data_declaration_t* _parse_data_declaration(parser_context_t* context) {
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (type_specifier = _parse_type_specifier(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (identifier = _parse_identifier(context)))
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else {
                     parser_error(context, "expected an identifier");
                     state = RETURN_ERROR;
                 }
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_ASSIGN) {
                     consume_token();
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else
                     state = RETURN_MATCH;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (const_value = _parse_const_value(context)))
                     state = RETURN_MATCH;
@@ -97,4 +97,3 @@ ast_data_declaration_t* _parse_data_declaration(parser_context_t* context) {
 
     RETURN(node);
 }
-

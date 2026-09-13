@@ -14,8 +14,8 @@ void _traverse_module(ast_module_t* node) {
 
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->list, &mark);
-                ptr != NULL;
-                ptr = iterate_ast_node_list(node->list, &mark)) {
+        ptr != NULL;
+        ptr = iterate_ast_node_list(node->list, &mark)) {
 
         switch(NODE_TYPE(ptr)) {
             case AST_MODULE_ITEM:
@@ -30,4 +30,3 @@ void _traverse_module(ast_module_t* node) {
     }
     RETURN();
 }
-

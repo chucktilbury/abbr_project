@@ -17,4 +17,3 @@ void _traverse_class_scope_operator(ast_class_scope_operator_t* node) {
 
     RETURN();
 }
-

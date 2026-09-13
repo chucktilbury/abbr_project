@@ -33,9 +33,7 @@ void _traverse_flow_statement(ast_flow_statement_t* node) {
             break;
         default:
             FATAL("invalid node type");
-
     }
 
     RETURN();
 }
-

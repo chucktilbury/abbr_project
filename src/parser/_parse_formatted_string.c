@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -37,24 +37,24 @@ ast_formatted_string_t* _parse_formatted_string(parser_context_t* context) {
                 if(TOKEN_TYPE == TOK_LITERAL_DSTR) {
                     literal_str = copy_string(get_token()->text);
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else
                     state = RETURN_MATCH;
             } break;
 
             // the first expression is optional
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_expression(context))) {
                     list = create_ast_node_list();
@@ -62,11 +62,11 @@ ast_formatted_string_t* _parse_formatted_string(parser_context_t* context) {
                     state = REPEAT_STATE;
                 }
                 else
-                    state = START_STATE+2; // no expressions, just the '()'
+                    state = START_STATE + 2; // no expressions, just the '()'
             } break;
 
             // required ')'
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
@@ -83,7 +83,7 @@ ast_formatted_string_t* _parse_formatted_string(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_COMMA) {
                     consume_token();
-                    state = REPEAT_STATE+1;
+                    state = REPEAT_STATE + 1;
                 }
                 else if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
@@ -95,7 +95,7 @@ ast_formatted_string_t* _parse_formatted_string(parser_context_t* context) {
                 }
             } break;
 
-            case REPEAT_STATE+1: {
+            case REPEAT_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_expression(context))) {
                     append_ast_node_list(list, item);
@@ -132,4 +132,3 @@ ast_formatted_string_t* _parse_formatted_string(parser_context_t* context) {
 
     RETURN(node);
 }
-

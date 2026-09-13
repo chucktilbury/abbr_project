@@ -15,4 +15,3 @@ void _traverse_start_clause(ast_start_clause_t* node) {
 
     RETURN();
 }
-

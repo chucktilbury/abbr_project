@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -35,50 +35,50 @@ ast_loop_body_t* _parse_loop_body(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LCURLY) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // first item is optional
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = _parse_loop_body_item(context))) {
                     list = create_ast_node_list();
                     append_ast_node_list(list, (ast_node_t*)item);
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
             // look for an optional '}'
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RCURLY) {
                     consume_token();
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
             // get another required item
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = _parse_loop_body_item(context))) {
                     append_ast_node_list(list, (ast_node_t*)item);
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
-                else  {
+                else {
                     parser_error(context, "expected a loop body item");
                     state = RETURN_ERROR;
                 }
             } break;
 
             // required '}'
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RCURLY) {
                     consume_token();
@@ -114,4 +114,3 @@ ast_loop_body_t* _parse_loop_body(parser_context_t* context) {
 
     RETURN(node);
 }
-

@@ -16,4 +16,3 @@ void _traverse_destructor_declaration(ast_destructor_declaration_t* node) {
 
     RETURN();
 }
-

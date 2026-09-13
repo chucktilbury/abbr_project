@@ -15,4 +15,3 @@ void _traverse_include_statement(ast_include_statement_t* node) {
     _traverse_string_literal(node->str);
     RETURN();
 }
-

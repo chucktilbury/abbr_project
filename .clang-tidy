@@ -10,7 +10,7 @@ Checks: >
   -misc-non-private-member-variables-in-classes,
   -misc-unused-parameters,
   -misc-use-anonymous-namespace,
-  readability-identifier-naming
+  -readability-identifier-naming.NewDelete
 
 CheckOptions:
   - key:             readability-identifier-naming.ClassCase

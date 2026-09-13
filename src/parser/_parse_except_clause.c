@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -37,18 +37,18 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_EXCEPT) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // parens are required
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else {
                     parser_error(context, "expected a '('");
@@ -57,10 +57,10 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
             } break;
 
             // compound name is required
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (compound_name = _parse_compound_name(context)))
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 else {
                     parser_error(context, "expected a compound identifier");
                     state = RETURN_ERROR;
@@ -68,29 +68,29 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
             } break;
 
             // the 'as' token is optional
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_AS) {
                     consume_token();
                     // require the identifier
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
                 }
                 else // require the ')'
-                    state = START_STATE+6;
+                    state = START_STATE + 6;
             } break;
 
             // required identifier
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(NULL != (identifier = _parse_identifier(context)))
-                    state = START_STATE+6;
+                    state = START_STATE + 6;
                 else {
                     parser_error(context, "expected an identifier");
                     state = RETURN_ERROR;
                 }
             } break;
 
-            case START_STATE+6: {
+            case START_STATE + 6: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
@@ -128,4 +128,3 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
 
     RETURN(node);
 }
-

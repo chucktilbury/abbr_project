@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -40,10 +40,10 @@ ast_literal_string_t* _parse_literal_string(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1:{
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (fstr = _parse_formatted_string(context)))
                     state = RETURN_MATCH;
@@ -76,4 +76,3 @@ ast_literal_string_t* _parse_literal_string(parser_context_t* context) {
 
     RETURN(node);
 }
-

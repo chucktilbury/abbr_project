@@ -20,4 +20,3 @@ void _traverse_literal_string(ast_literal_string_t* node) {
 
     RETURN();
 }
-

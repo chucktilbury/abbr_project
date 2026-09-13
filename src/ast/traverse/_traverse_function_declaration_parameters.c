@@ -13,9 +13,8 @@ void _traverse_function_declaration_parameters(ast_function_declaration_paramete
 
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->item, &mark);
-                ptr != NULL; ptr = iterate_ast_node_list(node->item, &mark)) {
+        ptr != NULL; ptr = iterate_ast_node_list(node->item, &mark)) {
         _traverse_function_decl_parameter((ast_function_decl_parameter_t*)ptr);
     }
     RETURN();
 }
-

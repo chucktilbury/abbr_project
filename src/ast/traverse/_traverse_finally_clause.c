@@ -15,4 +15,3 @@ void _traverse_finally_clause(ast_finally_clause_t* node) {
 
     RETURN();
 }
-

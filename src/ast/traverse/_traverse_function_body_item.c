@@ -53,4 +53,3 @@ void _traverse_function_body_item(ast_function_body_item_t* node) {
 
     RETURN();
 }
-

@@ -22,7 +22,7 @@ string_t* create_string_fmt(const char* fmt, ...) {
     size_t len = vsnprintf(NULL, 0, fmt, args);
     va_end(args);
 
-    char* tmp = _ALLOC(len+1);
+    char* tmp = _ALLOC(len + 1);
     va_start(args, fmt);
     vsprintf(tmp, fmt, args);
     va_end(args);
@@ -48,7 +48,7 @@ void append_string_fmt(string_t* s, const char* fmt, ...) {
     size_t len = vsnprintf(NULL, 0, fmt, args);
     va_end(args);
 
-    char* tmp = _ALLOC(len+1);
+    char* tmp = _ALLOC(len + 1);
     va_start(args, fmt);
     vsprintf(tmp, fmt, args);
     va_end(args);

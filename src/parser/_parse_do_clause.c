@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -35,28 +35,28 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_DO) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // loop body is required
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (loop_body = _parse_loop_body(context)))
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else {
                     parser_error(context, "expected a loop body");
                     state = RETURN_ERROR;
                 }
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_WHILE) {
                     consume_token();
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else {
                     parser_error(context, "expected a 'while' keyword");
@@ -65,24 +65,24 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context) {
             } break;
 
             // the expression is optional, if there are no parens, go to match.
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 }
                 else // no expression
                     state = RETURN_MATCH;
             } break;
 
             // the expression is optional, but the parens are present
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 expr = _parse_expression(context); // NULL if it's a ')'
-                state = START_STATE+5;
+                state = START_STATE + 5;
             } break;
 
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
@@ -119,4 +119,3 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context) {
 
     RETURN(node);
 }
-

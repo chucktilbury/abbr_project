@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -17,7 +17,7 @@
  *      struct _ast_identifier_t* identifier;
  *      ast_node_list_t* array_parameters;
  *  } ast_array_reference_t;
-*/
+ */
 ast_array_reference_t* _parse_array_reference(parser_context_t* context) {
 
     ENTER;
@@ -36,13 +36,13 @@ ast_array_reference_t* _parse_array_reference(parser_context_t* context) {
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (ident = _parse_identifier(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // one required
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_array_parameters(context))) {
                     list = create_ast_node_list();
@@ -87,4 +87,3 @@ ast_array_reference_t* _parse_array_reference(parser_context_t* context) {
 
     RETURN(node);
 }
-

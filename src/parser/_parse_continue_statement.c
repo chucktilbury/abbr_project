@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -61,4 +61,3 @@ ast_continue_statement_t* _parse_continue_statement(parser_context_t* context) {
 
     RETURN(node);
 }
-

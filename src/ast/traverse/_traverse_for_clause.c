@@ -27,4 +27,3 @@ void _traverse_for_clause(ast_for_clause_t* node) {
 
     RETURN();
 }
-

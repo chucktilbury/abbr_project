@@ -16,4 +16,3 @@ void _traverse_inline_statement(ast_inline_statement_t* node) {
 
     RETURN();
 }
-

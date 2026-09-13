@@ -17,4 +17,3 @@ void _traverse_function_decl_parameter(ast_function_decl_parameter_t* node) {
 
     RETURN();
 }
-

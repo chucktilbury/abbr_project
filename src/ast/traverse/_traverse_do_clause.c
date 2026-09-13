@@ -19,4 +19,3 @@ void _traverse_do_clause(ast_do_clause_t* node) {
 
     RETURN();
 }
-

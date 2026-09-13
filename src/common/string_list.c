@@ -1,8 +1,8 @@
 
 #include <string.h>
 
-#include "string_list.h"
 #include "pointer_list.h"
+#include "string_list.h"
 
 string_list_t* create_string_list(void) {
 

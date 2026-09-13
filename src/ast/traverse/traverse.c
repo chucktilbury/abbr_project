@@ -6,9 +6,9 @@
     functionality. The parser returns a pointer to the tree.
 */
 
-#include "common.h"
-#include "ast.h"
 #include "traverse.h"
+#include "ast.h"
+#include "common.h"
 
 /*
  * Main entry point for AST traverse
@@ -18,4 +18,3 @@ void traverse_ast(ast_node_t* node) {
     _traverse_module((ast_module_t*)node);
     RETURN();
 }
-

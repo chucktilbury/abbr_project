@@ -25,4 +25,3 @@ void _traverse_expression(ast_expression_t* node) {
 
     RETURN();
 }
-

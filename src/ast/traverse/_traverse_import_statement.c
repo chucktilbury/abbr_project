@@ -19,4 +19,3 @@ void _traverse_import_statement(ast_import_statement_t* node) {
     _traverse_identifier(node->identifier);
     RETURN();
 }
-

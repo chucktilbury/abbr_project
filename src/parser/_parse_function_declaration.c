@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -39,28 +39,28 @@ ast_function_declaration_t* _parse_function_declaration(parser_context_t* contex
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (type_specifier = _parse_type_specifier(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (identifier = _parse_identifier(context)))
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (function_declaration_parameters = _parse_function_declaration_parameters(context)))
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 func_body = _parse_function_body(context);
                 state = RETURN_MATCH;
@@ -93,4 +93,3 @@ ast_function_declaration_t* _parse_function_declaration(parser_context_t* contex
 
     RETURN(node);
 }
-

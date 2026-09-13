@@ -7,8 +7,8 @@
     the memory that was allocated to them is freed.
  */
 #include "token_queue.h"
-#include "scanner.h"
 #include "fileio.h"
+#include "scanner.h"
 
 typedef struct _token_list_t {
     token_t* tok;
@@ -64,8 +64,8 @@ static inline token_list_t* _append(token_t* tok) {
 static inline token_t* _tok(void) {
     if(tqueue->crnt != NULL)
         return tqueue->crnt->tok;
-    else
-        return NULL;
+
+    return NULL;
 }
 
 void create_token_queue(string_t* fname) {

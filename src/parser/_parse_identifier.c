@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -64,4 +64,3 @@ ast_identifier_t* _parse_identifier(parser_context_t* context) {
 
     RETURN(node);
 }
-

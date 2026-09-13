@@ -16,4 +16,3 @@ void _traverse_assignment(ast_assignment_t* node) {
 
     RETURN();
 }
-

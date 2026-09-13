@@ -29,4 +29,3 @@ void _traverse_primary_expression(ast_primary_expression_t* node) {
 
     RETURN();
 }
-

@@ -1,7 +1,7 @@
 
 
-#include "alloc.h"
 #include "pointer_list.h"
+#include "alloc.h"
 
 // The index could be <0, which refers to the end of the list.
 static int normalize_index(pointer_list_t* lst, int idx) {

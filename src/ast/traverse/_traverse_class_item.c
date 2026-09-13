@@ -37,4 +37,3 @@ void _traverse_class_item(ast_class_item_t* node) {
 
     RETURN();
 }
-

@@ -13,10 +13,9 @@ void _traverse_compound_reference(ast_compound_reference_t* node) {
 
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->list, &mark);
-                ptr != NULL; ptr = iterate_ast_node_list(node->list, &mark)) {
+        ptr != NULL; ptr = iterate_ast_node_list(node->list, &mark)) {
         _traverse_compound_reference_item((ast_compound_reference_item_t*)ptr);
     }
 
     RETURN();
 }
-

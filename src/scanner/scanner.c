@@ -1,10 +1,10 @@
 
+#include "scanner.h"
+#include "fileio.h"
+// #include "token_queue.h"
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
-#include "scanner.h"
-#include "token_queue.h"
-#include "fileio.h"
 
 typedef struct _keyword_t {
     token_type_t type;
@@ -12,49 +12,49 @@ typedef struct _keyword_t {
 } keyword_t;
 
 static keyword_t key_words[] = {
-    {TOK_LITERAL_TRUE,  "true"},
-    {TOK_LITERAL_FALSE, "false"},
-    {TOK_NAMESPACE, "namespace"},
-    {TOK_INCLUDE,   "include"},
-    {TOK_IMPORT,    "import"},
-    {TOK_AS,        "as"},
-    {TOK_CLASS,     "class"},
-    {TOK_PUBLIC,    "public"},
-    {TOK_PRIVATE,   "private"},
-    {TOK_PROTECTED, "protected"},
-    {TOK_START,     "start"},
-    {TOK_CREATE,    "create"},
-    {TOK_DESTROY,   "destroy"},
-    {TOK_IF,        "if"},
-    {TOK_ELSE,      "else"},
-    {TOK_FOR,       "for"},
-    {TOK_WHILE,     "while"},
-    {TOK_DO,        "do"},
-    {TOK_BREAK,     "break"},
-    {TOK_CONTINUE,  "continue"},
-    {TOK_YIELD,     "yield"},
-    {TOK_TRY,       "try"},
-    {TOK_EXCEPT,    "except"},
-    {TOK_RAISE,     "raise"},
-    {TOK_RETURN,    "return"},
-    {TOK_INTEGER,   "integer"},
-    {TOK_INTEGER,   "int"},
-    {TOK_UNSIGNED,  "unsigned"},
-    {TOK_FLOAT,     "float"},
-    {TOK_STRING,    "string"},
-    {TOK_DICT,      "dictionary"},
-    {TOK_DICT,      "dict"},
-    {TOK_DICT,      "map"},
-    {TOK_ARRAY,     "array"},
-    {TOK_ARRAY,     "list"},
-    {TOK_BOOL,      "boolean"},
-    {TOK_BOOL,      "bool"},
-    {TOK_NOTHING,   "nothing"},
-    {TOK_NOTHING,   "noth"},
-    {TOK_FINALLY,   "finally"},
-    {TOK_EXIT,      "exit"},
-    {TOK_INLINE,    "inline"},
-    {-1, NULL}
+    { TOK_LITERAL_TRUE, "true" },
+    { TOK_LITERAL_FALSE, "false" },
+    { TOK_NAMESPACE, "namespace" },
+    { TOK_INCLUDE, "include" },
+    { TOK_IMPORT, "import" },
+    { TOK_AS, "as" },
+    { TOK_CLASS, "class" },
+    { TOK_PUBLIC, "public" },
+    { TOK_PRIVATE, "private" },
+    { TOK_PROTECTED, "protected" },
+    { TOK_START, "start" },
+    { TOK_CREATE, "create" },
+    { TOK_DESTROY, "destroy" },
+    { TOK_IF, "if" },
+    { TOK_ELSE, "else" },
+    { TOK_FOR, "for" },
+    { TOK_WHILE, "while" },
+    { TOK_DO, "do" },
+    { TOK_BREAK, "break" },
+    { TOK_CONTINUE, "continue" },
+    { TOK_YIELD, "yield" },
+    { TOK_TRY, "try" },
+    { TOK_EXCEPT, "except" },
+    { TOK_RAISE, "raise" },
+    { TOK_RETURN, "return" },
+    { TOK_INTEGER, "integer" },
+    { TOK_INTEGER, "int" },
+    { TOK_UNSIGNED, "unsigned" },
+    { TOK_FLOAT, "float" },
+    { TOK_STRING, "string" },
+    { TOK_DICT, "dictionary" },
+    { TOK_DICT, "dict" },
+    { TOK_DICT, "map" },
+    { TOK_ARRAY, "array" },
+    { TOK_ARRAY, "list" },
+    { TOK_BOOL, "boolean" },
+    { TOK_BOOL, "bool" },
+    { TOK_NOTHING, "nothing" },
+    { TOK_NOTHING, "noth" },
+    { TOK_FINALLY, "finally" },
+    { TOK_EXIT, "exit" },
+    { TOK_INLINE, "inline" },
+    { -1, NULL }
 };
 
 typedef struct _scanner_t {
@@ -120,7 +120,7 @@ static token_t* read_operator(string_t* text) {
 
     switch(ch) {
         case '!':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str("!=", TOK_NEQ);
@@ -130,7 +130,7 @@ static token_t* read_operator(string_t* text) {
             }
             break;
         case '*':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str("*=", TOK_MUL_ASSIGN);
@@ -140,28 +140,27 @@ static token_t* read_operator(string_t* text) {
             }
             break;
         case '-':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str("-=", TOK_SUB_ASSIGN);
             }
             else {
-                tok = create_token_str("-", TOK_MINUS);
+                tok = create_token_str("-", TOK_SUB);
             }
             break;
         case '+':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str("+=", TOK_ADD_ASSIGN);
             }
             else {
                 tok = create_token_str("+", TOK_ADD);
-
             }
             break;
         case '=':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str("==", TOK_EQU);
@@ -171,7 +170,7 @@ static token_t* read_operator(string_t* text) {
             }
             break;
         case '/':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str("/=", TOK_DIV_ASSIGN);
@@ -181,7 +180,7 @@ static token_t* read_operator(string_t* text) {
             }
             break;
         case '<':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str("<=", TOK_LTE);
@@ -191,7 +190,7 @@ static token_t* read_operator(string_t* text) {
             }
             break;
         case '>':
-            ch = get_char(); //consume_char();
+            ch = get_char(); // consume_char();
             if(ch == '=') {
                 consume_char();
                 tok = create_token_str(">=", TOK_GTE);
@@ -291,9 +290,7 @@ token_t* get_fractional_part(string_t* text) {
             consume_char();
             return get_mantissa(text);
         }
-        else {
-            tok = create_token(text, TOK_LITERAL_FLOAT);
-        }
+        tok = create_token(text, TOK_LITERAL_FLOAT);
     }
     else
         scanner_error("malformed literal float");
@@ -452,18 +449,42 @@ static token_t* read_dstr(void) {
         if(ch == '\\') {
             int tmp = consume_char();
             switch(tmp) {
-                case '\"': append_string_char(text, '\"'); break;
-                case '\'': append_string_char(text, '\''); break;
-                case '?': append_string_char(text, '\?'); break;
-                case '\\': append_string_char(text, '\\'); break;
-                case 'a': append_string_char(text, '\a'); break;
-                case 'f': append_string_char(text, '\f'); break;
-                case 'n': append_string_char(text, '\n'); break;
-                case 'r': append_string_char(text, '\r'); break;
-                case 't': append_string_char(text, '\t'); break;
-                case 'v': append_string_char(text, '\v'); break;
-                case 'b': append_string_char(text, '\b'); break;
-                case 'e': append_string_char(text, '\x1b'); break;
+                case '\"':
+                    append_string_char(text, '\"');
+                    break;
+                case '\'':
+                    append_string_char(text, '\'');
+                    break;
+                case '?':
+                    append_string_char(text, '\?');
+                    break;
+                case '\\':
+                    append_string_char(text, '\\');
+                    break;
+                case 'a':
+                    append_string_char(text, '\a');
+                    break;
+                case 'f':
+                    append_string_char(text, '\f');
+                    break;
+                case 'n':
+                    append_string_char(text, '\n');
+                    break;
+                case 'r':
+                    append_string_char(text, '\r');
+                    break;
+                case 't':
+                    append_string_char(text, '\t');
+                    break;
+                case 'v':
+                    append_string_char(text, '\v');
+                    break;
+                case 'b':
+                    append_string_char(text, '\b');
+                    break;
+                case 'e':
+                    append_string_char(text, '\x1b');
+                    break;
                 case 'x':
                 case 'X': {
                     string_t* s = create_string(NULL);
@@ -586,7 +607,6 @@ token_t* scan_token(void) {
             tok = create_token(create_string(NULL), TOK_END_OF_FILE);
             finished++;
         }
-
     }
 
     return tok;
@@ -654,4 +674,3 @@ void scanner_fatal(const char* fmt, ...) {
     scanner->errors++;
     exit(1);
 }
-

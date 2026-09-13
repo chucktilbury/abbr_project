@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -37,7 +37,7 @@ ast_else_clause_t* _parse_else_clause(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_ELSE) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
@@ -45,32 +45,32 @@ ast_else_clause_t* _parse_else_clause(parser_context_t* context) {
 
             // could be trying to match a final_else, which does not require
             // the '(', however, this rule does require it.
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // still could be trying to match the final else clause
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (expr = _parse_expression(context)))
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // At this point it must be a else that requires an expression and
             // a function body.
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 }
                 else {
                     parser_error(context, "expected a ')'");
@@ -79,7 +79,7 @@ ast_else_clause_t* _parse_else_clause(parser_context_t* context) {
             } break;
 
             // required function body
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (function_body = _parse_function_body(context)))
                     state = RETURN_MATCH;
@@ -112,4 +112,3 @@ ast_else_clause_t* _parse_else_clause(parser_context_t* context) {
 
     RETURN(node);
 }
-

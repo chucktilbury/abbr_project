@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -34,10 +34,10 @@ ast_inheritance_item_t* _parse_inheritance_item(parser_context_t* context) {
             case START_STATE: {
                 TRACE_STATE;
                 class_scope_operator = _parse_class_scope_operator(context);
-                state = START_STATE+1;
+                state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (compound_name = _parse_compound_name(context)))
                     state = RETURN_MATCH;
@@ -70,4 +70,3 @@ ast_inheritance_item_t* _parse_inheritance_item(parser_context_t* context) {
 
     RETURN(node);
 }
-

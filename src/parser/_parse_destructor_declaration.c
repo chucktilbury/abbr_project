@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -33,14 +33,14 @@ ast_destructor_declaration_t* _parse_destructor_declaration(parser_context_t* co
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_DESTROY) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // function body is optional
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 func_body = _parse_function_body(context);
                 state = RETURN_MATCH;
@@ -70,4 +70,3 @@ ast_destructor_declaration_t* _parse_destructor_declaration(parser_context_t* co
 
     RETURN(node);
 }
-

@@ -29,4 +29,3 @@ void _traverse_compound_reference_item(ast_compound_reference_item_t* node) {
 
     RETURN();
 }
-

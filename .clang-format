@@ -363,7 +363,7 @@ ReflowComments: true
 # SortIncludes (bool)
 # If true, clang-format will sort #includes.
 #SortIncludes: false (from v3.9)
-SortIncludes: false
+SortIncludes: true
 
 # SpaceAfterCStyleCast (bool)
 # If true, a space may be inserted after C style casts.

@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 // for close_file()
@@ -46,17 +46,17 @@ ast_module_t* _parse_module(parser_context_t* context) {
                     consume_token();
                     pop_parser_mode(context);
                     close_file();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else if(list == NULL)
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
             // If end of file was seen, then check for end of input. If not
             // then continue with the main line of parsing.
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_END_OF_INPUT) {
                     consume_token();
@@ -64,14 +64,14 @@ ast_module_t* _parse_module(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else if(list == NULL)
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
             // if the list has not already been created, then create it and
             // add the item
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_start_clause(context))) {
                     if(!start_clause) {
@@ -86,10 +86,10 @@ ast_module_t* _parse_module(parser_context_t* context) {
                     }
                 }
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_module_item(context))) {
                     list = create_ast_node_list();
@@ -103,7 +103,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
             } break;
 
             // if the list has already been created, then just add to it
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_start_clause(context))) {
                     if(!start_clause) {
@@ -117,10 +117,10 @@ ast_module_t* _parse_module(parser_context_t* context) {
                     }
                 }
                 else
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
             } break;
 
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_module_item(context))) {
                     append_ast_node_list(list, item);
@@ -156,4 +156,3 @@ ast_module_t* _parse_module(parser_context_t* context) {
 
     RETURN(node);
 }
-

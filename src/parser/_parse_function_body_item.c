@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -42,66 +42,66 @@ ast_function_body_item_t* _parse_function_body_item(parser_context_t* context) {
                 if(NULL != (item = (ast_node_t*)_parse_compound_reference(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_assignment(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_data_definition(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_flow_statement(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_exit_statement(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
             } break;
 
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_raise_statement(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+6;
+                    state = START_STATE + 6;
             } break;
 
-            case START_STATE+6: {
+            case START_STATE + 6: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_return_statement(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+7;
+                    state = START_STATE + 7;
             } break;
 
-            case START_STATE+7: {
+            case START_STATE + 7: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_inline_statement(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+8;
+                    state = START_STATE + 8;
             } break;
 
-            case START_STATE+8: {
+            case START_STATE + 8: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_function_body(context)))
                     state = RETURN_MATCH;
@@ -133,4 +133,3 @@ ast_function_body_item_t* _parse_function_body_item(parser_context_t* context) {
 
     RETURN(node);
 }
-

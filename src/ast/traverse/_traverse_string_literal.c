@@ -14,4 +14,3 @@ void _traverse_string_literal(ast_string_literal_t* node) {
     SHOW_STRING(node->str);
     RETURN();
 }
-

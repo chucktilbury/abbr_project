@@ -1,11 +1,14 @@
 #ifndef _AST_STRUCT_H_
 #define _AST_STRUCT_H_
 
-#include "ast.h"
+#include "common.h"
 #include "tokens.h"
 
+typedef pointer_list_t ast_node_list_t;
+
 typedef struct _ast_node_t {
-    ast_type_t type;
+    // ast_type_t type;
+    int type;
     const char* fname;
     int line_no;
     int col_no;
@@ -584,8 +587,8 @@ typedef struct _ast_function_body_t {
  */
 typedef struct _ast_assignment_t {
     ast_node_t node;
-    struct  _ast_compound_reference_t* compound_reference;
-    struct  _ast_expression_t* expression;
+    struct _ast_compound_reference_t* compound_reference;
+    struct _ast_expression_t* expression;
 } ast_assignment_t;
 
 
@@ -739,8 +742,10 @@ typedef struct _ast_exit_statement_t {
  */
 typedef struct _ast_operator_t {
     ast_node_t node;
-    // this will be the operator type as an enum
-    token_type_t* oper;
+    token_type_t oper;
+    bool is_unary;
+    ast_node_t* left;
+    ast_node_t* right;
 } ast_operator_t;
 
 /*

@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -36,18 +36,18 @@ ast_compound_reference_item_t* _parse_compound_reference_item(parser_context_t* 
                 if(NULL != (item = (ast_node_t*)_parse_identifier(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_function_reference(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_array_reference(context)))
                     state = RETURN_MATCH;
@@ -79,4 +79,3 @@ ast_compound_reference_item_t* _parse_compound_reference_item(parser_context_t* 
 
     RETURN(node);
 }
-

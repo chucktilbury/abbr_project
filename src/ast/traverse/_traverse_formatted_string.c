@@ -15,10 +15,9 @@ void _traverse_formatted_string(ast_formatted_string_t* node) {
 
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->list, &mark);
-                ptr != NULL; ptr = iterate_ast_node_list(node->list, &mark)) {
+        ptr != NULL; ptr = iterate_ast_node_list(node->list, &mark)) {
         _traverse_expression((ast_expression_t*)ptr);
     }
 
     RETURN();
 }
-

@@ -16,7 +16,7 @@ void _traverse_if_clause(ast_if_clause_t* node) {
 
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->else_clause, &mark);
-                ptr != NULL; ptr = iterate_ast_node_list(node->else_clause, &mark)) {
+        ptr != NULL; ptr = iterate_ast_node_list(node->else_clause, &mark)) {
         _traverse_else_clause((ast_else_clause_t*)ptr);
     }
 
@@ -26,4 +26,3 @@ void _traverse_if_clause(ast_if_clause_t* node) {
 
     RETURN();
 }
-

@@ -15,4 +15,3 @@ void _traverse_yield_statement(ast_yield_statement_t* node) {
 
     RETURN();
 }
-

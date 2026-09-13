@@ -18,4 +18,3 @@ void _traverse_inheritance_item(ast_inheritance_item_t* node) {
 
     RETURN();
 }
-

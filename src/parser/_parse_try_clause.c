@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -38,17 +38,17 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_TRY) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // required function body
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (function_body = _parse_function_body(context))) {
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else {
                     parser_error(context, "expected a function body");
@@ -57,12 +57,12 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context) {
             } break;
 
             // required first except clause
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_except_clause(context))) {
                     list = create_ast_node_list();
                     append_ast_node_list(list, item);
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else {
                     parser_error(context, "expected a function body");
@@ -71,16 +71,16 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context) {
             } break;
 
             // optional except clause
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_except_clause(context)))
                     append_ast_node_list(list, item);
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
             // optional finally clause
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 finally_clause = _parse_finally_clause(context);
                 state = RETURN_MATCH;
@@ -112,4 +112,3 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context) {
 
     RETURN(node);
 }
-

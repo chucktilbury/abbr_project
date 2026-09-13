@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -65,4 +65,3 @@ ast_global_scope_operator_t* _parse_global_scope_operator(parser_context_t* cont
 
     RETURN(node);
 }
-

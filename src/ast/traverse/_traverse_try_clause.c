@@ -15,7 +15,7 @@ void _traverse_try_clause(ast_try_clause_t* node) {
 
     int mark = 0;
     for(ast_node_t* ptr = iterate_ast_node_list(node->except_clause, &mark);
-                ptr != NULL; ptr = iterate_ast_node_list(node->except_clause, &mark)) {
+        ptr != NULL; ptr = iterate_ast_node_list(node->except_clause, &mark)) {
         _traverse_except_clause((ast_except_clause_t*)ptr);
     }
 
@@ -24,4 +24,3 @@ void _traverse_try_clause(ast_try_clause_t* node) {
 
     RETURN();
 }
-

@@ -1,8 +1,8 @@
 #ifndef _INPUT_BUFFER_H_
 #define _INPUT_BUFFER_H_
 
-#include <stdbool.h>
 #include "string_buffer.h"
+#include <stdbool.h>
 
 void load_input_buffer(string_t* fname);
 void push_input_buffer(string_t* str);

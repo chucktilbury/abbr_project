@@ -17,4 +17,3 @@ void _traverse_constructor_definition(ast_constructor_definition_t* node) {
 
     RETURN();
 }
-

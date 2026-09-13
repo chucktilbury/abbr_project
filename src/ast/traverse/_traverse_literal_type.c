@@ -20,4 +20,3 @@ void _traverse_literal_type(ast_literal_type_t* node) {
     SHOW_TOKEN_TYPE(node->type);
     RETURN();
 }
-

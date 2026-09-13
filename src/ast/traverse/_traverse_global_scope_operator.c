@@ -16,4 +16,3 @@ void _traverse_global_scope_operator(ast_global_scope_operator_t* node) {
 
     RETURN();
 }
-

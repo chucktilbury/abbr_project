@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -40,18 +40,18 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_IF) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // required left paren
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 }
                 else {
                     parser_error(context, "expected a '('");
@@ -60,10 +60,10 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
             } break;
 
             // required expression
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (expr = _parse_expression(context)))
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 else {
                     parser_error(context, "expected an expression");
                     state = RETURN_ERROR;
@@ -71,11 +71,11 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
             } break;
 
             // required right paren
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 }
                 else {
                     parser_error(context, "expected a ')'");
@@ -84,10 +84,10 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
             } break;
 
             // required function body
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (function_body = _parse_function_body(context)))
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
                 else {
                     parser_error(context, "expected a function body");
                     state = RETURN_ERROR;
@@ -96,30 +96,30 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
 
             // optional zero or more else clauses
             // first one
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_else_clause(context))) {
                     list = create_ast_node_list();
                     append_ast_node_list(list, item);
-                    state = START_STATE+6;
+                    state = START_STATE + 6;
                 }
                 else
-                    state = START_STATE+7;
+                    state = START_STATE + 7;
             } break;
 
             // check for another one
-            case START_STATE+6: {
+            case START_STATE + 6: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_else_clause(context))) {
                     append_ast_node_list(list, item);
                     // no state change
                 }
                 else
-                    state = START_STATE+7;
+                    state = START_STATE + 7;
             } break;
 
             // optional final else clause
-            case START_STATE+7: {
+            case START_STATE + 7: {
                 TRACE_STATE;
                 final_else_clause = _parse_final_else_clause(context);
                 state = RETURN_MATCH;
@@ -152,4 +152,3 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
 
     RETURN(node);
 }
-

@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -35,16 +35,16 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             case START_STATE: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_NAMESPACE) {
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (identifier = _parse_identifier(context)))
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else {
                     parser_error(context, "expected an identifier");
                     state = RETURN_ERROR;
@@ -52,10 +52,10 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             } break;
 
             // required '{'
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LCURLY) {
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else {
                     parser_error(context, "expected a '{'");
@@ -64,33 +64,33 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             } break;
 
             // first namespace_item
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_namespace_item(context))) {
                     list = create_ast_node_list();
                     append_ast_node_list(list, item);
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 }
                 else
-                    state = START_STATE+6;
+                    state = START_STATE + 6;
             } break;
 
             // optional '}'
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RCURLY) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
             } break;
 
             // required namespace_item
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_namespace_item(context))) {
                     append_ast_node_list(list, item);
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 }
                 else {
                     parser_error(context, "expected a valid namespace item");
@@ -99,7 +99,7 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             } break;
 
             // required '}'
-            case START_STATE+6: {
+            case START_STATE + 6: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LCURLY) {
                     state = RETURN_MATCH;
@@ -135,4 +135,3 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
 
     RETURN(node);
 }
-

@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -34,14 +34,14 @@ ast_function_body_t* _parse_function_body(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LCURLY) {
                     consume_token();
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // at least one item is required
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_function_body_item(context))) {
                     list = create_ast_node_list();
@@ -49,7 +49,7 @@ ast_function_body_t* _parse_function_body(parser_context_t* context) {
                     state = REPEAT_STATE;
                 }
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
             // check for a '}'
@@ -60,11 +60,11 @@ ast_function_body_t* _parse_function_body(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = REPEAT_STATE+1;
+                    state = REPEAT_STATE + 1;
             } break;
 
             // else check for a required item
-            case REPEAT_STATE+1: {
+            case REPEAT_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_function_body_item(context))) {
                     append_ast_node_list(list, item);
@@ -100,4 +100,3 @@ ast_function_body_t* _parse_function_body(parser_context_t* context) {
 
     RETURN(node);
 }
-

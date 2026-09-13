@@ -15,4 +15,3 @@ void _traverse_raise_statement(ast_raise_statement_t* node) {
 
     RETURN();
 }
-

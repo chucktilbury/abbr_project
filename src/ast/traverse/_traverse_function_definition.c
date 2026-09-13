@@ -19,4 +19,3 @@ void _traverse_function_definition(ast_function_definition_t* node) {
 
     RETURN();
 }
-

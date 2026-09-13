@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -39,10 +39,10 @@ ast_class_scope_operator_t* _parse_class_scope_operator(parser_context_t* contex
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_PRIVATE) {
                     type = TOKEN_TYPE;
@@ -50,10 +50,10 @@ ast_class_scope_operator_t* _parse_class_scope_operator(parser_context_t* contex
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_PROTECTED) {
                     type = TOKEN_TYPE;
@@ -88,4 +88,3 @@ ast_class_scope_operator_t* _parse_class_scope_operator(parser_context_t* contex
 
     RETURN(node);
 }
-

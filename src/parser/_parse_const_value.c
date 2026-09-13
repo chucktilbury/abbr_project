@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -37,26 +37,26 @@ ast_const_value_t* _parse_const_value(parser_context_t* context) {
                 if(NULL != (item = (ast_node_t*)_parse_literal_number(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_string_literal(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_literal_array_definition(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_literal_dict_definition(context)))
                     state = RETURN_MATCH;
@@ -88,4 +88,3 @@ ast_const_value_t* _parse_const_value(parser_context_t* context) {
 
     RETURN(node);
 }
-

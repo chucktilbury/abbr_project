@@ -12,8 +12,16 @@ add_subdirectory(src)
 add_subdirectory(docs EXCLUDE_FROM_ALL)
 
 file(GLOB_RECURSE format_xxfiles
-    ${PROJECT_SOURCE_DIR}/src/main/*.c
-    ${PROJECT_SOURCE_DIR}/src/main/*.h
+    ${PROJECT_SOURCE_DIR}/src/ast/*.c
+    ${PROJECT_SOURCE_DIR}/src/ast/*.h
+    ${PROJECT_SOURCE_DIR}/src/common/*.c
+    ${PROJECT_SOURCE_DIR}/src/common/*.h
+    ${PROJECT_SOURCE_DIR}/src/parser/*.c
+    ${PROJECT_SOURCE_DIR}/src/parser/*.h
+    ${PROJECT_SOURCE_DIR}/src/scanner/*.c
+    ${PROJECT_SOURCE_DIR}/src/scanner/*.h
+    ${PROJECT_SOURCE_DIR}/src/simple/*.c
+    ${PROJECT_SOURCE_DIR}/src/simple/*.h
 )
 
 add_custom_target(format

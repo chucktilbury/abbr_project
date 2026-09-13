@@ -24,4 +24,3 @@ void _traverse_array_parameters(ast_array_parameters_t* node) {
 
     RETURN();
 }
-

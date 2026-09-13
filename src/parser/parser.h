@@ -5,8 +5,8 @@
 #ifndef _PARSER_H_
 #define _PARSER_H_
 
-#include "common.h"
 #include "ast.h"
+#include "common.h"
 
 typedef enum {
     PMODE_NORMAL,
@@ -115,12 +115,12 @@ ast_finally_clause_t* _parse_finally_clause(parser_context_t* context);
 ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
 
 #ifdef USE_TRACE
-#define TRACE_STATE \
-    do { \
-        if(verbosity >= DEFAULT_TRACE) { \
-            INDENT; \
+#define TRACE_STATE                                                          \
+    do {                                                                     \
+        if(verbosity >= DEFAULT_TRACE) {                                     \
+            INDENT;                                                          \
             printf("%s: %d\n", colorize(fgCYA, aBOLD, 0, "STATE: "), state); \
-        } \
+        }                                                                    \
     } while(0)
 #else
 #define TRACE_STATE
@@ -129,5 +129,3 @@ ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
 #define TOKEN_TYPE (get_token()->type)
 
 #endif /* _PARSER_H_ */
-
-

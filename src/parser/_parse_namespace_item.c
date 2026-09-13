@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -39,42 +39,42 @@ ast_namespace_item_t* _parse_namespace_item(parser_context_t* context) {
                 if(NULL != (item = (ast_node_t*)_parse_global_scope_operator(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_class_definition(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_function_definition(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_constructor_definition(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_destructor_definition(context)))
                     state = RETURN_MATCH;
                 else
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
             } break;
 
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_namespace(context)))
                     state = RETURN_MATCH;
@@ -106,4 +106,3 @@ ast_namespace_item_t* _parse_namespace_item(parser_context_t* context) {
 
     RETURN(node);
 }
-

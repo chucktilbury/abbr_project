@@ -19,4 +19,3 @@ void _traverse_while_clause(ast_while_clause_t* node) {
 
     RETURN();
 }
-

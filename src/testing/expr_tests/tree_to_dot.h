@@ -2,6 +2,7 @@
 #define _TREE_TO_DOT_H_
 
 #include "ast_node.h"
+#include <stdio.h>
 
 void write_dot_file(ast_node_t* tree, FILE* outfp);
 

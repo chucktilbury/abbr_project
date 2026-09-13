@@ -41,4 +41,3 @@ void _traverse_namespace_item(ast_namespace_item_t* node) {
 
     RETURN();
 }
-

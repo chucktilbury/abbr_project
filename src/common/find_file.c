@@ -1,10 +1,10 @@
 
 #include "common.h"
 
-#include <glob.h>
 #include <fcntl.h>
-#include <sys/stat.h>
+#include <glob.h>
 #include <linux/limits.h>
+#include <sys/stat.h>
 
 #define DEF_EXT ".txt"
 

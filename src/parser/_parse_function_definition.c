@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -40,47 +40,47 @@ ast_function_definition_t* _parse_function_definition(parser_context_t* context)
             case START_STATE: {
                 TRACE_STATE;
                 if(NULL != (type_specifier = _parse_type_specifier(context)))
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(NULL != (group = _parse_identifier(context)))
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_DOT) {
                     consume_token();
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(NULL != (name = _parse_identifier(context)))
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // still could be a data definition
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(NULL != (function_definition_parameters = _parse_function_definition_parameters(context)))
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
-            case START_STATE+5: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(NULL != (function_body = _parse_function_body(context)))
                     state = RETURN_MATCH;
@@ -118,4 +118,3 @@ ast_function_definition_t* _parse_function_definition(parser_context_t* context)
 
     RETURN(node);
 }
-

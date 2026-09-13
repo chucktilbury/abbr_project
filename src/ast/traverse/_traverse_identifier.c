@@ -13,4 +13,3 @@ void _traverse_identifier(ast_identifier_t* node) {
     SHOW_STRING(node->name);
     RETURN();
 }
-

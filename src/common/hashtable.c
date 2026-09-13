@@ -30,8 +30,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "hashtable.h"
 #include "alloc.h"
+#include "hashtable.h"
 
 // #define TEST_HASH
 
@@ -170,7 +170,7 @@ void* find_hashtable(hash_table_t* tab, const char* key) {
         if(strcmp(tab->table[slot]->key, key) == 0) {
             data = tab->table[slot]->data;
             // printf("key = %s\n", key);
-            //return 1;
+            // return 1;
         }
     }
 

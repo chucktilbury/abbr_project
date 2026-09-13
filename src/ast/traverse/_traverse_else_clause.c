@@ -16,4 +16,3 @@ void _traverse_else_clause(ast_else_clause_t* node) {
 
     RETURN();
 }
-

@@ -13,4 +13,3 @@ void _traverse_break_statement(ast_break_statement_t* node) {
     (void)node;
     RETURN();
 }
-

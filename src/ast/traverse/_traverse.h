@@ -1,6 +1,8 @@
 #ifndef __TRAVERSE_H_
 #define __TRAVERSE_H_
 
+#include "ast_struct.h"
+
 void _traverse_module(ast_module_t* node);
 void _traverse_start_clause(ast_start_clause_t* node);
 void _traverse_module_item(ast_module_item_t* node);
@@ -67,34 +69,35 @@ void _traverse_literal_type(ast_literal_type_t* node);
 void _traverse_identifier(ast_identifier_t* node);
 
 #define NODE_TYPE(n) ((ast_node_t*)n)->type
-#define SHOW_TOKEN(t)    \
-    do { \
-        if((t) != NULL && verbosity >= DEFAULT_TRACE) { \
-            INDENT; \
+#define SHOW_TOKEN(t)                                             \
+    do {                                                          \
+        if((t) != NULL && verbosity >= DEFAULT_TRACE) {           \
+            INDENT;                                               \
             printf("%s: ", colorize(fgCYA, aBOLD, 0, "TOKEN: ")); \
-            print_token(t); \
-        } \
+            print_token(t);                                       \
+        }                                                         \
     } while(0)
 
-#define SHOW_TOKEN_TYPE(t)    \
-    do { \
-        if(verbosity >= DEFAULT_TRACE) { \
-            INDENT; \
+#define SHOW_TOKEN_TYPE(t)                                                \
+    do {                                                                  \
+        if(verbosity >= DEFAULT_TRACE) {                                  \
+            INDENT;                                                       \
             printf("%s: %s\n", colorize(fgCYA, aBOLD, 0, "TOKEN TYPE: "), \
-                token_type_to_str(t)); \
-        } \
+                   token_type_to_str(t));                                 \
+        }                                                                 \
     } while(0)
 
-#define SHOW_STRING(s)    \
-    do { \
-        if((s) != NULL && verbosity >= DEFAULT_TRACE) { \
-            INDENT; \
+#define SHOW_STRING(s)                                                                \
+    do {                                                                              \
+        if((s) != NULL && verbosity >= DEFAULT_TRACE) {                               \
+            INDENT;                                                                   \
             printf("%s: %s\n", colorize(fgCYA, aBOLD, 0, "STRING: "), raw_string(s)); \
-        } \
+        }                                                                             \
     } while(0)
 
-#define TRAVERSE_ENTER \
-    do { ENTER; \
+#define TRAVERSE_ENTER                                                                   \
+    do {                                                                                 \
+        ENTER;                                                                           \
         ASSERT(node != NULL, "invalid AST node encountered in %s", __PRETTY_FUNCTION__); \
     } while(0);
 

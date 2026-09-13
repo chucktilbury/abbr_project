@@ -1,9 +1,9 @@
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <errno.h>
 #include "fileio.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct _file_t {
     FILE* fp;
@@ -49,8 +49,8 @@ void close_file(void) {
 int get_char(void) {
     if(file_stack != NULL)
         return file_stack->crnt_char;
-    else
-        return EOF;
+
+    return EOF;
 }
 
 int consume_char(void) {
@@ -68,28 +68,27 @@ int consume_char(void) {
 
         return file_stack->crnt_char;
     }
-    else
-        return EOF;
+
+    return EOF;
 }
 
 string_t* get_file_name(void) {
     if(file_stack != NULL)
         return file_stack->fname;
-    else
-        return NULL;
+
+    return NULL;
 }
 
 int get_line_no(void) {
     if(file_stack != NULL)
         return file_stack->line_no;
-    else
-        return -1;
+
+    return -1;
 }
 
 int get_col_no(void) {
     if(file_stack != NULL)
         return file_stack->col_no;
-    else
-        return -1;
-}
 
+    return -1;
+}

@@ -13,4 +13,3 @@ void _traverse_continue_statement(ast_continue_statement_t* node) {
     (void)node;
     RETURN();
 }
-

@@ -18,4 +18,3 @@ void _traverse_data_definition(ast_data_definition_t* node) {
 
     RETURN();
 }
-

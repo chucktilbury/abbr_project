@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -38,14 +38,14 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_CLASS) {
                     consume_token();
-                    state = START_STATE+10;
+                    state = START_STATE + 10;
                 }
                 else
                     state = RETURN_NO_MATCH;
             } break;
 
             // required identifier
-            case START_STATE+10: {
+            case START_STATE + 10: {
                 TRACE_STATE;
                 if(NULL != (ident = _parse_identifier(context)))
                     state = USER_STATE;
@@ -61,30 +61,30 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
-                    state = USER_STATE+100;
+                    state = USER_STATE + 100;
                 }
                 else
-                    state = USER_STATE+500;
+                    state = USER_STATE + 500;
             } break;
 
             // optional first inheritance item
-            case USER_STATE+100: {
+            case USER_STATE + 100: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_inheritance_item(context))) {
                     ilist = create_ast_node_list();
                     append_ast_node_list(ilist, item);
-                    state = USER_STATE+120; // expect a comma or a rparen
+                    state = USER_STATE + 120; // expect a comma or a rparen
                 }
                 else
-                    state = USER_STATE+110; // expect a ')'
+                    state = USER_STATE + 110; // expect a ')'
             } break;
 
             // require a ')' after no inheritance item
-            case USER_STATE+110: {
+            case USER_STATE + 110: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
-                    state = USER_STATE+500;
+                    state = USER_STATE + 500;
                 }
                 else {
                     parser_error(context, "expected a type name, a symbol, a ',', or a ')'");
@@ -93,11 +93,11 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
             } break;
 
             // require an inheritance item loop after the comma
-            case USER_STATE+200: {
+            case USER_STATE + 200: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_inheritance_item(context))) {
                     append_ast_node_list(ilist, item);
-                    state = USER_STATE+210;
+                    state = USER_STATE + 210;
                 }
                 else {
                     parser_error(context, "expected a type name or a symbol");
@@ -106,15 +106,15 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
             } break;
 
             // require a comma or a right paren after an inheritance item in loop
-            case USER_STATE+120: {
+            case USER_STATE + 120: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_COMMA) {
                     consume_token();
-                    state = USER_STATE+200;
+                    state = USER_STATE + 200;
                 }
                 else if(TOKEN_TYPE == TOK_RPAREN) {
                     consume_token();
-                    state = USER_STATE+500; // get the class body
+                    state = USER_STATE + 500; // get the class body
                 }
                 else {
                     parser_error(context, "expected a ',' or a ')'");
@@ -124,11 +124,11 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
 
             ///////////// class body ///////////////////
             // required '{'
-            case USER_STATE+500: {
+            case USER_STATE + 500: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LCURLY) {
                     consume_token();
-                    state = USER_STATE+600;
+                    state = USER_STATE + 600;
                 }
                 else {
                     parser_error(context, "expected a '{' for a class body");
@@ -137,12 +137,12 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
             } break;
 
             // require at least one class_item
-            case USER_STATE+600: {
+            case USER_STATE + 600: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_class_item(context))) {
                     clist = create_ast_node_list();
                     append_ast_node_list(clist, item);
-                    state = USER_STATE+610;
+                    state = USER_STATE + 610;
                 }
                 else {
                     parser_error(context, "class body requires at least one item");
@@ -151,7 +151,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
             } break;
 
             // class_item_loop
-            case USER_STATE+610: {
+            case USER_STATE + 610: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RCURLY) {
                     consume_token();
@@ -191,4 +191,3 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
 
     RETURN(node);
 }
-

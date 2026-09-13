@@ -13,7 +13,7 @@ link_list_t* create_link_list(void) {
 void destroy_link_list(link_list_t* lst) {
 
     if(lst != NULL) {
-        link_list_node_t* crnt, *next;
+        link_list_node_t *crnt, *next;
         for(crnt = lst->first; crnt != NULL; crnt = next) {
             next = crnt->next;
             _FREE(crnt);
@@ -76,4 +76,3 @@ void* prev_link_list(link_list_t* lst) {
         lst->crnt = lst->crnt->prev;
     return get_link_list(lst);
 }
-

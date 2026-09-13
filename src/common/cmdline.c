@@ -5,11 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "cmdline.h"
 #include "alloc.h"
-#include "string_list.h"
+#include "cmdline.h"
 #include "pointer_list.h"
 #include "string_buffer.h"
+#include "string_list.h"
 
 // This is for options only. The values are stored in the config data
 // structure. It's only used when parsing the command line.

@@ -33,4 +33,3 @@ void _traverse_const_value(ast_const_value_t* node) {
 
     RETURN();
 }
-

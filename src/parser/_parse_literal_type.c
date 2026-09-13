@@ -2,9 +2,9 @@
 /*
  * this is a generated file
  */
+#include "ast.h"
 #include "common.h"
 #include "parser.h"
-#include "ast.h"
 #include "token_queue.h"
 
 /*
@@ -44,10 +44,10 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+1;
+                    state = START_STATE + 1;
             } break;
 
-            case START_STATE+1: {
+            case START_STATE + 1: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_BOOL) {
                     type = TOKEN_TYPE;
@@ -55,10 +55,10 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+2;
+                    state = START_STATE + 2;
             } break;
 
-            case START_STATE+2: {
+            case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_STRING) {
                     type = TOKEN_TYPE;
@@ -66,10 +66,10 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+3;
+                    state = START_STATE + 3;
             } break;
 
-            case START_STATE+3: {
+            case START_STATE + 3: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_DICT) {
                     type = TOKEN_TYPE;
@@ -77,10 +77,10 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+4;
+                    state = START_STATE + 4;
             } break;
 
-            case START_STATE+4: {
+            case START_STATE + 4: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_ARRAY) {
                     type = TOKEN_TYPE;
@@ -88,10 +88,10 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+5;
+                    state = START_STATE + 5;
             } break;
 
-            case START_STATE+6: {
+            case START_STATE + 6: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_UNSIGNED) {
                     type = TOKEN_TYPE;
@@ -99,10 +99,10 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+7;
+                    state = START_STATE + 7;
             } break;
 
-            case START_STATE+7: {
+            case START_STATE + 7: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_FLOAT) {
                     type = TOKEN_TYPE;
@@ -110,10 +110,10 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else
-                    state = START_STATE+8;
+                    state = START_STATE + 8;
             } break;
 
-            case START_STATE+8: {
+            case START_STATE + 8: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_NOTHING) {
                     type = TOKEN_TYPE;
@@ -148,4 +148,3 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
 
     RETURN(node);
 }
-
