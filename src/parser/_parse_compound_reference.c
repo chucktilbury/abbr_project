@@ -69,16 +69,19 @@ ast_compound_reference_t* _parse_compound_reference(parser_context_t* context) {
                 node = (ast_compound_reference_t*)create_ast_node(AST_COMPOUND_REFERENCE);
                 // ast elements here
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

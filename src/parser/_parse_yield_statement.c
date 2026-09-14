@@ -72,16 +72,19 @@ ast_yield_statement_t* _parse_yield_statement(parser_context_t* context) {
                 node = (ast_yield_statement_t*)create_ast_node(AST_YIELD_STATEMENT);
                 node->expr = expr;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

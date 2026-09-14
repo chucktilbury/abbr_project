@@ -42,16 +42,19 @@ ast_continue_statement_t* _parse_continue_statement(parser_context_t* context) {
                 node = (ast_continue_statement_t*)create_ast_node(AST_CONTINUE_STATEMENT);
                 // no ast elements
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

@@ -111,7 +111,7 @@ void setup_env(void) {
  * @param fname
  * @return string_t*
  */
-string_t* find_file(const char* fname) {
+string_t* find_file(string_t* fname) {
 
     ENTER;
 
@@ -126,7 +126,7 @@ string_t* find_file(const char* fname) {
         }
         else
     */
-    char* tmp_name = _COPY_STRING(fname);
+    char* tmp_name = _COPY_STRING(raw_string(fname));
 
     TRACE("searching for \"%s\"", tmp_name);
 
@@ -152,7 +152,7 @@ string_t* find_file(const char* fname) {
     _FREE(tmp_name);
 
     if(found == NULL)
-        RETURN(create_string(fname));
+        RETURN(fname);
     else
         RETURN(create_string(found));
 }

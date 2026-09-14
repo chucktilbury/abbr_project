@@ -35,6 +35,7 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             case START_STATE: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_NAMESPACE) {
+                    consume_token();
                     state = START_STATE + 1;
                 }
                 else
@@ -55,6 +56,7 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             case START_STATE + 2: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_LCURLY) {
+                    consume_token();
                     state = START_STATE + 3;
                 }
                 else {
@@ -79,6 +81,7 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             case START_STATE + 4: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_RCURLY) {
+                    consume_token();
                     state = RETURN_MATCH;
                 }
                 else
@@ -101,7 +104,9 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
             // required '}'
             case START_STATE + 6: {
                 TRACE_STATE;
-                if(TOKEN_TYPE == TOK_LCURLY) {
+                TRACE_TOKEN;
+                if(TOKEN_TYPE == TOK_RCURLY) {
+                    consume_token();
                     state = RETURN_MATCH;
                 }
                 else {
@@ -116,16 +121,19 @@ ast_namespace_t* _parse_namespace(parser_context_t* context) {
                 node->identifier = identifier;
                 node->list = list;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

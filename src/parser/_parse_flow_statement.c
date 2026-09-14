@@ -78,16 +78,19 @@ ast_flow_statement_t* _parse_flow_statement(parser_context_t* context) {
                 node = (ast_flow_statement_t*)create_ast_node(AST_FLOW_STATEMENT);
                 node->item = item;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

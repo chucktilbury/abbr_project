@@ -3,6 +3,9 @@
 
 #include "common.h"
 
+// end of input
+#define EOI -2
+
 void open_file(string_t* fname);
 void close_file(void);
 

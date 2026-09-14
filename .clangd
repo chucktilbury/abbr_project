@@ -1,2 +1,10 @@
 Diagnostics:
   UnusedIncludes: None
+InlayHints:
+  BlockEnd: false
+  Designators: true
+  Enabled: true
+  ParameterNames: false
+  DeducedTypes: true
+  DefaultArguments: false
+  TypeNameLimit: 24

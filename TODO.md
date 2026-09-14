@@ -5,7 +5,8 @@
 * Decide whether arrays hold single type elements or objects.
 * ~~import and include parser items~~
 * implement parser modes
-* implement find_file() in main
+* ~~implement find_file() in main~~
+* propagate scanner errors to the parser errors
 
 # BUGS
 

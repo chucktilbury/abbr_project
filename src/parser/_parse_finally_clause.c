@@ -55,16 +55,19 @@ ast_finally_clause_t* _parse_finally_clause(parser_context_t* context) {
                 node = (ast_finally_clause_t*)create_ast_node(AST_FINALLY_CLAUSE);
                 node->function_body = function_body;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

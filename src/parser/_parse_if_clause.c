@@ -133,16 +133,19 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
                 node->final_else_clause = final_else_clause;
                 node->else_clause = list;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

@@ -108,6 +108,6 @@ token_t* create_token_str(const char* text, token_type_t type);
 token_t* create_token_char(const int text, token_type_t type);
 void destroy_token(token_t* tok);
 const char* token_type_to_str(token_type_t tok);
-void print_token(token_t* tok);
+void trace_token(token_t* tok);
 
 #endif /* _TOKENS_H_ */

@@ -52,16 +52,19 @@ ast_function_decl_parameter_t* _parse_function_decl_parameter(parser_context_t* 
                 node->type_specifier = type_specifier;
                 node->identifier = identifier;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

@@ -31,6 +31,7 @@ ast_identifier_t* _parse_identifier(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                TRACE_TOKEN;
                 if(TOKEN_TYPE == TOK_IDENTIFIER) {
                     name = copy_string(get_token()->text);
                     consume_token();
@@ -45,16 +46,19 @@ ast_identifier_t* _parse_identifier(parser_context_t* context) {
                 node = (ast_identifier_t*)create_ast_node(AST_IDENTIFIER);
                 node->name = name;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

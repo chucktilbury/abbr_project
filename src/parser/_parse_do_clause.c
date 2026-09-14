@@ -100,16 +100,19 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context) {
                 node->expr = expr;
                 node->loop_body = loop_body;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

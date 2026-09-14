@@ -18,10 +18,12 @@ static file_t* file_stack = NULL;
 
 void open_file(string_t* fname) {
 
+    ENTER;
+    TRACE("opening file: %s", raw_string(fname));
     file_t* ptr = _ALLOC_TYPE(file_t);
     ptr->fp = fopen(raw_string(fname), "r");
     if(ptr->fp == NULL) {
-        fprintf(stderr, "fatal error: cannot open input file: \"%s\": %s", raw_string(fname), strerror(errno));
+        fprintf(stderr, "fatal error: cannot open input file: \"%s\": %s\n", raw_string(fname), strerror(errno));
         exit(1);
     }
     ptr->fname = copy_string(fname);
@@ -32,25 +34,30 @@ void open_file(string_t* fname) {
     if(file_stack != NULL)
         ptr->next = file_stack;
     file_stack = ptr;
+    RETURN();
 }
 
 void close_file(void) {
+    ENTER;
     // if there is no file, fail silently
     if(file_stack != NULL) {
         file_t* tmp = file_stack;
         file_stack = tmp->next;
+        TRACE("closing file: %s", raw_string(tmp->fname));
 
         fclose(tmp->fp);
-        destroy_string(tmp->fname);
+        // close_file() does not own this string...
+        //destroy_string(tmp->fname);
         _FREE(tmp);
     }
+    RETURN();
 }
 
 int get_char(void) {
     if(file_stack != NULL)
         return file_stack->crnt_char;
 
-    return EOF;
+    return EOI;
 }
 
 int consume_char(void) {
@@ -69,7 +76,7 @@ int consume_char(void) {
         return file_stack->crnt_char;
     }
 
-    return EOF;
+    return EOI;
 }
 
 string_t* get_file_name(void) {

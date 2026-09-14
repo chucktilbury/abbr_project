@@ -607,6 +607,10 @@ token_t* scan_token(void) {
             tok = create_token(create_string(NULL), TOK_END_OF_FILE);
             finished++;
         }
+        else if(ch == EOI) {
+            tok = create_token(create_string(NULL), TOK_END_OF_INPUT);
+            finished++;
+        }
     }
 
     return tok;

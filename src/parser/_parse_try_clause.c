@@ -93,16 +93,19 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context) {
                 node->finally_clause = finally_clause;
                 node->except_clause = list;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

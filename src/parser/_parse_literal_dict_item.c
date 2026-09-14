@@ -67,16 +67,19 @@ ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
                 node->literal_str = literal_str;
                 node->const_value = const_value;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

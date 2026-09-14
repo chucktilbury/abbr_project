@@ -72,16 +72,19 @@ ast_destructor_definition_t* _parse_destructor_definition(parser_context_t* cont
                 node->group = group;
                 node->function_body = function_body;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

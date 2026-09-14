@@ -99,16 +99,19 @@ ast_function_definition_t* _parse_function_definition(parser_context_t* context)
                 node->function_definition_parameters = function_definition_parameters;
                 node->function_body = function_body;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

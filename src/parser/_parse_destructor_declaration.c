@@ -51,16 +51,19 @@ ast_destructor_declaration_t* _parse_destructor_declaration(parser_context_t* co
                 node = (ast_destructor_declaration_t*)create_ast_node(AST_DESTRUCTOR_DECLARATION);
                 node->func_body = func_body;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

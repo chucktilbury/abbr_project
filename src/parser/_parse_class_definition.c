@@ -172,16 +172,19 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                 node->i_list = ilist;
                 node->c_list = clist;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

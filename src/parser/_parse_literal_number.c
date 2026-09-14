@@ -100,6 +100,7 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
             case RETURN_MATCH: {
                 TRACE_STATE;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
@@ -107,6 +108,7 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
                 _FREE(node);
                 node = NULL;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
@@ -114,6 +116,7 @@ ast_literal_number_t* _parse_literal_number(parser_context_t* context) {
                 _FREE(node);
                 node = NULL;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

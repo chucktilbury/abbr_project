@@ -78,16 +78,19 @@ ast_data_declaration_t* _parse_data_declaration(parser_context_t* context) {
                 node->type_specifier = type_specifier;
                 node->const_value = const_value;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

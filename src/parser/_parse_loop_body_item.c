@@ -78,16 +78,19 @@ ast_loop_body_item_t* _parse_loop_body_item(parser_context_t* context) {
                 node = (ast_loop_body_item_t*)create_ast_node(AST_LOOP_BODY_ITEM);
                 node->item = item;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

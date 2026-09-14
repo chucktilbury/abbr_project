@@ -34,6 +34,7 @@ ast_global_scope_operator_t* _parse_global_scope_operator(parser_context_t* cont
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_PUBLIC || TOKEN_TYPE == TOK_PRIVATE) {
                     tok = TOKEN_TYPE;
+                    trace_token(get_token());
                     consume_token();
                     state = RETURN_MATCH;
                 }
@@ -46,16 +47,19 @@ ast_global_scope_operator_t* _parse_global_scope_operator(parser_context_t* cont
                 node = (ast_global_scope_operator_t*)create_ast_node(AST_GLOBAL_SCOPE_OPERATOR);
                 node->tok = tok;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

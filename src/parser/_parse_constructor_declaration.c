@@ -64,16 +64,19 @@ ast_constructor_declaration_t* _parse_constructor_declaration(parser_context_t* 
                 node->function_declaration_parameters = parms;
                 node->func_body = body;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

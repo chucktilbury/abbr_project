@@ -118,11 +118,11 @@ const char* token_type_to_str(token_type_t type) {
                                           "UNKNOWN";
 }
 
-void print_token(token_t* tok) {
+void trace_token(token_t* tok) {
 
     if(tok != NULL) {
-        printf("tok text \"%s\": type \"%s\" ", raw_string(tok->text), token_type_to_str(tok->type));
-        printf("file \"%s\": line %d: column %d\n", raw_string(tok->fname), tok->line_no, tok->col_no);
+        TRACE("tok text \"%s\": type \"%s\" ", raw_string(tok->text), token_type_to_str(tok->type));
+        TRACE("file \"%s\": line %d: column %d", raw_string(tok->fname), tok->line_no, tok->col_no);
     }
     else
         printf("NULL TOKEN\n");

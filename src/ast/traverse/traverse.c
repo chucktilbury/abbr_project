@@ -15,6 +15,8 @@
  */
 void traverse_ast(ast_node_t* node) {
     TRAVERSE_ENTER;
+    LEGEND("BEGIN TRAVERSE");
     _traverse_module((ast_module_t*)node);
+    LEGEND("END TRAVERSE");
     RETURN();
 }

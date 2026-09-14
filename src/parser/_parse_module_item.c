@@ -62,13 +62,8 @@ ast_module_item_t* _parse_module_item(parser_context_t* context) {
 
             case START_STATE + 1: {
                 TRACE_STATE;
-                if(NULL != (item = (ast_node_t*)_parse_include_statement(context))) {
-                    // debugging strategy
-                    const char* str = raw_string(((ast_include_statement_t*)item)->str->str);
-                    open_file(find_file(str));
-                    push_parser_mode(context, PMODE_INCLUDE);
+                if(NULL != (item = (ast_node_t*)_parse_include_statement(context))) 
                     state = RETURN_MATCH;
-                }
                 else
                     state = START_STATE + 2;
             } break;
@@ -76,7 +71,7 @@ ast_module_item_t* _parse_module_item(parser_context_t* context) {
             case START_STATE + 2: {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_import_statement(context))) {
-                    const char* str = raw_string(((ast_include_statement_t*)item)->str->str);
+                    string_t* str = ((ast_include_statement_t*)item)->str->str;
                     open_file(find_file(str));
                     push_parser_mode(context, PMODE_IMPORT);
                     state = RETURN_MATCH;
@@ -90,16 +85,19 @@ ast_module_item_t* _parse_module_item(parser_context_t* context) {
                 node = (ast_module_item_t*)create_ast_node(AST_MODULE_ITEM);
                 node->item = item;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

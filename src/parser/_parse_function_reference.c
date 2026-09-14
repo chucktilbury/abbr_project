@@ -112,16 +112,19 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
                 node->identifier = identifier;
                 node->expr = list;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

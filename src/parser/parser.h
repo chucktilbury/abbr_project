@@ -29,14 +29,18 @@ typedef enum {
     USER_STATE = 1000,
 } parser_state_t;
 
-typedef struct _parser_state_t {
+typedef struct _parser_context_t {
     int_list_t* mode_stack;
     int_list_t* scope_stack;
     int errors;
     int warnings;
+    int line;
+    int col;
+    const char* fname;
+    ast_node_t* tree;
 } parser_context_t;
 
-ast_node_t* parse(void);
+parser_context_t* parse(void);
 parser_context_t* create_parser_context(void);
 void push_parser_scope(parser_context_t* context, parser_scope_t scope);
 void pop_parser_scope(parser_context_t* context);
@@ -45,6 +49,7 @@ void push_parser_mode(parser_context_t* context, parser_mode_t mode);
 void pop_parser_mode(parser_context_t* context);
 parser_mode_t peek_parser_mode(parser_context_t* context);
 void recover_parser_error(parser_context_t* context);
+void touch_context(parser_context_t* context);
 
 void parser_error(parser_context_t* context, const char* fmt, ...);
 void parser_warning(parser_context_t* context, const char* fmt, ...);
@@ -116,14 +121,19 @@ ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
 
 #ifdef USE_TRACE
 #define TRACE_STATE                                                          \
-    do {                                                                     \
+    do {                  \
+        const char* parser_state_to_str(int);                                \
         if(verbosity >= DEFAULT_TRACE) {                                     \
             INDENT;                                                          \
-            printf("%s: %d\n", colorize(fgCYA, aBOLD, 0, "STATE: "), state); \
+            printf("%s: %s\n", colorize(fgMAG, aBOLD, 0, "STATE: "), parser_state_to_str(state)); \
         }                                                                    \
     } while(0)
+
+#define TRACE_TOKEN trace_token(get_token())
+
 #else
 #define TRACE_STATE
+#define TRACE_TOKEN
 #endif
 
 #define TOKEN_TYPE (get_token()->type)

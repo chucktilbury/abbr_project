@@ -71,7 +71,7 @@ static inline token_t* _tok(void) {
 void create_token_queue(string_t* fname) {
     tqueue = _ALLOC_TYPE(token_queue_t);
     tqueue->pstk = create_ptr_list();
-    open_file(fname);
+    open_file(find_file(fname));
     create_scanner();
     consume_token();
     mark_token_queue();
@@ -144,11 +144,12 @@ int token_queue_size(void) {
 }
 
 void print_token_queue(void) {
-
+    ENTER;
     printf("\n------- token queue nitems: %d -------\n", tqueue->nitems);
     for(token_list_t* ptr = tqueue->first; ptr != NULL; ptr = ptr->next) {
-        print_token(ptr->tok);
+        trace_token(ptr->tok);
         if(ptr == tqueue->crnt)
             printf("   ^^^ crnt ^^^\n");
     }
+    RETURN();
 }

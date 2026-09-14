@@ -91,9 +91,20 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                     state = START_STATE + 5;
             } break;
 
-            case START_STATE + 6: {
+            case START_STATE + 5: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_UNSIGNED) {
+                    type = TOKEN_TYPE;
+                    consume_token();
+                    state = RETURN_MATCH;
+                }
+                else
+                    state = START_STATE + 6;
+            } break;
+
+            case START_STATE + 6: {
+                TRACE_STATE;
+                if(TOKEN_TYPE == TOK_FLOAT) {
                     type = TOKEN_TYPE;
                     consume_token();
                     state = RETURN_MATCH;
@@ -103,17 +114,6 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
             } break;
 
             case START_STATE + 7: {
-                TRACE_STATE;
-                if(TOKEN_TYPE == TOK_FLOAT) {
-                    type = TOKEN_TYPE;
-                    consume_token();
-                    state = RETURN_MATCH;
-                }
-                else
-                    state = START_STATE + 8;
-            } break;
-
-            case START_STATE + 8: {
                 TRACE_STATE;
                 if(TOKEN_TYPE == TOK_NOTHING) {
                     type = TOKEN_TYPE;
@@ -129,16 +129,19 @@ ast_literal_type_t* _parse_literal_type(parser_context_t* context) {
                 node = (ast_literal_type_t*)create_ast_node(AST_LITERAL_TYPE);
                 node->type = type;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

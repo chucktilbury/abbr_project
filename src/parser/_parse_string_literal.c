@@ -32,9 +32,10 @@ ast_string_literal_t* _parse_string_literal(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
-                if(TOKEN_TYPE == TOK_LITERAL_SSTR || TOKEN_TYPE == TOK_LITERAL_SSTR) {
-                    consume_token();
+                TRACE_TOKEN;
+                if(TOKEN_TYPE == TOK_LITERAL_SSTR || TOKEN_TYPE == TOK_LITERAL_DSTR) {
                     str = copy_string(get_token()->text);
+                    consume_token();
                     state = RETURN_MATCH;
                 }
                 else
@@ -46,16 +47,19 @@ ast_string_literal_t* _parse_string_literal(parser_context_t* context) {
                 node = (ast_string_literal_t*)create_ast_node(AST_STRING_LITERAL);
                 node->str = str;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

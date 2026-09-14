@@ -32,6 +32,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
     ast_node_list_t* list = NULL;
     ast_node_t* item = NULL;
     bool start_clause = false;
+    touch_context(context);
 
     int finished = 0;
     int state = START_STATE;
@@ -42,10 +43,13 @@ ast_module_t* _parse_module(parser_context_t* context) {
             // needs to check for end of file at every iteration
             case START_STATE: {
                 TRACE_STATE;
+                // TRACE("list state: %s", (list == NULL)? "not created": "created");
+                // TRACE("  size: %d", (list == NULL)? -1: list->len);
+                TRACE_TOKEN;
                 if(TOKEN_TYPE == TOK_END_OF_FILE) {
-                    consume_token();
                     pop_parser_mode(context);
                     close_file();
+                    consume_token();
                     state = START_STATE + 1;
                 }
                 else if(list == NULL)
@@ -58,6 +62,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
             // then continue with the main line of parsing.
             case START_STATE + 1: {
                 TRACE_STATE;
+                TRACE_TOKEN;
                 if(TOKEN_TYPE == TOK_END_OF_INPUT) {
                     consume_token();
                     pop_parser_mode(context);
@@ -97,7 +102,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
                     state = START_STATE;
                 }
                 else {
-                    parser_error(context, "expected end of file or module item");
+                    parser_error(context, "expected at least one module item");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -124,12 +129,13 @@ ast_module_t* _parse_module(parser_context_t* context) {
                 TRACE_STATE;
                 if(NULL != (item = (ast_node_t*)_parse_module_item(context))) {
                     append_ast_node_list(list, item);
-                    state = START_STATE;
+                    // state = START_STATE;
                 }
-                else {
-                    parser_error(context, "expected end of file or module item");
-                    state = RETURN_ERROR;
-                }
+                // else {
+                //     parser_error(context, "expected a module item");
+                //     state = START_STATE;
+                // }
+                state = START_STATE;
             } break;
 
             case RETURN_MATCH: {
@@ -137,16 +143,19 @@ ast_module_t* _parse_module(parser_context_t* context) {
                 node = (ast_module_t*)create_ast_node(AST_MODULE);
                 node->list = list;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

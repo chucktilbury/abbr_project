@@ -113,16 +113,19 @@ ast_formatted_string_t* _parse_formatted_string(parser_context_t* context) {
                 node->literal_str = literal_str;
                 node->list = list;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:

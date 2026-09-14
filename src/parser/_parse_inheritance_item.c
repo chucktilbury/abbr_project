@@ -51,16 +51,19 @@ ast_inheritance_item_t* _parse_inheritance_item(parser_context_t* context) {
                 node->compound_name = compound_name;
                 node->class_scope_operator = class_scope_operator;
                 flush_token_queue();
+                finished = true;
             } break;
 
             case RETURN_NO_MATCH: {
                 TRACE_STATE;
                 reset_token_queue();
+                finished = true;
             } break;
 
             case RETURN_ERROR: {
                 TRACE_STATE;
                 recover_parser_error(context);
+                finished = true;
             } break;
 
             default:
