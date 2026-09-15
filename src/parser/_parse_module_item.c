@@ -70,12 +70,8 @@ ast_module_item_t* _parse_module_item(parser_context_t* context) {
 
             case START_STATE + 2: {
                 TRACE_STATE;
-                if(NULL != (item = (ast_node_t*)_parse_import_statement(context))) {
-                    string_t* str = ((ast_include_statement_t*)item)->str->str;
-                    open_file(find_file(str));
-                    push_parser_mode(context, PMODE_IMPORT);
+                if(NULL != (item = (ast_node_t*)_parse_import_statement(context))) 
                     state = RETURN_MATCH;
-                }
                 else
                     state = RETURN_NO_MATCH;
             } break;

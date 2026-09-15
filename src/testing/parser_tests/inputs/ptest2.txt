@@ -1,0 +1,5 @@
+
+/*
+ * Text an empty namespace
+ */
+namespace foo {}

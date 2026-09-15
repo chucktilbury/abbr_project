@@ -84,7 +84,7 @@ void append_string(string_t* s, const char* str) {
 void append_string_char(string_t* s, int ch) {
 
     ASSERT(s != NULL, "invalid string_t pointer");
-    ASSERT(ch != '\0', "invalid end of string")
+    ASSERT(ch != '\0', "invalid end of string");
 
     if(s->len + 2 > s->cap) {
         s->cap <<= 1;

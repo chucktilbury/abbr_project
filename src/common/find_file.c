@@ -61,6 +61,7 @@ static void add_env(const char* str) {
  */
 static void add_dirs(const char* dname) {
 
+    // ENTER;
     char* tmp = NULL;
     struct stat s;
 
@@ -69,13 +70,18 @@ static void add_dirs(const char* dname) {
     glob_t gstruct;
     glob(tmp, GLOB_NOSORT | GLOB_NOESCAPE, NULL, &gstruct);
 
-    // printf("paths: %lu\n", gstruct.gl_pathc);
+    // TRACE("adding path: %s", tmp);
+    // TRACE("paths: %lu", gstruct.gl_pathc);
     for(size_t i = 0; i < gstruct.gl_pathc; i++) {
-        // printf("%d. %s\n", i+1, gstruct.gl_pathv[i]);
         stat(gstruct.gl_pathv[i], &s);
-        if(S_ISDIR(s.st_mode))
+        if(S_ISDIR(s.st_mode)) {
+            // TRACE("%lu. %s", i+1, gstruct.gl_pathv[i]);
             append_string_list(common_env, create_string(gstruct.gl_pathv[i]));
+            // recursively add subdirectories
+            add_dirs(gstruct.gl_pathv[i]);
+        }
     }
+    // RETURN();
 }
 
 /**
@@ -100,8 +106,9 @@ void setup_env(void) {
     if(common_env == NULL)
         common_env = create_string_list();
 
-    add_env("MACRO_PATH");
-    add_dirs("..");
+    add_env("INCLUDE_PATH");
+    add_env("IMPORT_PATH");
+    // add_dirs("..");
     add_env("PATH");
 }
 
@@ -161,9 +168,9 @@ string_t* find_file(string_t* fname) {
  * Add a directory to the search path.
  */
 void add_dir_to_search(string_t* str) {
-    ENTER;
+    //ENTER;
     if(common_env == NULL)
         common_env = create_string_list();
     add_dirs(str->buffer);
-    RETURN();
+    //RETURN();
 }

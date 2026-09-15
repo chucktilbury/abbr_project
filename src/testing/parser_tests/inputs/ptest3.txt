@@ -1,0 +1,7 @@
+/*
+ * Test a semi-empty class
+ */
+class foo {
+    destroy
+}
+

@@ -1,10 +1,25 @@
+If:                        
+  PathMatch: [.*\.h, .*\.c]
+  PathExclude: src/gc/.* 
+
 Diagnostics:
   UnusedIncludes: None
+
 InlayHints:
   BlockEnd: false
   Designators: true
   Enabled: true
   ParameterNames: false
   DeducedTypes: true
-  DefaultArguments: false
   TypeNameLimit: 24
+
+Completion:
+  AllScopes: Yes
+  ArgumentLists: Delimiters
+  HeaderInsertion: Never
+  CodePatterns: None
+  MacroFilter: ExactPrefix
+
+Documentation:
+  CommentFormat: Doxygen
+  

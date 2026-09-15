@@ -7,18 +7,19 @@
 #include "ast.h"
 #include "common.h"
 #include "token_queue.h"
+#include "trace.h"
 #include <stdarg.h>
 
 parser_context_t* parse(void) {
     ENTER;
-
     LEGEND("START PARSER");
+
     create_token_queue(get_cmd_opt("files"));
     parser_context_t* context = create_parser_context();
     push_parser_mode(context, PMODE_NORMAL);
     context->tree = (ast_node_t*)_parse_module(context);
+
     LEGEND("END PARSER");
-    
     RETURN(context);
 }
 

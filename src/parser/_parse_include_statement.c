@@ -68,7 +68,7 @@ ast_include_statement_t* _parse_include_statement(parser_context_t* context) {
                 TRACE("file name: %s", raw_string(str));
                 open_file(find_file(str));
                 push_parser_mode(context, PMODE_INCLUDE);
-                consume_token();
+                consume_token(); // consume the literal string
                 
                 finished = true;
             } break;

@@ -65,14 +65,12 @@ typedef struct _ast_include_statement_t {
 
 /*
  *  import_statement
- *      : 'import' string_literal
- *      | 'import' compound_name ( ('from' string_literal)? ('as' identifier)? )?
+ *      : 'import' string_literal ('as' identifier)?
  *      ;
  */
 typedef struct _ast_import_statement_t {
     ast_node_t node;
     // import is handled outside of the AST
-    struct _ast_compound_name_t* compound_name;
     struct _ast_string_literal_t* str;
     struct _ast_identifier_t* identifier;
 } ast_import_statement_t;

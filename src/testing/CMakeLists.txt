@@ -1,3 +1,4 @@
 
 add_subdirectory(scanner_tests)
 add_subdirectory(expr_tests)
+add_subdirectory(parser_tests)

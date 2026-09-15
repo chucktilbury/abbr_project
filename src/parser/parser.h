@@ -123,7 +123,7 @@ ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
 #define TRACE_STATE                                                          \
     do {                  \
         const char* parser_state_to_str(int);                                \
-        if(verbosity >= DEFAULT_TRACE) {                                     \
+        if(peek_verbosity() >= DEBUG_TRACE_LEVEL) {                                     \
             INDENT;                                                          \
             printf("%s: %s\n", colorize(fgMAG, aBOLD, 0, "STATE: "), parser_state_to_str(state)); \
         }                                                                    \

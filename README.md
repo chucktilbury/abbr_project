@@ -108,8 +108,7 @@ include_statement
     ;
 
 import_statement
-    : 'import' string_literal
-    | 'import' compound_name ( ('from' string_literal)? ('as' identifier)? )?
+    : 'import' string_literal ('as' identifier)? 
     ;
 
 # This just makes implementing the parser easier.

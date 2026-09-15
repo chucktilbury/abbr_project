@@ -71,7 +71,7 @@ void _traverse_identifier(ast_identifier_t* node);
 #define NODE_TYPE(n) ((ast_node_t*)n)->type
 #define SHOW_TOKEN(t)                                             \
     do {                                                          \
-        if((t) != NULL && verbosity >= DEFAULT_TRACE) {           \
+        if((t) != NULL && peek_verbosity() >= DEBUG_TRACE_LEVEL) {           \
             INDENT;                                               \
             printf("%s: ", colorize(fgCYA, aBOLD, 0, "TOKEN: ")); \
             print_token(t);                                       \
@@ -80,7 +80,7 @@ void _traverse_identifier(ast_identifier_t* node);
 
 #define SHOW_TOKEN_TYPE(t)                                                \
     do {                                                                  \
-        if(verbosity >= DEFAULT_TRACE) {                                  \
+        if(peek_verbosity() >= DEBUG_TRACE_LEVEL) {                                  \
             INDENT;                                                       \
             printf("%s: %s\n", colorize(fgCYA, aBOLD, 0, "TOKEN TYPE: "), \
                    token_type_to_str(t));                                 \
@@ -89,7 +89,7 @@ void _traverse_identifier(ast_identifier_t* node);
 
 #define SHOW_STRING(s)                                                                \
     do {                                                                              \
-        if((s) != NULL && verbosity >= DEFAULT_TRACE) {                               \
+        if((s) != NULL && peek_verbosity() >= DEBUG_TRACE_LEVEL) {                               \
             INDENT;                                                                   \
             printf("%s: %s\n", colorize(fgCYA, aBOLD, 0, "STRING: "), raw_string(s)); \
         }                                                                             \
@@ -98,7 +98,7 @@ void _traverse_identifier(ast_identifier_t* node);
 #define TRAVERSE_ENTER                                                                   \
     do {                                                                                 \
         ENTER;                                                                           \
-        ASSERT(node != NULL, "invalid AST node encountered in %s", __PRETTY_FUNCTION__); \
+        ASSERT(node != NULL, "invalid AST node encountered"); \
     } while(0);
 
 

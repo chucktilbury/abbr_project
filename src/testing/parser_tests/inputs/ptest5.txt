@@ -1,0 +1,7 @@
+
+/*
+ * test the import keyword
+ */
+
+import "ptest4.txt"
+

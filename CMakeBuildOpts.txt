@@ -34,7 +34,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "debug")
         -DMEMORY_DEBUG
         -DUSE_GC
         -DUSE_TRACE
-        -DUSE_ASSERTS
+        -DUSE_ASSERT
         -DUSE_COLORS
     )
 elseif(CMAKE_BUILD_TYPE STREQUAL "release")
