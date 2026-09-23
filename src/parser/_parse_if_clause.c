@@ -54,7 +54,7 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
                     state = START_STATE + 2;
                 }
                 else {
-                    parser_error(context, "expected a '('");
+                    parser_expect_error(context, "a '('");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -65,7 +65,7 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
                 if(NULL != (expr = _parse_expression(context)))
                     state = START_STATE + 3;
                 else {
-                    parser_error(context, "expected an expression");
+                    parser_expect_error(context, "an expression");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -78,7 +78,7 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
                     state = START_STATE + 4;
                 }
                 else {
-                    parser_error(context, "expected a ')'");
+                    parser_expect_error(context, "a ')'");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -89,7 +89,7 @@ ast_if_clause_t* _parse_if_clause(parser_context_t* context) {
                 if(NULL != (function_body = _parse_function_body(context)))
                     state = START_STATE + 5;
                 else {
-                    parser_error(context, "expected a function body");
+                    parser_expect_error(context, "a function body");
                     state = RETURN_ERROR;
                 }
             } break;

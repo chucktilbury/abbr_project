@@ -61,7 +61,7 @@ ast_destructor_definition_t* _parse_destructor_definition(parser_context_t* cont
                 if(NULL != (function_body = _parse_function_body(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected a function body");
+                    parser_expect_error(context, "a function body");
                     state = RETURN_ERROR;
                 }
             } break;

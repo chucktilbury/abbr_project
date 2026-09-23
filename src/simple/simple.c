@@ -6,7 +6,14 @@
 #include "parser.h"
 #include "trace.h"
 
-void cmdline(int argc, char** argv, char** env) {
+/**
+ * @brief Create the command line data structures and parse the command line.
+ * 
+ * @param argc 
+ * @param argv 
+ * @param env 
+ */
+static void cmdline(int argc, char** argv, char** env) {
 
     init_cmdline("Simple", "Simple", "0.0.1");
 
@@ -28,8 +35,14 @@ void cmdline(int argc, char** argv, char** env) {
 
 }
 
-/*
-*/
+/**
+ * @brief Global main()
+ * 
+ * @param argc 
+ * @param argv 
+ * @param env 
+ * @return int 
+ */
 int main(int argc, char** argv, char** env) {
 
     cmdline(argc, argv, env);

@@ -89,7 +89,7 @@ ast_for_clause_t* _parse_for_clause(parser_context_t* context) {
                 if(NULL != (identifier = _parse_identifier(context)))
                     state = USER_STATE + 40;
                 else {
-                    parser_error(context, "expected an identifier");
+                    parser_expect_error(context, "an identifier");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -102,7 +102,7 @@ ast_for_clause_t* _parse_for_clause(parser_context_t* context) {
                     state = USER_STATE + 100;
                 }
                 else {
-                    parser_error(context, "expected a ')'");
+                    parser_expect_error(context, "a ')'");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -113,7 +113,7 @@ ast_for_clause_t* _parse_for_clause(parser_context_t* context) {
                 if(NULL != (loop_body = _parse_loop_body(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected a loop body");
+                    parser_expect_error(context, "a loop body");
                     state = USER_STATE + 100;
                 }
             } break;

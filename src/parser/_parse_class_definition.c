@@ -27,6 +27,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
     ast_node_list_t* ilist = NULL;
     ast_node_list_t* clist = NULL;
     ast_node_t* item;
+    symbol_t* symbol = NULL;
 
     int finished = 0;
     int state = START_STATE;
@@ -50,7 +51,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                 if(NULL != (ident = _parse_identifier(context)))
                     state = USER_STATE;
                 else {
-                    parser_error(context, "expected identifier");
+                    parser_expect_error(context, "an identifier");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -87,7 +88,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                     state = USER_STATE + 500;
                 }
                 else {
-                    parser_error(context, "expected a type name, a symbol, a ',', or a ')'");
+                    parser_expect_error(context, "a type name, a symbol, a ',', or a ')'");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -100,7 +101,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                     state = USER_STATE + 210;
                 }
                 else {
-                    parser_error(context, "expected a type name or a symbol");
+                    parser_expect_error(context, "a type name or a symbol");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -117,7 +118,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                     state = USER_STATE + 500; // get the class body
                 }
                 else {
-                    parser_error(context, "expected a ',' or a ')'");
+                    parser_expect_error(context, "a ',' or a ')'");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -131,7 +132,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                     state = USER_STATE + 600;
                 }
                 else {
-                    parser_error(context, "expected a '{' for a class body");
+                    parser_expect_error(context, "a '{' for a class body");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -145,7 +146,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                     state = USER_STATE + 610;
                 }
                 else {
-                    parser_error(context, "class body requires at least one item");
+                    parser_syntax_error(context, "class body requires at least one item");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -160,7 +161,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                 else if(NULL != (item = (ast_node_t*)_parse_class_item(context)))
                     append_ast_node_list(clist, item); // no state change
                 else {
-                    parser_error(context, "expected a class body item or a '}'");
+                    parser_expect_error(context, "a class body item or a '}'");
                     state = RETURN_ERROR;
                 }
             } break;

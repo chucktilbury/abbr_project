@@ -53,7 +53,7 @@ ast_include_statement_t* _parse_include_statement(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a literal string");
+                    parser_expect_error(context, "a literal string");
                     state = RETURN_ERROR;
                 }
             } break;

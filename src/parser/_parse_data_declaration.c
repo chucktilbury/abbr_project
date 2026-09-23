@@ -46,7 +46,7 @@ ast_data_declaration_t* _parse_data_declaration(parser_context_t* context) {
                 if(NULL != (identifier = _parse_identifier(context)))
                     state = START_STATE + 2;
                 else {
-                    parser_error(context, "expected an identifier");
+                    parser_expect_error(context, "an identifier");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -66,7 +66,7 @@ ast_data_declaration_t* _parse_data_declaration(parser_context_t* context) {
                 if(NULL != (const_value = _parse_const_value(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected a constant value");
+                    parser_expect_error(context, "a constant value");
                     state = RETURN_ERROR;
                 }
             } break;

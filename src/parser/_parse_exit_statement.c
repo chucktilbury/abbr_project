@@ -58,7 +58,7 @@ ast_exit_statement_t* _parse_exit_statement(parser_context_t* context) {
                 if(TOKEN_TYPE == TOK_RPAREN)
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected a ')'");
+                    parser_expect_error(context, "a ')'");
                     state = RETURN_ERROR;
                 }
             } break;

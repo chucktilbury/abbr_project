@@ -65,7 +65,7 @@ ast_literal_array_definition_t* _parse_literal_array_definition(parser_context_t
                     state = START_STATE + 3;
                 }
                 else {
-                    parser_error(context, "expected a ',' or a ']'");
+                    parser_expect_error(context, "a ',' or a ']'");
                     state = RETURN_ERROR;
                 }
 
@@ -79,7 +79,7 @@ ast_literal_array_definition_t* _parse_literal_array_definition(parser_context_t
                     state = START_STATE + 2;
                 }
                 else {
-                    parser_error(context, "expected a constant value");
+                    parser_expect_error(context, "a constant value");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -92,7 +92,7 @@ ast_literal_array_definition_t* _parse_literal_array_definition(parser_context_t
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a ']'");
+                    parser_expect_error(context, "a ']'");
                     state = RETURN_ERROR;
                 }
             } break;

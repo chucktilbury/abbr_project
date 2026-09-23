@@ -59,7 +59,7 @@ ast_compound_reference_t* _parse_compound_reference(parser_context_t* context) {
                     state = START_STATE + 1;
                 }
                 else {
-                    parser_error(context, "expected an identifier, an array reference, or a function_reference");
+                    parser_expect_error(context, "an identifier, an array reference, or a function_reference");
                     state = RETURN_ERROR;
                 }
             } break;

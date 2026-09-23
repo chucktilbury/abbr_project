@@ -46,7 +46,7 @@ ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
                     state = START_STATE + 2;
                 }
                 else {
-                    parser_error(context, "expected a ':'");
+                    parser_expect_error(context, "a ':'");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -56,7 +56,7 @@ ast_literal_dict_item_t* _parse_literal_dict_item(parser_context_t* context) {
                 if(NULL != (const_value = _parse_const_value(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected a constant value");
+                    parser_expect_error(context, "a constant value");
                     state = RETURN_ERROR;
                 }
             } break;

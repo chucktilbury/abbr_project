@@ -86,7 +86,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
                         start_clause = true;
                     }
                     else {
-                        parser_error(context, "only one start clause is allowed");
+                        parser_syntax_error(context, "only one start clause is allowed");
                         state = RETURN_ERROR;
                     }
                 }
@@ -102,7 +102,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
                     state = START_STATE;
                 }
                 else {
-                    parser_error(context, "expected at least one module item");
+                    parser_expect_error(context, "at least one module item");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -117,7 +117,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
                         start_clause = true;
                     }
                     else {
-                        parser_error(context, "only one start clause is allowed");
+                        parser_syntax_error(context, "only one start clause is allowed");
                         state = RETURN_ERROR;
                     }
                 }
@@ -132,7 +132,7 @@ ast_module_t* _parse_module(parser_context_t* context) {
                     // state = START_STATE;
                 }
                 // else {
-                //     parser_error(context, "expected a module item");
+                //     parser_expect_error(context, "a module item");
                 //     state = START_STATE;
                 // }
                 state = START_STATE;

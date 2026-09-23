@@ -65,7 +65,7 @@ ast_function_declaration_parameters_t* _parse_function_declaration_parameters(pa
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a ',' or a ')'");
+                    parser_expect_error(context, "a ',' or a ')'");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -77,7 +77,7 @@ ast_function_declaration_parameters_t* _parse_function_declaration_parameters(pa
                     state = REPEAT_STATE;
                 }
                 else {
-                    parser_error(context, "expected a function declaration parameter");
+                    parser_expect_error(context, "a function declaration parameter");
                     state = RETURN_ERROR;
                 }
             } break;

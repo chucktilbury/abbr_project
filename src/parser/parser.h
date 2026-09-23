@@ -7,6 +7,7 @@
 
 #include "ast.h"
 #include "common.h"
+#include "symbols.h"
 
 typedef enum {
     PMODE_NORMAL,
@@ -38,6 +39,8 @@ typedef struct _parser_context_t {
     int col;
     const char* fname;
     ast_node_t* tree;
+    sym_context_t* sym_ctx;
+    sym_ctx_stack_t* ctx_stack;
 } parser_context_t;
 
 parser_context_t* parse(void);
@@ -51,7 +54,8 @@ parser_mode_t peek_parser_mode(parser_context_t* context);
 void recover_parser_error(parser_context_t* context);
 void touch_context(parser_context_t* context);
 
-void parser_error(parser_context_t* context, const char* fmt, ...);
+void parser_expect_error(parser_context_t* context, const char* fmt, ...);
+void parser_syntax_error(parser_context_t* context, const char* fmt, ...);
 void parser_warning(parser_context_t* context, const char* fmt, ...);
 
 ast_module_t* _parse_module(parser_context_t* context);

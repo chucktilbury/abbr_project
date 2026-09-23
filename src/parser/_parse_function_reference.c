@@ -75,7 +75,7 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a ')' or a ','");
+                    parser_expect_error(context, "a ')' or a ','");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -88,7 +88,7 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
                     state = START_STATE + 3;
                 }
                 else {
-                    parser_error(context, "expected an expression");
+                    parser_expect_error(context, "an expression");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -101,7 +101,7 @@ ast_function_reference_t* _parse_function_reference(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a ')'");
+                    parser_expect_error(context, "a ')'");
                     state = RETURN_ERROR;
                 }
             } break;

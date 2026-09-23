@@ -57,25 +57,26 @@ static int find_slot(hash_table_t* tab, const char* key) {
     if(tab->table[hash] == NULL) {
         return hash;
     }
-    else {
-        do {
-            for(int i = 0; i < tab->cap; i++) {
-                if(tab->table[hash] == NULL) {
-                    return hash;
-                }
-                else if(tab->table[hash]->key == NULL) {
-                    tab->tombstones--;
-                    return hash;
-                }
-                else if(strcmp(tab->table[hash]->key, key) == 0) {
-                    return hash; // duplicate key
-                }
-                else
-                    hash = (hash + inc) & (tab->cap - 1);
+
+    do {
+        for(int i = 0; i < tab->cap; i++) {
+            if(tab->table[hash] == NULL) {
+                return hash;
             }
-            inc = 1; // slot not found
-        } while(true);
-    }
+            
+            if(tab->table[hash]->key == NULL) {
+                tab->tombstones--;
+                return hash;
+            }
+            
+            if(strcmp(tab->table[hash]->key, key) == 0) {
+                return hash; // duplicate key
+            }
+
+            hash = (hash + inc) & (tab->cap - 1);
+        }
+        inc = 1; // slot not found
+    } while(true);
 
     return -1; // keep the compiler happy
 }
@@ -189,6 +190,24 @@ void remove_hashtable(hash_table_t* tab, const char* key) {
             tab->tombstones++;
         }
     }
+}
+
+void* iterate_hashtable(hash_table_t* tab, int* mark) {
+
+    void* ptr = NULL;
+
+    // only return actual entries
+    for(int i = *mark; i < tab->cap; i++, *mark = *mark+1) {
+        if(tab->table[i] != NULL) {
+            if(tab->table[i]->key != NULL) {
+                ptr = tab->table[i]->data;
+                *mark = *mark+1;
+                return ptr;
+            }
+        }
+    }
+
+    return ptr;
 }
 
 void dump_hashtable(hash_table_t* tab) {

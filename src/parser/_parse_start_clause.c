@@ -45,7 +45,7 @@ ast_start_clause_t* _parse_start_clause(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a function body");
+                    parser_expect_error(context, "a function body");
                     state = RETURN_ERROR;
                 }
             } break;

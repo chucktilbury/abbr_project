@@ -47,7 +47,7 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context) {
                 if(NULL != (loop_body = _parse_loop_body(context)))
                     state = START_STATE + 2;
                 else {
-                    parser_error(context, "expected a loop body");
+                    parser_expect_error(context, "a loop body");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -59,7 +59,7 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context) {
                     state = START_STATE + 3;
                 }
                 else {
-                    parser_error(context, "expected a 'while' keyword");
+                    parser_expect_error(context, "a 'while' keyword");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -89,7 +89,7 @@ ast_do_clause_t* _parse_do_clause(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a ')'");
+                    parser_expect_error(context, "a ')'");
                     state = RETURN_ERROR;
                 }
             } break;

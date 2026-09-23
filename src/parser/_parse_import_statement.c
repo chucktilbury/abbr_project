@@ -49,7 +49,7 @@ ast_import_statement_t* _parse_import_statement(parser_context_t* context) {
                 if(NULL != (str = _parse_string_literal(context)))
                     state = START_STATE+2;
                 else {
-                    parser_error(context, "expected a literal string");
+                    parser_expect_error(context, "a literal string");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -71,7 +71,7 @@ ast_import_statement_t* _parse_import_statement(parser_context_t* context) {
                 if(NULL != (identifier = _parse_identifier(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected an identifier");
+                    parser_expect_error(context, "an identifier");
                     state = RETURN_ERROR;
                 }
             } break;

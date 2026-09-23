@@ -46,7 +46,7 @@ ast_data_definition_t* _parse_data_definition(parser_context_t* context) {
                 if(NULL != (identifier = _parse_identifier(context)))
                     state = START_STATE + 2;
                 else {
-                    parser_error(context, "expected an identifier");
+                    parser_expect_error(context, "an identifier");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -68,7 +68,7 @@ ast_data_definition_t* _parse_data_definition(parser_context_t* context) {
                 if(NULL != (expression = _parse_expression(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected an expression");
+                    parser_expect_error(context, "an expression");
                     state = RETURN_ERROR;
                 }
             } break;

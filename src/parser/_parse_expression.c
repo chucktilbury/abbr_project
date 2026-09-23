@@ -115,7 +115,7 @@ ast_node_t* postfix_to_tree(parser_context_t* context, ast_node_list_t* queue) {
                     push_ast_node_list(stack, node);
                 } break;
                 default:
-                    parser_error(context, "expected an operator");
+                    parser_expect_error(context, "an operator");
                     return NULL;
             }
         }
@@ -123,7 +123,7 @@ ast_node_t* postfix_to_tree(parser_context_t* context, ast_node_list_t* queue) {
             push_ast_node_list(stack, node);
         }
         else {
-            parser_error(context, "expected an operator");
+            parser_expect_error(context, "an operator");
             return NULL;
         }
         node = iterate_ast_node_list(queue, &post);
@@ -225,12 +225,12 @@ ast_node_t* infix_to_tree(parser_context_t* context) {
                         oper->oper = TOKEN_TYPE;
                     }
                     else {
-                        parser_error(context, "expected a unary operator");
+                        parser_expect_error(context, "a unary operator");
                         return NULL;
                     }
                     break;
                 default:
-                    parser_error(context, "expected an arithmetic or a comparison operator");
+                    parser_expect_error(context, "an arithmetic or a comparison operator");
                     return NULL;
             }
 

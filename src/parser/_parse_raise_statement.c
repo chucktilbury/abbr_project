@@ -47,7 +47,7 @@ ast_raise_statement_t* _parse_raise_statement(parser_context_t* context) {
                     state = START_STATE + 2;
                 }
                 else {
-                    parser_error(context, "expected a '('");
+                    parser_expect_error(context, "a '('");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -59,7 +59,7 @@ ast_raise_statement_t* _parse_raise_statement(parser_context_t* context) {
                     state = START_STATE + 3;
                 }
                 else {
-                    parser_error(context, "expected a class name");
+                    parser_expect_error(context, "a class name");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -72,7 +72,7 @@ ast_raise_statement_t* _parse_raise_statement(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a ')'");
+                    parser_expect_error(context, "a ')'");
                     state = RETURN_ERROR;
                 }
             } break;

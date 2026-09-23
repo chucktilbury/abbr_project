@@ -51,7 +51,7 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context) {
                     state = START_STATE + 2;
                 }
                 else {
-                    parser_error(context, "expected a function body");
+                    parser_expect_error(context, "a function body");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -65,7 +65,7 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context) {
                     state = START_STATE + 3;
                 }
                 else {
-                    parser_error(context, "expected a function body");
+                    parser_expect_error(context, "a function body");
                     state = RETURN_ERROR;
                 }
             } break;

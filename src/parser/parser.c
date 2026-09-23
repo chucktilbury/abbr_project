@@ -24,11 +24,16 @@ parser_context_t* parse(void) {
 }
 
 parser_context_t* create_parser_context(void) {
+    ENTER;
+
     parser_context_t* ptr = _ALLOC_TYPE(parser_context_t);
+    
     ptr->mode_stack = create_int_list();
     ptr->scope_stack = create_int_list();
+    ptr->sym_ctx = create_sym_context(NULL);
+    ptr->ctx_stack = create_ptr_list();
 
-    return ptr;
+    RETURN(ptr);
 }
 
 void push_parser_scope(parser_context_t* context, parser_scope_t scope) {
@@ -67,10 +72,24 @@ void touch_context(parser_context_t* context) {
     context->col = get_col_no();
 }
 
-void parser_error(parser_context_t* context, const char* fmt, ...) {
+void parser_expect_error(parser_context_t* context, const char* fmt, ...) {
 
     //fprintf(stderr, "error: %s: %d: %d: ", raw_string(get_file_name()), get_line_no(), get_col_no());
-    fprintf(stderr, "error: %s: %d: %d: ", context->fname, context->line, context->col);
+    fprintf(stderr, "syntax error: %s: %d: %d: expected ", context->fname, context->line, context->col);
+    va_list args;
+    va_start(args, fmt);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+    token_t* tok = get_token();
+    fprintf(stderr, "but got %s (%s)\n", raw_string(tok->text), token_type_to_str(tok->type));
+
+    context->errors++;
+}
+
+void parser_syntax_error(parser_context_t* context, const char* fmt, ...) {
+
+    //fprintf(stderr, "error: %s: %d: %d: ", raw_string(get_file_name()), get_line_no(), get_col_no());
+    fprintf(stderr, "syntax error: %s: %d: %d: ", context->fname, context->line, context->col);
     va_list args;
     va_start(args, fmt);
     vfprintf(stderr, fmt, args);
@@ -92,7 +111,13 @@ void parser_warning(parser_context_t* context, const char* fmt, ...) {
     context->warnings++;
 }
 
-const char* parser_state_to_str(int state) {
+/**
+ * @brief Debugging code to convert a state ID into a string.
+ * 
+ * @param state 
+ * @return const char* 
+ */
+const char* parser_state_to_str(int state) { // NOLINT(misc-use-internal-linkage)
 
     static char buffer[64];
     memset(buffer, 0, sizeof(buffer));

@@ -54,7 +54,7 @@ ast_assignment_t* _parse_assignment(parser_context_t* context) {
                 if(NULL != (expr = _parse_expression(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected an expression");
+                    parser_expect_error(context, "an expression");
                     state = RETURN_ERROR;
                 }
             } break;

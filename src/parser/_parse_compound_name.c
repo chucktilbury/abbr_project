@@ -59,7 +59,7 @@ ast_compound_name_t* _parse_compound_name(parser_context_t* context) {
                     state = START_STATE + 1;
                 }
                 else {
-                    parser_error(context, "expected an identifier");
+                    parser_expect_error(context, "an identifier");
                     state = RETURN_ERROR;
                 }
             } break;

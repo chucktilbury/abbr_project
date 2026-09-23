@@ -90,4 +90,6 @@ void push_ast_node_list(ast_node_list_t* ptr, ast_node_t* node);
 ast_node_t* pop_ast_node_list(ast_node_list_t* ptr);
 ast_node_t* peek_ast_node_list(ast_node_list_t* ptr);
 
+void ast_to_dotfile(string_t* fname, ast_node_t* node);
+
 #endif /* _AST_H_ */

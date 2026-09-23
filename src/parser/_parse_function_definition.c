@@ -85,7 +85,7 @@ ast_function_definition_t* _parse_function_definition(parser_context_t* context)
                 if(NULL != (function_body = _parse_function_body(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected function body");
+                    parser_expect_error(context, "a function body");
                     state = RETURN_ERROR;
                 }
             } break;

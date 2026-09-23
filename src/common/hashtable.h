@@ -27,6 +27,7 @@ int insert_hashtable(hash_table_t* table, const char* key, void* data);
 void* find_hashtable(hash_table_t* tab, const char* key);
 void remove_hashtable(hash_table_t* tab, const char* key);
 int hash_name_exists(hash_table_t* tab, const char* key);
+void* iterate_hashtable(hash_table_t* tab, int* mark);
 
 void dump_hashtable(hash_table_t* tab);
 

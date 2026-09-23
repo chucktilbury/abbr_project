@@ -51,7 +51,7 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
                     state = START_STATE + 3;
                 }
                 else {
-                    parser_error(context, "expected a '('");
+                    parser_expect_error(context, "a '('");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -62,7 +62,7 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
                 if(NULL != (compound_name = _parse_compound_name(context)))
                     state = START_STATE + 4;
                 else {
-                    parser_error(context, "expected a compound identifier");
+                    parser_expect_error(context, "a compound identifier");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -85,7 +85,7 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
                 if(NULL != (identifier = _parse_identifier(context)))
                     state = START_STATE + 6;
                 else {
-                    parser_error(context, "expected an identifier");
+                    parser_expect_error(context, "an identifier");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -97,7 +97,7 @@ ast_except_clause_t* _parse_except_clause(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a ')'");
+                    parser_expect_error(context, "a ')'");
                     state = RETURN_ERROR;
                 }
             } break;

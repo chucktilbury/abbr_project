@@ -11,7 +11,6 @@ Checks: >
   -misc-unused-parameters,
   -misc-use-anonymous-namespace,
   -readability-identifier-naming.NewDelete
-
 CheckOptions:
   - key:             readability-identifier-naming.ClassCase
     value:           CamelCase

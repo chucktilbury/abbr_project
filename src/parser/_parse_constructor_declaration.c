@@ -46,7 +46,7 @@ ast_constructor_declaration_t* _parse_constructor_declaration(parser_context_t* 
                 if(NULL != (parms = _parse_function_declaration_parameters(context)))
                     state = START_STATE + 2;
                 else {
-                    parser_error(context, "expected function parameter list");
+                    parser_expect_error(context, "a function parameter list");
                     state = RETURN_ERROR;
                 }
             } break;

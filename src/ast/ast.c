@@ -198,3 +198,8 @@ static inline size_t get_node_size(ast_type_t type) {
 
     return size;
 }
+
+void ast_to_dotfile(string_t* fname, ast_node_t* node) {
+
+}
+

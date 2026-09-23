@@ -65,7 +65,7 @@ ast_constructor_definition_t* _parse_constructor_definition(parser_context_t* co
                 if(NULL != (body = _parse_function_body(context)))
                     state = RETURN_MATCH;
                 else {
-                    parser_error(context, "expected a function body");
+                    parser_expect_error(context, "a function body");
                     state = RETURN_ERROR;
                 }
             } break;

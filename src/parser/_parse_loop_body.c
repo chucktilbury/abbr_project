@@ -72,7 +72,7 @@ ast_loop_body_t* _parse_loop_body(parser_context_t* context) {
                     state = START_STATE + 2;
                 }
                 else {
-                    parser_error(context, "expected a loop body item");
+                    parser_expect_error(context, "a loop body item");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -85,7 +85,7 @@ ast_loop_body_t* _parse_loop_body(parser_context_t* context) {
                     state = RETURN_MATCH;
                 }
                 else {
-                    parser_error(context, "expected a '}'");
+                    parser_expect_error(context, "a '}'");
                     state = RETURN_ERROR;
                 }
             } break;

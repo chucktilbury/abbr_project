@@ -71,7 +71,7 @@ ast_function_body_t* _parse_function_body(parser_context_t* context) {
                     state = REPEAT_STATE;
                 }
                 else {
-                    parser_error(context, "expected a function body item");
+                    parser_expect_error(context, "a function body item");
                     state = RETURN_ERROR;
                 }
             } break;

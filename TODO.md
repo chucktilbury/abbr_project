@@ -9,6 +9,8 @@
 * propagate scanner errors to the parser errors
 * class must contain at least one item that is ``not a scope operator``
 * symbol table and ast are dumped as a ``dot`` file from command line
+* separate parser errors into expected and generic errors. 
+* clean up parser error messages
 
 # BUGS
 
