@@ -75,6 +75,8 @@ typedef enum {
     AST_CLASS_BODY = 578,
     AST_TYPE_CAST = 579,
     AST_TYPE_OF = 580,
+    AST_FORMATTED_STRING_PARAM_LIST = 581,
+    AST_FORMATTED_STRING_PARAM_ITEM = 582,
 } ast_type_t;
 
 #include "ast_struct.h"

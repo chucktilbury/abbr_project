@@ -124,6 +124,9 @@ ast_inheritance_list_t* _parse_inheritance_list(parser_context_t* context);
 ast_class_body_t* _parse_class_body(parser_context_t* context);
 ast_type_cast_t* _parse_type_cast(parser_context_t* context);
 ast_type_of_t* _parse_type_of(parser_context_t* context);
+ast_formatted_string_param_list_t* _parse_formatted_string_param_list(parser_context_t* context);
+ast_formatted_string_param_item_t* _parse_formatted_string_param_item(parser_context_t* context);
+
 
 #ifdef USE_TRACE
 #define TRACE_STATE                                                          \

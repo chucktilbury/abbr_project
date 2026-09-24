@@ -71,6 +71,8 @@ void _traverse_inheritance_list(ast_inheritance_list_t* node);
 void _traverse_class_body(ast_class_body_t* node);
 void _traverse_type_cast(ast_type_cast_t* node);
 void _traverse_type_of(ast_type_of_t* node);
+void _traverse_formatted_string_param_list(ast_formatted_string_param_list_t* node);
+void _traverse_formatted_string_param_item(ast_formatted_string_param_item_t* node);
 
 #define NODE_TYPE(n) ((ast_node_t*)n)->type
 #define SHOW_TOKEN(t)                                             \

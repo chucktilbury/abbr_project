@@ -345,13 +345,13 @@ typedef struct _ast_literal_string_t {
 
 /*
  *  formatted_string
- *      : LITERAL_DSTR ('(' ( expression, (',' expression)* )? ')')?
+ *      : LITERAL_DSTR formatted_string_param_list?
  *      ;
  */
 typedef struct _ast_formatted_string_t {
     ast_node_t node;
     string_t* literal_str;
-    ast_node_list_t* list;
+    struct _ast_formatted_string_param_list_t* params;
 } ast_formatted_string_t;
 
 
@@ -871,5 +871,27 @@ typedef struct _ast_type_of_t {
     ast_node_t node;
     struct _ast_expression_t* expr;
 } ast_type_of_t;
+
+/*
+ *  formatted_string_param_list
+ *      : '(' ( formatted_string_param_item, (',' formatted_string_param_item)* )? ')'
+ *      ;
+ */
+typedef struct _ast_formatted_string_param_list_t {
+    ast_node_t node;
+    ast_node_list_t* list;
+} ast_formatted_string_param_list_t;
+
+/*
+ *  formatted_string_param_item
+ *      : (IDENTIFIER '=')? expression
+ *      ;
+ */
+typedef struct _ast_formatted_string_param_item_t {
+    ast_node_t node;
+    struct _ast_expression_t* expr;
+    struct _ast_identifier_t* identifier;
+} ast_formatted_string_param_item_t;
+
 
 #endif /* _AST_STRUCT_H_ */

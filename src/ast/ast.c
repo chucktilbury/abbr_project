@@ -127,6 +127,8 @@ const char* node_type_to_str(ast_type_t type) {
             (type == AST_INHERITANCE_LIST)                ? "ast_inheritance_list_t" :
             (type == AST_TYPE_CAST)                       ? "ast_type_cast_t" :
             (type == AST_TYPE_OF)                         ? "ast_type_of_t" :
+            (type == AST_FORMATTED_STRING_PARAM_LIST)     ? "ast_formatted_string_param_list_t" :
+            (type == AST_FORMATTED_STRING_PARAM_ITEM)     ? "ast_formatted_string_param_item_t" :
                                                             "UNKNOWN";
 }
 
@@ -201,6 +203,8 @@ static inline size_t get_node_size(ast_type_t type) {
             (type == AST_INHERITANCE_LIST)                ? sizeof(ast_inheritance_list_t) :
             (type == AST_TYPE_CAST)                       ? sizeof(ast_type_cast_t) :
             (type == AST_TYPE_OF)                         ? sizeof(ast_type_of_t) :
+            (type == AST_FORMATTED_STRING_PARAM_LIST)     ? sizeof(ast_formatted_string_param_list_t) :
+            (type == AST_FORMATTED_STRING_PARAM_ITEM)     ? sizeof(ast_formatted_string_param_item_t) :
                                                             (size_t)-1;
 
 
