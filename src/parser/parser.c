@@ -10,6 +10,19 @@
 #include "trace.h"
 #include <stdarg.h>
 
+static parser_context_t* create_parser_context(void) {
+    ENTER;
+
+    parser_context_t* ptr = _ALLOC_TYPE(parser_context_t);
+    
+    ptr->mode_stack = create_int_list();
+    ptr->scope_stack = create_int_list();
+    ptr->ctx_stack = create_ptr_list();
+    push_sym_context(ptr->ctx_stack);
+
+    RETURN(ptr);
+}
+
 parser_context_t* parse(void) {
     ENTER;
     LEGEND("START PARSER");
@@ -21,19 +34,6 @@ parser_context_t* parse(void) {
 
     LEGEND("END PARSER");
     RETURN(context);
-}
-
-parser_context_t* create_parser_context(void) {
-    ENTER;
-
-    parser_context_t* ptr = _ALLOC_TYPE(parser_context_t);
-    
-    ptr->mode_stack = create_int_list();
-    ptr->scope_stack = create_int_list();
-    ptr->sym_ctx = create_sym_context(NULL);
-    ptr->ctx_stack = create_ptr_list();
-
-    RETURN(ptr);
 }
 
 void push_parser_scope(parser_context_t* context, parser_scope_t scope) {

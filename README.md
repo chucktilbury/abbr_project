@@ -6,37 +6,99 @@ Full featured application development language that uses the C programming langu
 ## Features
 
 * Garbage collection
-* Strong type system
+* Strong type system with a robust type cast scheme
 * Name spaces
 * Class based, in that no code or data can appear outside of a class
 * Include and Import are different concepts
 * Strings, arrays, and hash tables are native types
-* Comparison and arithmetic expressions are syntactically different things
 * The dot operator **'.'** specifies a path to an object
 * Overloaded functions
 * Exceptions (try/except/raise)
 * Support for arbitrary external libraries
-* Everything is an object, but native types cannot be polymorphic
+* Everything is an object, but native types and literal values do not have methods.
 * All of the functions found in libc and libm are supported by the runtime library.
 * Formatted strings
 * Multi-pass compiler. No need to define before access.
+* Inline code, written in C
+* Leverage gdb and/or lldb for debugging.
 
 ## Omitted Features
 
 * Pointers
-* Explicit memory allocation
-* Nothing is "global" with a notion of a "root" name space
-* Inline code
+* Pre-processor
+* Explicit memory management
+* Monkey patching
+* Operator overloads
+* Notion of ``static`` or 'singleton'.
+* Bitwise operations
 
 ## Overview
 
-The syntax is similar to C/C++ but without some of the crust that is has accumulated.
+The syntax is similar to C/C++ but without some of the crust that has accumulated.
 
-* There is no **'->'** operator
-* No **';'** after statements
-* No **'virtual'** keyword
+* Native compiled code. No VM or interpreter.
+* There is no **'->'** operator. If there are no pointers, everything is a pointer.
+* No **';'** after statements. (used as a line comment)
+* No **'virtual'** keyword, functions are overloaded by defining them.
 * No need to explicitly initialize members.
-* No operator overloads
+* An empty expression is considered to be "true". (i.e. ``while {}`` is the same as ``while(1) {}``)
+* Curly braces ('{}') are required for all function and loop blocks. Nested blocks are allowed and control scope.
+
+## Variable scope
+
+All variables, including method names are defined by the scope of nested curly braces. In other words, curly braces define all variable scopes. Symbols are arranged in a tree such that namespaces, classes, and functions "own" a scope. A scope is called a "symbolic context" in the code. 
+
+For example:
+```
+; 'var' is not visible outside of some_func().
+SomeClass.some_func() {
+    int var
+    {
+        // not the same as the one outside this scope.
+        int var
+    }
+}
+```
+
+Namespaces and class definitions define their own scope and can be nested indefinitely. The 'dot' operator ('.') is used to "navigate" to the definition of an object. 
+
+For example:
+```
+public ; private is the default scope type
+namespace ns1 { 
+    public
+    namespace ns2 { 
+        public
+        class some_class {
+            public
+            int flarp
+        }
+    }
+}
+
+class blart {
+    create() {
+        ns1.ns2.some_class.flarp = 0
+    }
+}
+
+```
+Resolving the variable:
+```
+while true
+    if the current symbol exists in the current scope then
+        make it the symbol's child scope the current one
+        if a '.' follows the current symbol
+            make the next symbol after the '.' the current one
+        else
+            return the found symbol
+    else if the current scope is the root scope
+        return the symbol not found
+    else
+        make the previous scope current
+
+```
+
 
 ## Building
 
@@ -45,7 +107,7 @@ The syntax is similar to C/C++ but without some of the crust that is has accumul
 I have done my best to make this build tree as self-contained as possible.
 
     * This is developed and tested under a recent version of Debian Linux.
-    * An ANSI C compiler. Clang is the default build. Choose at the bottom of ``.project_env``.
+    * An ANSI C compiler. Clang is the default build. Choose/configure at the bottom of ``.project_env``.
     * CMAKE and gnu/linux make.
     * Doxygen and Graphviz to build the documentation
     * This compiler uses garbage collection from (here)[https://github.com/bdwgc/bdwgc]
@@ -145,7 +207,15 @@ namespace
 
 # at least one item must be present in a class definition.
 class_definition
-    : 'class' identifier ( '(' (inheritance_item (',' inheritance_item)*)? ')' )? '{' class_item+ '}'
+    : 'class' identifier inheritance_list? class_body
+    ;
+
+inheritance_list
+    : '(' ( inheritance_item (',' inheritance_item)* )? ')'
+    ;
+
+class_body
+    : '{' class_item+ '}'
     ;
 
 inheritance_item
@@ -264,6 +334,11 @@ primary_expression
     : literal_number
     | literal_string
     | compound_reference
+    | type_cast
+    ;
+
+type_cast
+    : '(' type_specifier ')' expression
     ;
 
 # Expressions are parsed using the shunting yard algorithm and returned
@@ -425,6 +500,8 @@ exit_statement
 
 ## Syntax Examples
 
+This is supposed to give an idea of what the code "looks like".
+
 ```
 // This is a comment
 ; This is a comment
@@ -449,6 +526,9 @@ namespace flarp {
             // print is a library routine
             sys.print("the numeric value is {}\nthestring value is {}\n"(num, str))
         }
+
+        // this function() declaration is legal.
+        int function()
 
         private
         string str
@@ -478,8 +558,15 @@ namespace flarp {
     }
 }
 
+// This is a syntax error because the class SomeThing is not defined in this scope.
+SomeThing.function() {
+    int blart = 0;
+}
+
+
 // Program entry point. There must be exactly one in the root context.
-// the word "start" is a keyword.
+// the word "start" is a keyword. The words argc and argv are defined by
+// the System import.
 start {
     try {
         int x = sys.some_class.some_func_or_other()

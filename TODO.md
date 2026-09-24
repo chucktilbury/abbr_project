@@ -11,6 +11,7 @@
 * symbol table and ast are dumped as a ``dot`` file from command line
 * separate parser errors into expected and generic errors. 
 * clean up parser error messages
+* Implement type casting in the expression parser.
 
 # BUGS
 
@@ -25,4 +26,6 @@ The symbol table is a tree of symbols such that symbols such as a namespace will
 
 The symbol table is created by the parser and searched as a result of an AST pass. There is a single root symbol table that is stored in the parser context.
 
+----
 
+When an object is emitted, the base class is emitted as part of the derived class, as if they were defined together in the same struct. That implies that the base item has its own symbol table.

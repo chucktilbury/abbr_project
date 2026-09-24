@@ -52,6 +52,14 @@ ast_primary_expression_t* _parse_primary_expression(parser_context_t* context) {
                 if(NULL != (value = (ast_node_t*)_parse_compound_reference(context)))
                     state = RETURN_MATCH;
                 else
+                    state = START_STATE + 3;
+            } break;
+
+            case START_STATE + 3: {
+                TRACE_STATE;
+                if(NULL != (value = (ast_node_t*)_parse_type_cast(context)))
+                    state = RETURN_MATCH;
+                else
                     state = RETURN_NO_MATCH;
             } break;
 

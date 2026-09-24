@@ -69,6 +69,7 @@ void _traverse_literal_type(ast_literal_type_t* node);
 void _traverse_identifier(ast_identifier_t* node);
 void _traverse_inheritance_list(ast_inheritance_list_t* node);
 void _traverse_class_body(ast_class_body_t* node);
+void _traverse_type_cast(ast_type_cast_t* node);
 
 #define NODE_TYPE(n) ((ast_node_t*)n)->type
 #define SHOW_TOKEN(t)                                             \

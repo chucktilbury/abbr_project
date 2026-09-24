@@ -25,9 +25,9 @@ symbol_t* create_symbol(string_t* name, symbol_class_t class, symbol_type_t type
         case SYM_CLASS_NAMESPACE:
         case SYM_CLASS_CLASS:
         case SYM_CLASS_FUNCTION:
+        case SYM_CLASS_INHERITANCE: // objects are built at runtime
             ptr->children = create_sym_context(parent);
             break;
-        case SYM_CLASS_INHERITANCE:
         case SYM_CLASS_PARAMETER:
         case SYM_CLASS_OBJECT:
         case SYM_CLASS_OTHER:

@@ -39,12 +39,10 @@ typedef struct _parser_context_t {
     int col;
     const char* fname;
     ast_node_t* tree;
-    sym_context_t* sym_ctx;
     sym_ctx_stack_t* ctx_stack;
 } parser_context_t;
 
 parser_context_t* parse(void);
-parser_context_t* create_parser_context(void);
 void push_parser_scope(parser_context_t* context, parser_scope_t scope);
 void pop_parser_scope(parser_context_t* context);
 parser_scope_t peek_parser_scope(parser_context_t* context);
@@ -124,6 +122,7 @@ ast_finally_clause_t* _parse_finally_clause(parser_context_t* context);
 ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
 ast_inheritance_list_t* _parse_inheritance_list(parser_context_t* context);
 ast_class_body_t* _parse_class_body(parser_context_t* context);
+ast_type_cast_t* _parse_type_cast(parser_context_t* context);
 
 #ifdef USE_TRACE
 #define TRACE_STATE                                                          \

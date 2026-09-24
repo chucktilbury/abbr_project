@@ -73,6 +73,7 @@ typedef enum {
     AST_IDENTIFIER = 576,
     AST_INHERITANCE_LIST = 577,
     AST_CLASS_BODY = 578,
+    AST_TYPE_CAST = 578,
 } ast_type_t;
 
 #include "ast_struct.h"

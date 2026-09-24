@@ -851,4 +851,16 @@ typedef struct _ast_class_body_t {
     ast_node_list_t* list;
 } ast_class_body_t;
 
+/*
+ *
+ *  type_cast
+ *      : '(' type_specifier ')' expression
+ *      ;
+ */
+typedef struct _ast_type_cast_t {
+    ast_node_t node;
+    struct _ast_type_specifier_t* type;
+    struct _ast_expression_t* expr;
+} ast_type_cast_t;
+
 #endif /* _AST_STRUCT_H_ */
