@@ -81,6 +81,7 @@ typedef enum {
     TOK_EXCEPT,    // "except"
     TOK_RAISE,     // "raise"
     TOK_RETURN,    // "return"
+    TOK_TYPE,      // "type"
     // native type names
     TOK_INTEGER,  // "integer" | "int"
     TOK_UNSIGNED, // "unsigned"

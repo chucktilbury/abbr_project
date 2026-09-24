@@ -11,7 +11,7 @@
 * symbol table and ast are dumped as a ``dot`` file from command line
 * separate parser errors into expected and generic errors. 
 * clean up parser error messages
-* Implement type casting in the expression parser.
+* Implement type casting in the expression parser
 
 # BUGS
 

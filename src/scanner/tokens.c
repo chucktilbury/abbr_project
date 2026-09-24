@@ -115,6 +115,7 @@ const char* token_type_to_str(token_type_t type) {
             (type == TOK_UNARY_PLUS)    ? "+" :
             (type == TOK_UNARY_MINUS)   ? "-" :
             (type == TOK_FINALLY)       ? "finally" :
+            (type == TOK_TYPE)          ? "type" :
                                           "UNKNOWN";
 }
 

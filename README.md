@@ -1,7 +1,6 @@
 # Simple
-This is the **Simple** abbreviated programming language. The **Simple** language is a synthesis of C, C++, and Python. I have taken all of the features that I like from them and left out the ones that I don't like to create a complete and useful way to develop object oriented software quickly and easily from a platform that is easy and fun to use.
 
-Full featured application development language that uses the C programming language as the intermediate representation.
+This is the **Simple** abbreviated programming language. The **Simple** language is a synthesis of C, C++, and Python. I have taken all of the features that I like from them and left out the ones that I don't like to create a complete and useful way to develop object oriented software quickly and easily from a platform that is easy and fun to use. This code does not contain any clever tricks or arcane algorithms. It is not intended to be ultra efficient at the expense of clarity. It's designed to be easy to read and modify. It makes every effort to be complete and stable. The concept of "simple" goes all the way to the bones. This is intended to be a full featured application development language that uses the C programming language as the intermediate representation.
 
 ## Features
 

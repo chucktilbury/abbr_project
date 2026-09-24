@@ -54,6 +54,7 @@ static keyword_t key_words[] = {
     { TOK_FINALLY, "finally" },
     { TOK_EXIT, "exit" },
     { TOK_INLINE, "inline" },
+    { TOK_TYPE, "type" },
     { -1, NULL }
 };
 
@@ -268,7 +269,7 @@ static token_t* get_mantissa(string_t* text) {
     return tok;
 }
 
-token_t* get_fractional_part(string_t* text) {
+static token_t* get_fractional_part(string_t* text) {
 
     int finished = 0;
     token_t* tok = NULL;

@@ -26,6 +26,9 @@ void _traverse_primary_expression(ast_primary_expression_t* node) {
         case AST_TYPE_CAST:
             _traverse_type_cast((ast_type_cast_t*)node->value);
             break;
+        case AST_TYPE_OF:
+            _traverse_type_of((ast_type_of_t*)node->value);
+            break;
         default:
             FATAL("unknown node type");
     }
