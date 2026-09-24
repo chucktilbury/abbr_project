@@ -56,7 +56,7 @@ ast_node_t* peek_ast_node_list(ast_node_list_t* ptr) {
     return peek_ptr_list(ptr);
 }
 
-
+// introspection
 const char* node_type_to_str(ast_type_t type) {
     return (type == AST_MODULE)                           ? "ast_module_t" :
             (type == AST_START_CLAUSE)                    ? "ast_start_clause_t" :
@@ -123,6 +123,8 @@ const char* node_type_to_str(ast_type_t type) {
             (type == AST_STRING_LITERAL)                  ? "ast_string_literal_t" :
             (type == AST_LITERAL_TYPE)                    ? "ast_literal_type_t" :
             (type == AST_IDENTIFIER)                      ? "ast_identifier_t" :
+            (type == AST_CLASS_BODY)                      ? "ast_class_body_t" :
+            (type == AST_INHERITANCE_LIST)                ? "ast_inheritance_list_t" :
                                                             "UNKNOWN";
 }
 
@@ -193,6 +195,8 @@ static inline size_t get_node_size(ast_type_t type) {
             (type == AST_STRING_LITERAL)                  ? sizeof(ast_string_literal_t) :
             (type == AST_LITERAL_TYPE)                    ? sizeof(ast_literal_type_t) :
             (type == AST_IDENTIFIER)                      ? sizeof(ast_identifier_t) :
+            (type == AST_CLASS_BODY)                      ? sizeof(ast_class_body_t) :
+            (type == AST_INHERITANCE_LIST)                ? sizeof(ast_inheritance_list_t) :
                                                             (size_t)-1;
 
 

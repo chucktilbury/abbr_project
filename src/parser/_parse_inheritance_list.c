@@ -8,26 +8,21 @@
 #include "token_queue.h"
 
 /*
- *  class_definition
- *      : 'class' identifier inheritance_list? class_body
+ *  inheritance_list
+ *      : '(' (inheritance_item (',' inheritance_item)*)? ')'
  *      ;
  *
- *  typedef struct _ast_class_definition_t {
+ *  typedef struct _ast_inheritance_list_t {
  *      ast_node_t node;
- *      struct _ast_identifier_t* identifier;
- *      ast_inheritance_list_t* i_list;
- *      ast_class_body_t* c_list;
- *  } ast_class_definition_t;
+ *      ast_node_list_t* list;
+ *  } ast_inheritance_list_t;
  */
-ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
+ast_inheritance_list_t* _parse_inheritance_list(parser_context_t* context) {
 
     ENTER;
-    ast_class_definition_t* node = NULL;
-    ast_identifier_t* ident = NULL;
-    ast_inheritance_list_t* ilist = NULL;
-    ast_class_body_t* clist = NULL;
+    ast_inheritance_list_t* node = NULL;
+    ast_node_list_t* list = NULL;
     ast_node_t* item;
-    symbol_t* symbol = NULL;
 
     int finished = 0;
     int state = START_STATE;
@@ -37,7 +32,7 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
-                if(TOKEN_TYPE == TOK_CLASS) {
+                if(TOKEN_TYPE == TOK_LPAREN) {
                     consume_token();
                     state = START_STATE + 1;
                 }
@@ -45,31 +40,57 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
                     state = RETURN_NO_MATCH;
             } break;
 
-            // required identifier
+            // optional first inheritance item
             case START_STATE + 1: {
                 TRACE_STATE;
-                if(NULL != (ident = _parse_identifier(context)))
-                    state = USER_STATE;
+                if(NULL != (item = (ast_node_t*)_parse_inheritance_item(context))) {
+                    list = create_ast_node_list();
+                    append_ast_node_list(list, item);
+                    state = START_STATE + 4; // expect a comma or a rparen
+                }
+                else
+                    state = START_STATE + 2; // expect a ')'
+            } break;
+
+            // require a ')' after no inheritance item
+            case START_STATE + 2: {
+                TRACE_STATE;
+                if(TOKEN_TYPE == TOK_RPAREN) {
+                    consume_token();
+                    state = RETURN_NO_MATCH;
+                }
                 else {
-                    parser_expect_error(context, "an identifier");
+                    parser_expect_error(context, "a type name, a symbol, or a ')'");
                     state = RETURN_ERROR;
                 }
             } break;
 
-            // optional inheritance list
-            case START_STATE+2: {
+            // require an inheritance item loop after the comma
+            case START_STATE + 3: {
                 TRACE_STATE;
-                ilist = _parse_inheritance_list(context);
-                state = START_STATE+3;
+                if(NULL != (item = (ast_node_t*)_parse_inheritance_item(context))) {
+                    append_ast_node_list(list, item);
+                    state = START_STATE + 4;
+                }
+                else {
+                    parser_expect_error(context, "a type name or a symbol");
+                    state = RETURN_ERROR;
+                }
             } break;
 
-            // required class body
-            case START_STATE+3: {
+            // require a comma or a right paren after an inheritance item in loop
+            case START_STATE + 4: {
                 TRACE_STATE;
-                if(NULL != (clist = _parse_class_body(context))) 
+                if(TOKEN_TYPE == TOK_COMMA) {
+                    consume_token();
+                    state = START_STATE + 3;
+                }
+                else if(TOKEN_TYPE == TOK_RPAREN) {
+                    consume_token();
                     state = RETURN_MATCH;
+                }
                 else {
-                    parser_expect_error(context, "a class body");
+                    parser_expect_error(context, "a ',' or a ')'");
                     state = RETURN_ERROR;
                 }
             } break;
@@ -77,10 +98,8 @@ ast_class_definition_t* _parse_class_definition(parser_context_t* context) {
 
             case RETURN_MATCH: {
                 TRACE_STATE;
-                node = (ast_class_definition_t*)create_ast_node(AST_CLASS_DEFINITION);
-                node->identifier = ident;
-                node->i_list = ilist;
-                node->c_list = clist;
+                node = (ast_inheritance_list_t*)create_ast_node(AST_INHERITANCE_LIST);
+                node->list = list;
                 flush_token_queue();
                 finished = true;
             } break;

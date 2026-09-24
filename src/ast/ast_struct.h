@@ -131,14 +131,14 @@ typedef struct _ast_namespace_t {
 
 /*
  *  class_definition
- *      : 'class' identifier ( '(' (inheritance_item (',' inheritance_item)*)? ')' )? '{' class_item+ '}'
+ *      : 'class' identifier inheritance_list? class_body
  *      ;
  */
 typedef struct _ast_class_definition_t {
     ast_node_t node;
     struct _ast_identifier_t* identifier;
-    ast_node_list_t* i_list;
-    ast_node_list_t* c_list;
+    struct _ast_inheritance_list_t* i_list;
+    struct _ast_class_body_t* c_list;
 } ast_class_definition_t;
 
 
@@ -830,5 +830,25 @@ typedef struct _ast_identifier_t {
     ast_node_t node;
     string_t* name;
 } ast_identifier_t;
+
+/*
+ *  inheritance_list
+ *      : '(' ( inheritance_item (',' inheritance_item)* )? ')'
+ *      ;
+ */
+typedef struct _ast_inheritance_list_t {
+    ast_node_t node;
+    ast_node_list_t* list;
+} ast_inheritance_list_t;
+
+/*
+ *  class_body
+ *      : '{' class_item+ '}'
+ *      ;
+ */
+typedef struct _ast_class_body_t {
+    ast_node_t node;
+    ast_node_list_t* list;
+} ast_class_body_t;
 
 #endif /* _AST_STRUCT_H_ */

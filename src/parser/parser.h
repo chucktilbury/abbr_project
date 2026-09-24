@@ -122,6 +122,8 @@ ast_try_clause_t* _parse_try_clause(parser_context_t* context);
 ast_except_clause_t* _parse_except_clause(parser_context_t* context);
 ast_finally_clause_t* _parse_finally_clause(parser_context_t* context);
 ast_exit_statement_t* _parse_exit_statement(parser_context_t* context);
+ast_inheritance_list_t* _parse_inheritance_list(parser_context_t* context);
+ast_class_body_t* _parse_class_body(parser_context_t* context);
 
 #ifdef USE_TRACE
 #define TRACE_STATE                                                          \

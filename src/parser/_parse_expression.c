@@ -8,7 +8,7 @@
 #include "token_queue.h"
 
 // return -1 if token is not an operator
-int precedence(ast_operator_t* node) {
+static int precedence(ast_operator_t* node) {
     switch(node->oper) {
         case TOK_ADD:
         case TOK_SUB:
@@ -40,7 +40,7 @@ int precedence(ast_operator_t* node) {
     }
 }
 
-bool is_operator(token_type_t type) {
+static bool is_operator(token_type_t type) {
 
     switch(type) {
         case TOK_ADD:
@@ -67,7 +67,7 @@ bool is_operator(token_type_t type) {
 }
 
 // return 1 if right, 0 if left
-int associativity(ast_operator_t* node) {
+static int associativity(ast_operator_t* node) {
     switch(node->oper) {
         case TOK_POW:
         case TOK_UNARY_MINUS:
@@ -79,7 +79,7 @@ int associativity(ast_operator_t* node) {
     }
 }
 
-ast_node_t* postfix_to_tree(parser_context_t* context, ast_node_list_t* queue) {
+static ast_node_t* postfix_to_tree(parser_context_t* context, ast_node_list_t* queue) {
 
     ast_node_list_t* stack = create_ast_node_list();
 
@@ -132,7 +132,7 @@ ast_node_t* postfix_to_tree(parser_context_t* context, ast_node_list_t* queue) {
     return stack->buffer[0];
 }
 
-ast_node_t* infix_to_tree(parser_context_t* context) {
+static ast_node_t* infix_to_tree(parser_context_t* context) {
 
     ast_node_list_t* stack = create_ast_node_list();
     ast_node_list_t* queue = create_ast_node_list();
@@ -279,6 +279,14 @@ ast_node_t* infix_to_tree(parser_context_t* context) {
  *      | '(' expression ')'
  *      | primary_expression
  *      ;
+ *  
+ *  typedef struct _ast_expression_t {
+ *      ast_node_t node;
+ *      // Note that expressions are parsed differently than the other
+ *      // non-terminals. Tree has either ast_operator_t or
+ *      // ast_primary_expression_t elements in it.
+ *      ast_node_t* tree;
+ *  } ast_expression_t;
  */
 ast_expression_t* _parse_expression(parser_context_t* context) {
 
@@ -294,11 +302,13 @@ ast_expression_t* _parse_expression(parser_context_t* context) {
         switch(state) {
             case START_STATE: {
                 TRACE_STATE;
+                state = RETURN_MATCH;
             } break;
 
             case RETURN_MATCH: {
                 TRACE_STATE;
                 node = (ast_expression_t*)create_ast_node(AST_EXPRESSION);
+                node->tree = infix_to_tree(context);
                 // ast elements here
                 flush_token_queue();
             } break;
